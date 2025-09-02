@@ -1,14 +1,14 @@
 // app/components/sections/Hero.tsx
-'use client'
+"use client";
 
-import { ChevronRight, Globe, Mail, MapPin, Zap } from 'lucide-react'
-import { motion } from 'motion/react'
-import Image from 'next/image'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { personalInfo } from '@/data/personal'
-import { scrollToSection } from '@/lib/utils'
-import { ColourfulText } from '../aceternity/colourful-text'
+import { ChevronRight, Globe, Mail, MapPin, Zap } from "lucide-react";
+import { motion } from "motion/react";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { personalInfo } from "@/data/personal";
+import { scrollToSection } from "@/lib/utils";
+import { ColourfulText } from "../aceternity/colourful-text";
 
 export function Hero() {
   return (
@@ -35,17 +35,17 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="text-5xl md:text-8xl font-bold leading-tight whitespace-nowrap"
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-4xl sm:text-6xl md:text-8xl font-bold leading-tight break-words"
             >
-              <span className="inline text-foreground">Full Stack</span>{' '}
+              <span className="inline text-foreground">Full Stack</span>{" "}
               <ColourfulText text="Developer" />
             </motion.h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              Crafting exceptional digital experiences with{' '}
-              <span className="text-blue-500 font-semibold">React</span>,{' '}
-              <span className="text-green-500 font-semibold">Next.js</span>, and{' '}
+              Crafting exceptional digital experiences with{" "}
+              <span className="text-blue-500 font-semibold">React</span>,{" "}
+              <span className="text-green-500 font-semibold">Next.js</span>, and{" "}
               <span className="text-purple-500 font-semibold">TypeScript</span>
             </p>
 
@@ -56,15 +56,24 @@ export function Hero() {
 
           {/* Status Badges */}
           <div className="flex flex-wrap justify-center gap-4">
-            <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
+            <Badge
+              variant="secondary"
+              className="flex items-center gap-2 px-4 py-2"
+            >
               <MapPin className="w-4 h-4 text-blue-500" />
               {personalInfo.location}
             </Badge>
-            <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
+            <Badge
+              variant="secondary"
+              className="flex items-center gap-2 px-4 py-2"
+            >
               <Globe className="w-4 h-4 text-green-500" />
               {personalInfo.availability}
             </Badge>
-            <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
+            <Badge
+              variant="secondary"
+              className="flex items-center gap-2 px-4 py-2"
+            >
               <Zap className="w-4 h-4 text-yellow-500" />
               Open to Opportunities
             </Badge>
@@ -76,11 +85,11 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
           >
             <Button
               size="lg"
-              onClick={() => scrollToSection('projects')}
+              onClick={() => scrollToSection("projects")}
               className="group bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-2xl transition-all duration-300 hover:scale-105"
             >
               View My Work
@@ -90,7 +99,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              onClick={() => scrollToSection('contact')}
+              onClick={() => scrollToSection("contact")}
               className="border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105"
             >
               <Mail className="w-5 h-5 mr-2" />
@@ -100,5 +109,5 @@ export function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
