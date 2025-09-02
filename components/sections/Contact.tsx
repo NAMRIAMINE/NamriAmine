@@ -47,8 +47,8 @@ export function Contact() {
 
         <div className="max-w-4xl mx-auto">
           <p className="text-center text-muted-foreground mb-12 text-lg">
-            I&apos;m always interested in new opportunities and exciting projects. Let&apos;s discuss how we
-            can work together!
+            I&apos;m always interested in new opportunities and exciting projects. Let&apos;s
+            discuss how we can work together!
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">

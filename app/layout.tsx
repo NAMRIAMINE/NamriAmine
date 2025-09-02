@@ -1,51 +1,48 @@
-import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "@/app/globals.css";
-import { ThemeProvider } from "@/components/theme/theme-provider";
-import { Analytics } from "@vercel/analytics/next";
+import type { Metadata, Viewport } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
+import '@/app/globals.css'
+import { Analytics } from '@vercel/analytics/next'
+import { ThemeProvider } from '@/components/theme/theme-provider'
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0b12" },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0b12' },
   ],
-};
+}
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://namri-amine.vercel.app"
-  ),
-  title: "Namri Amine - Full Stack Developer | React, Next.js, TypeScript",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://namri-amine.vercel.app'),
+  title: 'Namri Amine - Full Stack Developer | React, Next.js, TypeScript',
   description:
-    "Experienced Full Stack Developer with 5+ years in React, Next.js, TypeScript, and Node.js. Building scalable applications for agriculture, industry, and web platforms. Based in Casablanca, Morocco.",
+    'Experienced Full Stack Developer with 5+ years in React, Next.js, TypeScript, and Node.js. Building scalable applications for agriculture, industry, and web platforms. Based in Casablanca, Morocco.',
   keywords:
-    "Full Stack Developer, React Developer, Next.js Developer, TypeScript, Node.js, JavaScript, Casablanca, Morocco, Remote Developer",
-  authors: [{ name: "Namri Amine", url: "https://linkedin.com/in/namriamine" }],
+    'Full Stack Developer, React Developer, Next.js Developer, TypeScript, Node.js, JavaScript, Casablanca, Morocco, Remote Developer',
+  authors: [{ name: 'Namri Amine', url: 'https://linkedin.com/in/namriamine' }],
   alternates: {
-    canonical: "/",
+    canonical: '/',
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   },
   openGraph: {
-    title: "Namri Amine - Full Stack Developer",
-    description:
-      "Building scalable applications with React, Next.js, TypeScript, and Node.js",
-    url: "/",
-    siteName: "Namri Amine Portfolio",
-    type: "website",
+    title: 'Namri Amine - Full Stack Developer',
+    description: 'Building scalable applications with React, Next.js, TypeScript, and Node.js',
+    url: '/',
+    siteName: 'Namri Amine Portfolio',
+    type: 'website',
   },
   robots: {
     index: true,
@@ -55,18 +52,16 @@ export const metadata: Metadata = {
       follow: true,
     },
   },
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
@@ -84,5 +79,5 @@ export default function RootLayout({
         <Analytics />
       </body>
     </html>
-  );
+  )
 }
