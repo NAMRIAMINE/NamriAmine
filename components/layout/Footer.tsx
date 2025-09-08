@@ -2,6 +2,7 @@
 'use client'
 
 import { Github, Linkedin, Mail } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { personalInfo } from '@/data/personal'
 
@@ -26,14 +27,14 @@ export function Footer() {
         <div className="flex justify-center space-x-4 mb-6">
           {socialLinks.map((link) => (
             <Button key={link.label} variant="ghost" size="icon" asChild>
-              <a
+              <Link
                 href={link.href}
                 target={link.href.includes('http') ? '_blank' : undefined}
                 rel={link.href.includes('http') ? 'noopener noreferrer' : undefined}
                 aria-label={link.label}
               >
                 <link.icon className="w-5 h-5" />
-              </a>
+              </Link>
             </Button>
           ))}
         </div>

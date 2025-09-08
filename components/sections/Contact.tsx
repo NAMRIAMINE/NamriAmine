@@ -1,41 +1,42 @@
 // app/components/sections/Contact.tsx
-'use client'
+"use client";
 
-import { Linkedin, Mail, Phone } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { personalInfo } from '@/data/personal'
+import { Linkedin, Mail, Phone } from "lucide-react";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { personalInfo } from "@/data/personal";
 
 export function Contact() {
   const contactMethods = [
     {
       icon: Mail,
-      title: 'Email',
+      title: "Email",
       value: personalInfo.email,
       href: `mailto:${personalInfo.email}`,
-      gradient: 'from-blue-500 to-purple-500',
+      gradient: "from-blue-500 to-purple-500",
     },
     {
       icon: Phone,
-      title: 'Phone',
+      title: "Phone",
       value: personalInfo.phone,
       href: `tel:${personalInfo.phone}`,
-      gradient: 'from-green-500 to-teal-500',
+      gradient: "from-green-500 to-teal-500",
     },
     {
       icon: Linkedin,
-      title: 'LinkedIn',
-      value: 'namriamine',
+      title: "LinkedIn",
+      value: "namriamine",
       href: personalInfo.linkedin,
-      gradient: 'from-purple-500 to-pink-500',
+      gradient: "from-purple-500 to-pink-500",
     },
-  ]
+  ];
 
   return (
     <section id="contact" className="py-20 px-4 scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Let&apos;s{' '}
+            Let&apos;s{" "}
             <span className="bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">
               Connect
             </span>
@@ -47,17 +48,21 @@ export function Contact() {
 
         <div className="max-w-4xl mx-auto">
           <p className="text-center text-muted-foreground mb-12 text-lg">
-            I&apos;m always interested in new opportunities and exciting projects. Let&apos;s
-            discuss how we can work together!
+            I&apos;m always interested in new opportunities and exciting
+            projects. Let&apos;s discuss how we can work together!
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {contactMethods.map((contact, i) => (
-              <a
-                key={i}
+            {contactMethods.map((contact) => (
+              <Link
+                key={contact.title}
                 href={contact.href}
-                target={contact.href.includes('http') ? '_blank' : undefined}
-                rel={contact.href.includes('http') ? 'noopener noreferrer' : undefined}
+                target={contact.href.includes("http") ? "_blank" : undefined}
+                rel={
+                  contact.href.includes("http")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
                 className="group"
               >
                 <Card className="h-full bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-105 text-center">
@@ -75,11 +80,11 @@ export function Contact() {
                     </p>
                   </CardContent>
                 </Card>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

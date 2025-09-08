@@ -2,6 +2,7 @@
 'use client'
 
 import { Menu, Moon, Sun } from 'lucide-react'
+import Image from 'next/image'
 import { useEffect } from 'react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -11,7 +12,6 @@ import { useActiveSection } from '@/hooks/useActiveSection'
 import { navigationSections } from '@/lib/constants'
 import { scrollToSection } from '@/lib/utils'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
-
 export function Navigation() {
   const { darkMode, activeSection, isMobileMenuOpen, toggleDarkMode, toggleMobileMenu } =
     usePortfolioStore()
@@ -38,7 +38,7 @@ export function Navigation() {
           <div className="flex items-center space-x-3">
             <Avatar className="w-10 h-10">
               <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold">
-                NA
+                <Image src="/pdp.png" alt="Logo" width={100} height={100} />
               </AvatarFallback>
             </Avatar>
             <div>

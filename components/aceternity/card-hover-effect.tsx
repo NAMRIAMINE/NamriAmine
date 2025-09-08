@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -18,7 +19,7 @@ export const HoverEffect = ({
   return (
     <div className={cn('grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  py-10', className)}>
       {items.map((item, idx) => (
-        <a
+        <Link
           href={item?.link}
           key={item?.link}
           className="relative group  block p-2 h-full w-full"
@@ -46,7 +47,7 @@ export const HoverEffect = ({
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
           </Card>
-        </a>
+        </Link>
       ))}
     </div>
   )
