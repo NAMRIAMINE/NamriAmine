@@ -14,6 +14,8 @@ export function Projects() {
     switch (status) {
       case 'Production':
         return <CheckCircle className="w-4 h-4 text-green-500" />
+      case 'Production Ready':
+        return <CheckCircle className="w-4 h-4 text-emerald-500" />
       case 'In Development':
         return <Clock className="w-4 h-4 text-blue-500" />
       default:
@@ -25,6 +27,8 @@ export function Projects() {
     switch (status) {
       case 'Production':
         return 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-300'
+      case 'Production Ready':
+        return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-800/20 dark:text-emerald-300'
       case 'In Development':
         return 'bg-blue-100 text-blue-800 dark:bg-blue-800/20 dark:text-blue-300'
       default:
