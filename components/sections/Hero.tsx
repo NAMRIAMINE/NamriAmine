@@ -15,20 +15,41 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden scroll-mt-24"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden scroll-mt-24 py-20 sm:py-24"
     >
       {/* <BackgroundBeams className="opacity-60 dark:opacity-40" /> */}
       <div className="max-w-6xl mx-auto text-center relative z-10">
         <div className="space-y-8">
           {/* Profile Avatar */}
-          <div className="relative">
-            <div className="w-40 h-40 mx-auto rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1 shadow-2xl">
-              <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
-                <Image src="/pdp.png" alt="avatar" width={160} height={160} />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="relative"
+          >
+            <motion.div
+              animate={{
+                boxShadow: ['0 0 0 0 rgba(59, 130, 246, 0.4)', '0 0 0 20px rgba(59, 130, 246, 0)'],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatDelay: 3,
+              }}
+              className="w-40 h-40 mx-auto rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1 shadow-2xl"
+            >
+              <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/pdp.png"
+                  alt="avatar"
+                  width={160}
+                  height={160}
+                  priority
+                  className="object-cover"
+                />
               </div>
-            </div>
-            {/* <div className="w-40 h-40 top-0 left-80 absolute bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full blur-xl opacity-30 animate-pulse dark:opacity-50" /> */}
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Main Title */}
           <div className="space-y-4">
@@ -43,33 +64,58 @@ export function Hero() {
               <ColourfulText text="Developer" />
             </motion.h1>
 
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed"
+            >
               Crafting exceptional digital experiences with{' '}
               <span className="text-blue-500 font-semibold">React</span>,{' '}
               <span className="text-green-500 font-semibold">Next.js</span>, and{' '}
               <span className="text-purple-500 font-semibold">TypeScript</span>
-            </p>
+            </motion.p>
 
-            <p className="text-lg text-muted-foreground">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-lg text-muted-foreground"
+            >
               5+ years building scalable applications for agriculture & industry
-            </p>
+            </motion.p>
           </div>
 
           {/* Status Badges */}
-          <div className="flex flex-wrap justify-center gap-4">
-            <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
-              <MapPin className="w-4 h-4 text-blue-500" />
-              {personalInfo.location}
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
-              <Globe className="w-4 h-4 text-green-500" />
-              {personalInfo.availability}
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
-              <Zap className="w-4 h-4 text-yellow-500" />
-              Open to Opportunities
-            </Badge>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-4"
+          >
+            {[
+              { icon: MapPin, text: personalInfo.location, color: 'text-blue-500' },
+              { icon: Globe, text: personalInfo.availability, color: 'text-green-500' },
+              { icon: Zap, text: 'Open to Opportunities', color: 'text-yellow-500' },
+            ].map((badge, index) => (
+              <motion.div
+                key={badge.text}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 + index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+              >
+                <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
+                  <badge.icon className={`w-4 h-4 ${badge.color}`} />
+                  {badge.text}
+                </Badge>
+              </motion.div>
+            ))}
+          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div

@@ -1,8 +1,8 @@
 // app/data/personal.ts
 export const personalInfo = {
   name: 'Namri Amine',
-  title: 'Full Stack Web Developer',
-  subtitle: 'JavaScript ~ TypeScript | ReactJS ~ NextJS | NodeJS',
+  title: 'Full Stack Developer & AI Engineer',
+  subtitle: 'TypeScript ~ Python | React ~ FastAPI | AI/ML ~ RAG Pipelines',
   email: 'aminenamri21@gmail.com',
   phone: '+212-638-918700',
   linkedin: 'https://linkedin.com/in/namriamine',

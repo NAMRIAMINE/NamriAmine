@@ -1,38 +1,38 @@
-"use client";
-import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+'use client'
+import { AnimatePresence, motion } from 'motion/react'
+import { useCallback, useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
 
 export const FlipWords = ({
   words,
   duration = 3000,
   className,
 }: {
-  words: string[];
-  duration?: number;
-  className?: string;
+  words: string[]
+  duration?: number
+  className?: string
 }) => {
-  const [currentWord, setCurrentWord] = useState(words[0]);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [currentWord, setCurrentWord] = useState(words[0])
+  const [isAnimating, setIsAnimating] = useState<boolean>(false)
 
   // thanks for the fix Julian - https://github.com/Julian-AT
   const startAnimation = useCallback(() => {
-    const word = words[words.indexOf(currentWord) + 1] || words[0];
-    setCurrentWord(word);
-    setIsAnimating(true);
-  }, [currentWord, words]);
+    const word = words[words.indexOf(currentWord) + 1] || words[0]
+    setCurrentWord(word)
+    setIsAnimating(true)
+  }, [currentWord, words])
 
   useEffect(() => {
     if (!isAnimating)
       setTimeout(() => {
-        startAnimation();
-      }, duration);
-  }, [isAnimating, duration, startAnimation]);
+        startAnimation()
+      }, duration)
+  }, [isAnimating, duration, startAnimation])
 
   return (
     <AnimatePresence
       onExitComplete={() => {
-        setIsAnimating(false);
+        setIsAnimating(false)
       }}
     >
       <motion.div
@@ -45,7 +45,7 @@ export const FlipWords = ({
           y: 0,
         }}
         transition={{
-          type: "spring",
+          type: 'spring',
           stiffness: 100,
           damping: 10,
         }}
@@ -53,19 +53,19 @@ export const FlipWords = ({
           opacity: 0,
           y: -40,
           x: 40,
-          filter: "blur(8px)",
+          filter: 'blur(8px)',
           scale: 2,
-          position: "absolute",
+          position: 'absolute',
         }}
         className={cn(
-          "z-10 inline-block relative text-left text-neutral-900 dark:text-neutral-100 px-2",
-          className
+          'z-10 inline-block relative text-left text-neutral-900 dark:text-neutral-100 px-2',
+          className,
         )}
         key={currentWord}
       >
         {/* edit suggested by Sajal: https://x.com/DewanganSajal */}
         {currentWord
-          .split(" ")
+          .split(' ')
           .map((w, i) => ({
             id: `${currentWord}-${i}-${w}`,
             word: w,
@@ -74,8 +74,8 @@ export const FlipWords = ({
           .map((item) => (
             <motion.span
               key={item.id}
-              initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 10, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{
                 delay: item.index * 0.3,
                 duration: 0.3,
@@ -83,7 +83,7 @@ export const FlipWords = ({
               className="inline-block whitespace-nowrap"
             >
               {item.word
-                .split("")
+                .split('')
                 .map((l, j) => ({
                   id: `${item.word}-${j}-${l}`,
                   letter: l,
@@ -92,8 +92,8 @@ export const FlipWords = ({
                 .map((letterItem) => (
                   <motion.span
                     key={letterItem.id}
-                    initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    initial={{ opacity: 0, y: 10, filter: 'blur(8px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     transition={{
                       delay: item.index * 0.3 + letterItem.index * 0.05,
                       duration: 0.2,
@@ -108,5 +108,5 @@ export const FlipWords = ({
           ))}
       </motion.div>
     </AnimatePresence>
-  );
-};
+  )
+}

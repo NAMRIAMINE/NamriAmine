@@ -3,6 +3,41 @@ import type { Project } from '@/types'
 
 export const projects: Project[] = [
   {
+    id: 'documind',
+    title: 'DocuMind',
+    year: '2026',
+    description:
+      'AI-native document intelligence platform with RAG capabilities. Features semantic search using pgvector, OpenAI embeddings, streaming responses, and comprehensive observability with OpenTelemetry.',
+    tech: [
+      'Python',
+      'FastAPI',
+      'Next.js 15',
+      'TypeScript',
+      'PostgreSQL',
+      'pgvector',
+      'Redis',
+      'Celery',
+      'OpenAI',
+      'OpenTelemetry',
+      'Prometheus',
+      'Grafana',
+      'Docker',
+    ],
+    features: [
+      'RAG Pipeline with GPT-4',
+      'Semantic Vector Search',
+      'Async Document Processing',
+      'Streaming AI Responses',
+      'Full Observability Stack',
+      '80%+ Test Coverage',
+      'CI/CD Pipeline',
+    ],
+    status: 'Production Ready',
+    gradient: 'from-blue-600 to-purple-600',
+    category: 'AI Platform',
+    image: '/documind.png',
+  },
+  {
     id: 'dr-turbine',
     title: 'Dr Turbine',
     year: '2025',
