@@ -18,14 +18,21 @@ export const CardContainer = ({
   containerClassName?: string
 }) => {
   const containerRef = useRef<HTMLButtonElement>(null)
+  const rafRef = useRef<number>(0)
   const [isMouseEntered, setIsMouseEntered] = useState(false)
 
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!containerRef.current) return
-    const { left, top, width, height } = containerRef.current.getBoundingClientRect()
-    const x = (e.clientX - left - width / 2) / 25
-    const y = (e.clientY - top - height / 2) / 25
-    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`
+    const clientX = e.clientX
+    const clientY = e.clientY
+    cancelAnimationFrame(rafRef.current)
+    rafRef.current = requestAnimationFrame(() => {
+      if (!containerRef.current) return
+      const { left, top, width, height } = containerRef.current.getBoundingClientRect()
+      const x = (clientX - left - width / 2) / 25
+      const y = (clientY - top - height / 2) / 25
+      containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`
+    })
   }
 
   const handleMouseEnter = () => {

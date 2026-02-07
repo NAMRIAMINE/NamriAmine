@@ -1,35 +1,40 @@
 // app/components/layout/ScrollProgress.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
-import { motion } from 'motion/react'
+import { useEffect, useRef } from 'react'
 
 export function ScrollProgress() {
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const barRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    let rafId = 0
+
     const updateScrollProgress = () => {
-      const scrollPx = document.documentElement.scrollTop
-      const winHeightPx =
-        document.documentElement.scrollHeight - document.documentElement.clientHeight
-      const scrolled = (scrollPx / winHeightPx) * 100
-      setScrollProgress(scrolled)
+      rafId = requestAnimationFrame(() => {
+        if (!barRef.current) return
+        const scrollPx = document.documentElement.scrollTop
+        const winHeightPx =
+          document.documentElement.scrollHeight - document.documentElement.clientHeight
+        const scrolled = (scrollPx / winHeightPx) * 100
+        barRef.current.style.transform = `scaleX(${scrolled / 100})`
+      })
     }
 
-    window.addEventListener('scroll', updateScrollProgress)
+    window.addEventListener('scroll', updateScrollProgress, { passive: true })
     updateScrollProgress()
 
-    return () => window.removeEventListener('scroll', updateScrollProgress)
+    return () => {
+      window.removeEventListener('scroll', updateScrollProgress)
+      cancelAnimationFrame(rafId)
+    }
   }, [])
 
   return (
     <div className="fixed top-16 left-0 right-0 h-1 bg-muted/20 z-50">
-      <motion.div
-        className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
-        style={{ width: `${scrollProgress}%` }}
-        initial={{ width: 0 }}
-        animate={{ width: `${scrollProgress}%` }}
-        transition={{ duration: 0.1, ease: 'easeOut' }}
+      <div
+        ref={barRef}
+        className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 origin-left transition-transform duration-100 ease-out"
+        style={{ transform: 'scaleX(0)' }}
       />
     </div>
   )

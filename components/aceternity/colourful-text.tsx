@@ -17,7 +17,6 @@ const BASE_COLORS = [
 
 export function ColourfulText({ text }: { text: string }) {
   const [currentColors, setCurrentColors] = React.useState(BASE_COLORS)
-  const [count, setCount] = React.useState(0)
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
@@ -37,7 +36,6 @@ export function ColourfulText({ text }: { text: string }) {
     const interval = setInterval(() => {
       const shuffled = [...BASE_COLORS].sort(() => Math.random() - 0.5)
       setCurrentColors(shuffled)
-      setCount((prev) => prev + 1)
     }, 5000)
 
     return () => clearInterval(interval)
@@ -54,24 +52,17 @@ export function ColourfulText({ text }: { text: string }) {
     )
   }
 
-  let position = -1
-  return chars.map((char) => (
+  return chars.map((char, index) => (
     <motion.span
-      key={`${char}-${count}-${++position}`}
-      initial={{
-        y: 0,
-        color: BASE_COLORS[position % BASE_COLORS.length],
-      }}
+      key={`${char}-${index}`}
       animate={{
-        color: currentColors[position % currentColors.length],
+        color: currentColors[index % currentColors.length],
         y: [0, -3, 0],
         scale: [1, 1.01, 1],
-        filter: ['blur(0px)', `blur(5px)`, 'blur(0px)'],
-        opacity: [1, 0.8, 1],
       }}
       transition={{
         duration: 0.5,
-        delay: position * 0.05,
+        delay: index * 0.05,
       }}
       className="inline-block whitespace-pre font-sans tracking-tight"
     >
