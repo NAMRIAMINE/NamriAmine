@@ -44,6 +44,12 @@ export const metadata: Metadata = {
     url: '/',
     siteName: 'Namri Amine Portfolio',
     type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Namri Amine - Full Stack Developer',
+    description: 'Building scalable applications with React, Next.js, TypeScript, and Node.js',
   },
   robots: {
     index: true,
@@ -71,12 +77,14 @@ export default function RootLayout({
         </Link>
         <div className="min-h-dvh w-full relative bg-white dark:bg-[#020617]">
           <div
+            aria-hidden="true"
             className="pointer-events-none fixed inset-0 z-0 block dark:hidden"
             style={{
               background: 'radial-gradient(125% 125% at 50% 10%, #fff 40%, #475569 100%)',
             }}
           />
           <div
+            aria-hidden="true"
             className="pointer-events-none fixed inset-0 z-0 hidden dark:block"
             style={{
               backgroundImage:

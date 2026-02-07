@@ -54,7 +54,7 @@ export function Navigation() {
           >
             <Avatar className="w-10 h-10">
               <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold">
-                <Image src="/pdp.png" alt="Logo" width={100} height={100} />
+                <Image src="/pdp.png" alt="Namri Amine" width={100} height={100} />
               </AvatarFallback>
             </Avatar>
             <div>

@@ -1,17 +1,16 @@
 // app/components/sections/Skills.tsx
 'use client'
 
+import type { LucideIcon } from 'lucide-react'
 import { Code, Database, Server, Terminal, Brain, Settings } from 'lucide-react'
 import { motion } from 'motion/react'
 import type { IconType } from 'react-icons'
 import {
-  SiAuth0,
   SiBiome,
   SiDocker,
   SiExpress,
   SiFirebase,
   SiGit,
-  SiJsonwebtokens,
   SiMongodb,
   SiMysql,
   SiNextdotjs,
@@ -41,6 +40,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { skillCategories } from '@/data/skills'
 import { cn } from '@/lib/utils'
 
+type SkillIcon = IconType | LucideIcon
+
 const categoryIcons = {
   frontend: Code,
   backend: Server,
@@ -50,60 +51,61 @@ const categoryIcons = {
   tools: Terminal,
 }
 
+const normalizeKey = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/[./&-]/g, '')
+
+const skillIconMap: Record<string, SkillIcon> = {
+  reactjs: SiReact,
+  nextjs: SiNextdotjs,
+  typescript: SiTypescript,
+  tailwindcss: SiTailwindcss,
+  shadcnui: SiRadixui,
+  zustand: FaPaw,
+  python: SiPython,
+  fastapi: SiFastapi,
+  nodejs: SiNodedotjs,
+  expressjs: SiExpress,
+  restapis: TbApi,
+  socketio: SiSocketdotio,
+  openaiapi: SiOpenai,
+  ragpipelines: Brain,
+  vectordatabases: Database,
+  embeddings: Brain,
+  promptengineering: Brain,
+  langchain: Brain,
+  postgresql: SiPostgresql,
+  pgvector: SiPostgresql,
+  mysql: SiMysql,
+  mongodb: SiMongodb,
+  redis: SiRedis,
+  prisma: SiPrisma,
+  firebase: SiFirebase,
+  supabase: SiSupabase,
+  docker: SiDocker,
+  githubactions: SiGithubactions,
+  prometheus: SiPrometheus,
+  grafana: SiGrafana,
+  opentelemetry: Settings,
+  celery: Settings,
+  gitgithub: SiGit,
+  vscodecursor: TbBrandVscode,
+  vercel: SiVercel,
+  poetry: Settings,
+  pytest: Settings,
+  postman: SiPostman,
+  turbopack: SiTurborepo,
+  biome: SiBiome,
+}
+
+const getSkillIcon = (name: string) => {
+  const Icon = skillIconMap[normalizeKey(name)] || Code
+  return <Icon size={16} className="text-muted-foreground" />
+}
+
 export function Skills() {
-  const normalizeKey = (name: string) =>
-    name
-      .toLowerCase()
-      .replace(/\s+/g, '')
-      .replace(/[./&-]/g, '')
-
-  const skillIconMap: Record<string, IconType> = {
-    reactjs: SiReact,
-    nextjs: SiNextdotjs,
-    typescript: SiTypescript,
-    tailwindcss: SiTailwindcss,
-    shadcnui: SiRadixui,
-    zustand: FaPaw,
-    python: SiPython,
-    fastapi: SiFastapi,
-    nodejs: SiNodedotjs,
-    expressjs: SiExpress,
-    restapis: TbApi,
-    socketio: SiSocketdotio,
-    openaiapi: SiOpenai,
-    ragpipelines: Brain as unknown as IconType,
-    vectordatabases: Database as unknown as IconType,
-    embeddings: Brain as unknown as IconType,
-    promptengineering: Brain as unknown as IconType,
-    langchain: Brain as unknown as IconType,
-    postgresql: SiPostgresql,
-    pgvector: SiPostgresql,
-    mysql: SiMysql,
-    mongodb: SiMongodb,
-    redis: SiRedis,
-    prisma: SiPrisma,
-    firebase: SiFirebase,
-    supabase: SiSupabase,
-    docker: SiDocker,
-    githubactions: SiGithubactions,
-    prometheus: SiPrometheus,
-    grafana: SiGrafana,
-    opentelemetry: Settings as unknown as IconType,
-    celery: Settings as unknown as IconType,
-    gitgithub: SiGit,
-    vscodecursor: TbBrandVscode,
-    vercel: SiVercel,
-    poetry: Settings as unknown as IconType,
-    pytest: Settings as unknown as IconType,
-    postman: SiPostman,
-    turbopack: SiTurborepo,
-    biome: SiBiome,
-  }
-
-  const getSkillIcon = (name: string) => {
-    const Icon = skillIconMap[normalizeKey(name)] || Code
-    return <Icon size={16} className="text-muted-foreground" />
-  }
   return (
     <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30 scroll-mt-24">
       <div className="max-w-6xl mx-auto">

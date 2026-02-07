@@ -25,6 +25,7 @@ export function Footer() {
           className="mb-6"
         >
           <motion.div
+            aria-hidden="true"
             whileHover={{ scale: 1.1, rotate: 5 }}
             className="w-12 h-12 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold mb-4"
           >

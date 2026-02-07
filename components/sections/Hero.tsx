@@ -11,13 +11,18 @@ import { personalInfo } from '@/data/personal'
 import { scrollToSection } from '@/lib/utils'
 import { ColourfulText } from '../aceternity/colourful-text'
 
+const STATUS_BADGES = [
+  { icon: MapPin, text: personalInfo.location, color: 'text-blue-500' },
+  { icon: Globe, text: personalInfo.availability, color: 'text-green-500' },
+  { icon: Zap, text: 'Open to Opportunities', color: 'text-yellow-500' },
+] as const
+
 export function Hero() {
   return (
     <section
       id="home"
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden scroll-mt-24 py-20 sm:py-24"
     >
-      {/* <BackgroundBeams className="opacity-60 dark:opacity-40" /> */}
       <div className="max-w-6xl mx-auto text-center relative z-10">
         <div className="space-y-8">
           {/* Profile Avatar */}
@@ -41,7 +46,7 @@ export function Hero() {
               <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                 <Image
                   src="/pdp.png"
-                  alt="avatar"
+                  alt="Namri Amine - Full Stack Developer"
                   width={160}
                   height={160}
                   priority
@@ -96,11 +101,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            {[
-              { icon: MapPin, text: personalInfo.location, color: 'text-blue-500' },
-              { icon: Globe, text: personalInfo.availability, color: 'text-green-500' },
-              { icon: Zap, text: 'Open to Opportunities', color: 'text-yellow-500' },
-            ].map((badge, index) => (
+            {STATUS_BADGES.map((badge, index) => (
               <motion.div
                 key={badge.text}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -150,7 +151,7 @@ export function Hero() {
               variant="outline"
               className="border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105"
             >
-              <Link href="/Resume.pdf" download target="_blank" rel="noopener noreferrer">
+              <Link href="/Namri_Amine_Resume.pdf" download target="_blank" rel="noopener noreferrer">
                 <Download className="w-5 h-5 mr-2" />
                 Download Resume
               </Link>

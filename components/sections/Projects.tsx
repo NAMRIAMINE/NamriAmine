@@ -9,33 +9,33 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { projects } from '@/data/projects'
 import { cn } from '@/lib/utils'
 
+const getStatusIcon = (status: string) => {
+  switch (status) {
+    case 'Production':
+      return <CheckCircle className="w-4 h-4 text-green-500" />
+    case 'Production Ready':
+      return <CheckCircle className="w-4 h-4 text-emerald-500" />
+    case 'In Development':
+      return <Clock className="w-4 h-4 text-blue-500" />
+    default:
+      return <Zap className="w-4 h-4 text-purple-500" />
+  }
+}
+
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'Production':
+      return 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-300'
+    case 'Production Ready':
+      return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-800/20 dark:text-emerald-300'
+    case 'In Development':
+      return 'bg-blue-100 text-blue-800 dark:bg-blue-800/20 dark:text-blue-300'
+    default:
+      return 'bg-purple-100 text-purple-800 dark:bg-purple-800/20 dark:text-purple-300'
+  }
+}
+
 export function Projects() {
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'Production':
-        return <CheckCircle className="w-4 h-4 text-green-500" />
-      case 'Production Ready':
-        return <CheckCircle className="w-4 h-4 text-emerald-500" />
-      case 'In Development':
-        return <Clock className="w-4 h-4 text-blue-500" />
-      default:
-        return <Zap className="w-4 h-4 text-purple-500" />
-    }
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Production':
-        return 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-300'
-      case 'Production Ready':
-        return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-800/20 dark:text-emerald-300'
-      case 'In Development':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-800/20 dark:text-blue-300'
-      default:
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-800/20 dark:text-purple-300'
-    }
-  }
-
   return (
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
       <div className="max-w-6xl mx-auto">
@@ -99,6 +99,7 @@ export function Projects() {
                               className="flex items-center gap-2"
                             >
                               <div
+                                aria-hidden="true"
                                 className={cn(
                                   'w-2 h-2 rounded-full bg-gradient-to-r',
                                   project.gradient,
@@ -141,9 +142,10 @@ export function Projects() {
                             {project.image ? (
                               <Image
                                 src={project.image || ''}
-                                alt={project.title}
-                                width={1000}
-                                height={1000}
+                                alt={`${project.title} - ${project.category} project screenshot`}
+                                width={448}
+                                height={384}
+                                sizes="(max-width: 640px) 100vw, 448px"
                                 loading="lazy"
                                 className="w-full h-full object-cover rounded-xl group-hover/card:shadow-xl"
                               />

@@ -5,14 +5,16 @@ import { useEffect } from 'react'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
 
 const sections = ['home', 'about', 'projects', 'skills', 'contact']
+const SCROLL_DETECTION_OFFSET = 100
+const SCROLL_TOP_THRESHOLD = 400
 
 export function useActiveSection() {
   const { setActiveSection, setShowScrollTop } = usePortfolioStore()
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100
-      setShowScrollTop(window.scrollY > 400)
+      const scrollPosition = window.scrollY + SCROLL_DETECTION_OFFSET
+      setShowScrollTop(window.scrollY > SCROLL_TOP_THRESHOLD)
 
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId)

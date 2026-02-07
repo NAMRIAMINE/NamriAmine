@@ -1,15 +1,23 @@
 // app/page.tsx
 
+import dynamic from 'next/dynamic'
 import Script from 'next/script'
 import { Footer } from '@/components/layout/Footer'
 import { Navigation } from '@/components/layout/Navigation'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
 import { About } from '@/components/sections/About'
-import { Contact } from '@/components/sections/Contact'
 import { Hero } from '@/components/sections/Hero'
-import { Projects } from '@/components/sections/Projects'
-import { Skills } from '@/components/sections/Skills'
+
+const Projects = dynamic(() =>
+  import('@/components/sections/Projects').then((mod) => ({ default: mod.Projects })),
+)
+const Skills = dynamic(() =>
+  import('@/components/sections/Skills').then((mod) => ({ default: mod.Skills })),
+)
+const Contact = dynamic(() =>
+  import('@/components/sections/Contact').then((mod) => ({ default: mod.Contact })),
+)
 
 export default function HomePage() {
   return (
@@ -30,7 +38,23 @@ export default function HomePage() {
               addressLocality: 'Casablanca',
               addressCountry: 'MA',
             },
-            knowsAbout: ['React', 'Next.js', 'TypeScript', 'Node.js', 'TailwindCSS'],
+            knowsAbout: [
+              'React',
+              'Next.js',
+              'TypeScript',
+              'Node.js',
+              'TailwindCSS',
+              'Python',
+              'FastAPI',
+            ],
+          })}
+        </Script>
+        <Script id="ld-json-website" type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'Namri Amine Portfolio',
+            url: process.env.NEXT_PUBLIC_SITE_URL || 'https://namri-amine.vercel.app',
           })}
         </Script>
         <Hero />

@@ -6,6 +6,7 @@ import { motion } from 'motion/react'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { personalInfo } from '@/data/personal'
+import { projects } from '@/data/projects'
 import { SectionWrapper } from '@/components/shared/SectionWrapper'
 
 export function About() {
@@ -105,7 +106,7 @@ export function About() {
               <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                    <div aria-hidden="true" className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
                     Current Position
                   </CardTitle>
                 </CardHeader>
@@ -118,16 +119,16 @@ export function About() {
                     Present
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {['Dr Turbine', 'Filahi', 'Web Solutions'].map((project, index) => (
+                    {projects.slice(0, 3).map((project, index) => (
                       <motion.div
-                        key={project}
+                        key={project.id}
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.5 + index * 0.1 }}
                         whileHover={{ scale: 1.1 }}
                       >
-                        <Badge variant="secondary">{project}</Badge>
+                        <Badge variant="secondary">{project.title}</Badge>
                       </motion.div>
                     ))}
                   </div>
