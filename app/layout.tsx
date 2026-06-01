@@ -68,7 +68,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 overflow-x-hidden`}
+      >
         <Link
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-sky-600 focus:px-3 focus:py-2 focus:text-white"

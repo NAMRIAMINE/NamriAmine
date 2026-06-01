@@ -7,7 +7,6 @@ export interface Project {
   tech: string[]
   features: string[]
   status: 'Production' | 'Production Ready' | 'In Development' | 'Live'
-  gradient: string
   category: string
   liveUrl?: string
   githubUrl?: string
