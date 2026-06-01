@@ -1,4 +1,3 @@
-// app/components/sections/Hero.tsx
 'use client'
 
 import { ChevronRight, Download, Globe, Mail, MapPin, Zap } from 'lucide-react'
@@ -9,138 +8,129 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { personalInfo } from '@/data/personal'
 import { scrollToSection } from '@/lib/utils'
-import { ColourfulText } from '../aceternity/colourful-text'
 
 const STATUS_BADGES = [
-  { icon: MapPin, text: personalInfo.location, color: 'text-blue-500' },
-  { icon: Globe, text: personalInfo.availability, color: 'text-green-500' },
-  { icon: Zap, text: 'Open to Opportunities', color: 'text-yellow-500' },
+  { icon: MapPin, text: personalInfo.location, color: 'text-sky-600' },
+  { icon: Globe, text: personalInfo.availability, color: 'text-emerald-600' },
+  { icon: Zap, text: 'Open to Opportunities', color: 'text-amber-500' },
 ] as const
+
+const DOMAIN_CHIPS = [
+  { label: 'Industrial AI', color: 'bg-sky-50 text-sky-700 border border-sky-200' },
+  { label: 'Geospatial SaaS', color: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
+  { label: 'Computer Vision', color: 'bg-indigo-50 text-indigo-700 border border-indigo-200' },
+  { label: 'AI Automation', color: 'bg-amber-50 text-amber-700 border border-amber-200' },
+]
 
 export function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden scroll-mt-24 py-20 sm:py-24"
+      className="min-h-[100dvh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden scroll-mt-16 pt-16 pb-16 bg-white"
     >
-      <div className="max-w-6xl mx-auto text-center relative z-10">
-        <div className="space-y-8">
+      <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
+        <div className="space-y-6">
           {/* Profile Avatar */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="relative"
+            transition={{ duration: 0.4, ease: 'easeOut' }}
           >
-            <motion.div
-              animate={{
-                boxShadow: ['0 0 0 0 rgba(59, 130, 246, 0.4)', '0 0 0 20px rgba(59, 130, 246, 0)'],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 3,
-              }}
-              className="w-40 h-40 mx-auto rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1 shadow-2xl"
-            >
-              <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
-                <Image
-                  src="/pdp.png"
-                  alt="Namri Amine - Senior Full-Stack Developer"
-                  width={160}
-                  height={160}
-                  priority
-                  className="object-cover"
-                />
-              </div>
-            </motion.div>
+            <div className="w-24 h-24 mx-auto rounded-full ring-4 ring-sky-100 ring-offset-4 ring-offset-white shadow-md overflow-hidden">
+              <Image
+                src="/pdp.png"
+                alt="Namri Amine - Senior Full-Stack Developer"
+                width={96}
+                height={96}
+                priority
+                className="object-cover w-full h-full"
+              />
+            </div>
           </motion.div>
 
           {/* Main Title */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="text-4xl sm:text-6xl md:text-8xl font-bold leading-tight break-words"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+              className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-slate-900"
             >
-              <span className="inline text-foreground">Senior Full-Stack</span>{' '}
-              <ColourfulText text="Developer" />
+              Senior Full-Stack <span className="text-sky-600">Developer</span>
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed"
             >
-              Shipping complex <span className="text-blue-500 font-semibold">AI</span>,{' '}
-              <span className="text-green-500 font-semibold">geospatial</span>, and{' '}
-              <span className="text-purple-500 font-semibold">industrial inspection</span> platforms
-              end to end
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-lg text-muted-foreground"
-            >
-              6+ years · Next.js · TypeScript · FastAPI · CV pipelines · geospatial workflows
+              Shipping complex <span className="text-sky-600 font-semibold">AI</span>,{' '}
+              <span className="text-emerald-600 font-semibold">geospatial</span>, and{' '}
+              <span className="text-indigo-600 font-semibold">industrial inspection</span> platforms
+              end to end. 6+ years: Next.js, FastAPI, YOLOv8.
             </motion.p>
           </div>
 
+          {/* Domain chips */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.28 }}
+            className="flex flex-wrap justify-center gap-2"
+          >
+            {DOMAIN_CHIPS.map((chip) => (
+              <span
+                key={chip.label}
+                className={`text-xs font-medium px-3 py-1.5 rounded-full ${chip.color}`}
+              >
+                {chip.label}
+              </span>
+            ))}
+          </motion.div>
+
           {/* Status Badges */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-4"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.34 }}
+            className="flex flex-wrap justify-center gap-2"
           >
-            {STATUS_BADGES.map((badge, index) => (
-              <motion.div
+            {STATUS_BADGES.map((badge) => (
+              <Badge
                 key={badge.text}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 + index * 0.1 }}
+                variant="secondary"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-600 border border-slate-200 font-normal text-xs"
               >
-                <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
-                  <badge.icon className={`w-4 h-4 ${badge.color}`} />
-                  {badge.text}
-                </Badge>
-              </motion.div>
+                <badge.icon className={`w-3.5 h-3.5 ${badge.color}`} />
+                {badge.text}
+              </Badge>
             ))}
           </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+            className="flex flex-col sm:flex-row justify-center gap-3"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.42 }}
           >
             <Button
               size="lg"
               onClick={() => scrollToSection('projects')}
-              className="group bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-2xl transition-shadow duration-300"
+              className="group bg-sky-600 hover:bg-sky-700 text-white shadow-sm transition-colors duration-200"
             >
               View My Work
-              <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
             </Button>
 
             <Button
               size="lg"
               variant="outline"
               onClick={() => scrollToSection('contact')}
-              className="border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+              className="border border-slate-300 text-slate-700 hover:border-sky-600 hover:text-sky-600 transition-colors duration-200"
             >
-              <Mail className="w-5 h-5 mr-2" />
+              <Mail className="w-4 h-4 mr-2" />
               Get In Touch
             </Button>
 
@@ -148,7 +138,7 @@ export function Hero() {
               asChild
               size="lg"
               variant="ghost"
-              className="text-muted-foreground hover:text-foreground transition-colors duration-300"
+              className="text-slate-500 hover:text-slate-700 transition-colors duration-200"
             >
               <Link
                 href="/Namri_Amine_Resume.pdf"
@@ -156,7 +146,7 @@ export function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Download className="w-5 h-5 mr-2" />
+                <Download className="w-4 h-4 mr-2" />
                 Download Resume
               </Link>
             </Button>

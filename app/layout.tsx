@@ -16,10 +16,7 @@ const geistMono = Geist_Mono({
 })
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b0b12' },
-  ],
+  themeColor: '#ffffff',
 }
 
 export const metadata: Metadata = {
@@ -70,39 +67,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50`}>
         <Link
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-sky-600 focus:px-3 focus:py-2 focus:text-white"
         >
           Skip to content
         </Link>
-        <div className="min-h-dvh w-full relative bg-white dark:bg-[#020617]">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-0 block dark:hidden"
-            style={{
-              background: 'radial-gradient(125% 125% at 50% 10%, #fff 40%, #475569 100%)',
-            }}
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-0 hidden dark:block"
-            style={{
-              backgroundImage:
-                'radial-gradient(circle 500px at 50% 300px, rgba(16,185,129,0.35), transparent)',
-            }}
-          />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="relative z-10">{children}</div>
-          </ThemeProvider>
-        </div>
+        <ThemeProvider>
+          <div className="min-h-dvh w-full">{children}</div>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

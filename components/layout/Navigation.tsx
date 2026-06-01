@@ -1,9 +1,8 @@
 'use client'
 
-import { Menu, Moon, Sun } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
@@ -14,21 +13,9 @@ import { scrollToSection } from '@/lib/utils'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
 
 export function Navigation() {
-  const { darkMode, activeSection, isMobileMenuOpen, toggleDarkMode, toggleMobileMenu } =
-    usePortfolioStore()
-  const [mounted, setMounted] = useState(false)
+  const { activeSection, isMobileMenuOpen, toggleMobileMenu } = usePortfolioStore()
 
   useActiveSection()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (mounted) {
-      document.documentElement.classList.toggle('dark', darkMode)
-    }
-  }, [darkMode, mounted])
 
   const handleNavClick = (sectionId: string) => {
     scrollToSection(sectionId)
@@ -41,7 +28,7 @@ export function Navigation() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
       aria-label="Primary"
-      className="fixed top-0 w-full z-50 h-16 backdrop-blur-md bg-background/80 border-b border-border"
+      className="fixed top-0 w-full z-50 h-16 backdrop-blur-md bg-white/90 border-b border-slate-200"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex h-full justify-between items-center">
@@ -54,15 +41,13 @@ export function Navigation() {
             aria-label="Go to top"
           >
             <Avatar className="w-10 h-10">
-              <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold">
+              <AvatarFallback className="bg-sky-600 text-white font-bold">
                 <Image src="/pdp.png" alt="Namri Amine" width={100} height={100} />
               </AvatarFallback>
             </Avatar>
             <div>
-              <span className="block text-xl font-bold">{personalInfo.name}</span>
-              <span className="block text-xs text-muted-foreground">
-                Senior Full-Stack Developer
-              </span>
+              <span className="block text-xl font-bold text-slate-900">{personalInfo.name}</span>
+              <span className="block text-xs text-slate-500">Senior Full-Stack Developer</span>
             </div>
           </motion.button>
 
@@ -75,8 +60,8 @@ export function Navigation() {
                   onClick={() => handleNavClick(section.id)}
                   className={`capitalize transition-all duration-300 relative ${
                     activeSection === section.id
-                      ? 'text-primary font-semibold'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'text-sky-600 font-semibold'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                   aria-current={activeSection === section.id ? 'page' : undefined}
                 >
@@ -84,7 +69,7 @@ export function Navigation() {
                   {activeSection === section.id && (
                     <motion.div
                       layoutId="activeSection"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-600 rounded-full"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -93,51 +78,37 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center space-x-2">
-            {mounted && (
+          {/* Mobile Menu */}
+          <Sheet open={isMobileMenuOpen} onOpenChange={toggleMobileMenu}>
+            <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={toggleDarkMode}
-                aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                className="md:hidden"
+                aria-label="Open navigation menu"
               >
-                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                <Menu className="w-5 h-5" />
               </Button>
-            )}
-
-            {/* Mobile Menu */}
-            <Sheet open={isMobileMenuOpen} onOpenChange={toggleMobileMenu}>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="md:hidden"
-                  aria-label="Open navigation menu"
-                >
-                  <Menu className="w-5 h-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetTitle className="sr-only">Navigation menu</SheetTitle>
-                <div className="flex flex-col space-y-4 pt-6">
-                  {navigationSections.map((section) => (
-                    <Button
-                      key={section.id}
-                      variant="ghost"
-                      onClick={() => handleNavClick(section.id)}
-                      className={`justify-start ${
-                        activeSection === section.id ? 'bg-primary/10 text-primary' : ''
-                      }`}
-                    >
-                      <section.icon className="w-4 h-4 mr-2" />
-                      {section.label}
-                    </Button>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+              <div className="flex flex-col space-y-4 pt-6">
+                {navigationSections.map((section) => (
+                  <Button
+                    key={section.id}
+                    variant="ghost"
+                    onClick={() => handleNavClick(section.id)}
+                    className={`justify-start ${
+                      activeSection === section.id ? 'bg-sky-50 text-sky-600' : ''
+                    }`}
+                  >
+                    <section.icon className="w-4 h-4 mr-2" />
+                    {section.label}
+                  </Button>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </motion.nav>

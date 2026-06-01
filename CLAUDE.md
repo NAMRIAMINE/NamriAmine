@@ -22,7 +22,7 @@ Single-page portfolio — Next.js 15 App Router, React 19, TypeScript, Tailwind 
 
 **Data layer** (`data/`): Static TS files (`personal.ts`, `projects.ts`, `skills.ts`). All site content lives here. Edit these to update portfolio content.
 
-**State** (`store/usePortfolioStore.ts`): Zustand store with `persist` middleware. Tracks `darkMode` (persisted to localStorage as `portfolio-storage`), `activeSection`, `isMobileMenuOpen`, `showScrollTop`. No-op guards on `setActiveSection` and `setShowScrollTop` prevent redundant re-renders. Theme is also driven by `next-themes` — keep both in sync when changing theme logic.
+**State** (`store/usePortfolioStore.ts`): Plain Zustand store (no persist middleware). Tracks `activeSection`, `isMobileMenuOpen`, `showScrollTop`. No-op guards on `setActiveSection` and `setShowScrollTop` prevent redundant re-renders. No dark mode state — site is light-only.
 
 **Sections** (`components/sections/`): `Hero`, `About` load eagerly; `Projects`, `Skills`, `Contact` are `next/dynamic` lazy imports for bundle splitting.
 
@@ -30,11 +30,9 @@ Single-page portfolio — Next.js 15 App Router, React 19, TypeScript, Tailwind 
 
 **Scroll progress** (`components/layout/ScrollProgress.tsx`): Single `ticking` boolean rAF guard — only one `requestAnimationFrame` queued at a time. No CSS transition on the bar (tracks instantly). Uses `will-change-transform`.
 
-**Aceternity components** (`components/aceternity/`): Custom animated components (3D card, colourful text). These use `motion` (Framer Motion v12). Constraints:
-- Avoid `blur` filters on animated elements (perf regression, see git history).
-- `CardContainer` renders a `<div>`, not a button — it's a presentational element.
-- Tilt is disabled when `prefers-reduced-motion: reduce` OR `pointer: coarse`.
-- Bounding rect cached on `pointerenter`/`resize` only, not every move.
+**Aceternity components** (`components/aceternity/`): `3d-card.tsx` and `colourful-text.tsx` are present but currently unused. Do not delete — may be used in future. Do not import them unless intentionally adding back.
+
+**Theme**: Light-only. No dark mode. `next-themes` has been removed. `ThemeProvider` in `components/theme/theme-provider.tsx` is a thin wrapper around `MotionConfig reducedMotion="user"` only. Do not add dark mode back without updating globals.css, layout.tsx, all components, and removing the `@custom-variant dark` line that was intentionally deleted.
 
 **Reduced motion**: `MotionConfig reducedMotion="user"` wraps all children inside `ThemeProvider`. All `motion/*` components respect the OS reduce-motion setting automatically — no per-component handling needed.
 
@@ -44,10 +42,16 @@ Single-page portfolio — Next.js 15 App Router, React 19, TypeScript, Tailwind 
 
 ## Visual conventions
 
-- **No scale transforms on large surfaces.** Cards and contact tiles use `hover:shadow-xl transition-shadow` only. Scale transforms cause layout/paint churn.
-- **CTA hierarchy in Hero**: primary = gradient button, secondary = outline with `border-2 border-primary`, tertiary = `variant="ghost"` (Download Resume).
-- **Gradient text**: used selectively — Hero title (via ColourfulText), "About Me", "Featured Projects" headings. Skills and Contact headings use single accent colors (`text-emerald-500`, `text-rose-500`).
-- Project cards show `year · category` in the CardDescription meta row.
+- **Light-only system.** Background alternates: white sections (Hero, Projects, Contact) and slate-50 sections (About, Skills, Footer). Never add `dark:` utilities — there is no dark variant registered.
+- **Primary accent: sky-600.** Used in nav active underline, primary CTA button, profile ring, About/Projects section heading accent word.
+- **Secondary accents**: emerald-600 (Skills heading, geospatial keyword), rose-500 (Contact heading), indigo-600 (industrial inspection keyword), amber-500 (open to opportunities badge). Use sparingly and consistently per section.
+- **No scale transforms on large surfaces.** Cards use `hover:shadow-md transition-shadow` only.
+- **CTA hierarchy in Hero**: primary = `bg-sky-600` solid, secondary = outline `border border-slate-300`, tertiary = `variant="ghost"` (Download Resume).
+- **Section headings**: left-aligned (not centered). Heading pattern: `text-slate-900` main word + accent-colored keyword.
+- **Project cards**: flat `article` with `border border-slate-200`, no glassmorphism, `fill` image with `object-cover object-center` in a `relative` container.
+- **Skills**: chip-based layout (no progress bars). Each chip shows `icon + name + years` with category-color border.
+- **Contact**: 2×2 grid of flat `<Link>` cards, each with a small icon tile and truncated value.
+- **No em-dashes (`—`) anywhere.** Use period, comma, or colon instead.
 
 ## Public assets
 

@@ -1,4 +1,3 @@
-// app/components/sections/Skills.tsx
 'use client'
 
 import type { LucideIcon } from 'lucide-react'
@@ -36,19 +35,41 @@ import {
   SiVercel,
 } from 'react-icons/si'
 import { TbApi } from 'react-icons/tb'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { skillCategories } from '@/data/skills'
-import { cn } from '@/lib/utils'
 
 type SkillIcon = IconType | LucideIcon
 
-const categoryIcons = {
-  frontend: Code,
-  backend: Server,
-  database: Database,
-  ai: Brain,
-  devops: Settings,
-  tools: Terminal,
+const categoryConfig: Record<string, { icon: LucideIcon; accent: string; chipAccent: string }> = {
+  frontend: {
+    icon: Code,
+    accent: 'text-sky-600',
+    chipAccent: 'bg-sky-50 text-sky-700 border-sky-200',
+  },
+  backend: {
+    icon: Server,
+    accent: 'text-emerald-600',
+    chipAccent: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  },
+  ai: {
+    icon: Brain,
+    accent: 'text-indigo-600',
+    chipAccent: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+  },
+  database: {
+    icon: Database,
+    accent: 'text-violet-600',
+    chipAccent: 'bg-violet-50 text-violet-700 border-violet-200',
+  },
+  devops: {
+    icon: Settings,
+    accent: 'text-rose-600',
+    chipAccent: 'bg-rose-50 text-rose-700 border-rose-200',
+  },
+  tools: {
+    icon: Terminal,
+    accent: 'text-amber-600',
+    chipAccent: 'bg-amber-50 text-amber-700 border-amber-200',
+  },
 }
 
 const normalizeKey = (name: string) =>
@@ -101,89 +122,66 @@ const skillIconMap: Record<string, SkillIcon> = {
 
 const getSkillIcon = (name: string) => {
   const Icon = skillIconMap[normalizeKey(name)] || Code
-  return <Icon size={16} className="text-muted-foreground" />
+  return <Icon size={14} />
 }
 
 export function Skills() {
   return (
-    <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30 scroll-mt-24">
+    <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Technical <span className="text-emerald-500">Skills</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">
+            Technical <span className="text-emerald-600">Skills</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Expertise across the modern web development stack
+          <p className="text-slate-500 text-lg">
+            Expertise across the modern full-stack development spectrum
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-6">
           {Object.entries(skillCategories).map(([key, category], index) => {
-            const IconComponent = categoryIcons[key as keyof typeof categoryIcons] || Code
+            const cfg = categoryConfig[key] ?? {
+              icon: Code,
+              accent: 'text-slate-600',
+              chipAccent: 'bg-slate-100 text-slate-700 border-slate-200',
+            }
+            const IconComponent = cfg.icon
 
             return (
               <motion.div
                 key={key}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.07 }}
+                className="rounded-xl border border-slate-200 bg-white p-6 hover:shadow-md transition-shadow duration-300"
               >
-                <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-3">
-                      <div
-                        className={cn('p-2 rounded-lg bg-gradient-to-r text-white', category.color)}
-                      >
-                        <IconComponent className="w-5 h-5" />
-                      </div>
-                      {category.title}
-                    </CardTitle>
-                  </CardHeader>
+                {/* Category header */}
+                <div className="flex items-center gap-2.5 mb-5">
+                  <IconComponent className={`w-5 h-5 ${cfg.accent}`} />
+                  <h3 className="font-semibold text-slate-800">{category.title}</h3>
+                </div>
 
-                  <CardContent className="space-y-4">
-                    {category.skills.map((skill, skillIndex) => (
-                      <motion.div
-                        key={skill.name}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: skillIndex * 0.05 }}
-                        className="space-y-2"
-                      >
-                        <div className="flex justify-between items-center">
-                          <span className="font-medium flex items-center gap-2">
-                            {getSkillIcon(skill.name)}
-                            {skill.name}
-                          </span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground">{skill.years}</span>
-                            <span className="text-sm">{skill.level}%</span>
-                          </div>
-                        </div>
-                        <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                          <motion.div
-                            className={cn('h-full rounded-full bg-gradient-to-r', category.color)}
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            viewport={{ once: true }}
-                            transition={{
-                              duration: 1,
-                              delay: skillIndex * 0.1,
-                              ease: 'easeOut',
-                            }}
-                          />
-                        </div>
-                      </motion.div>
-                    ))}
-                  </CardContent>
-                </Card>
+                {/* Skill chips */}
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map((skill) => (
+                    <span
+                      key={skill.name}
+                      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border ${cfg.chipAccent}`}
+                      title={`${skill.years} experience`}
+                    >
+                      <span className="opacity-70">{getSkillIcon(skill.name)}</span>
+                      {skill.name}
+                      <span className="opacity-60 text-[10px] font-mono">{skill.years}</span>
+                    </span>
+                  ))}
+                </div>
               </motion.div>
             )
           })}

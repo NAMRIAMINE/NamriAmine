@@ -1,192 +1,168 @@
-// app/components/sections/Projects.tsx
 'use client'
 import { Calendar, CheckCircle, Clock, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
-import { CardBody, CardContainer, CardItem } from '@/components/aceternity/3d-card'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { projects } from '@/data/projects'
-import { cn } from '@/lib/utils'
 
 const getStatusIcon = (status: string) => {
   switch (status) {
     case 'Production':
-      return <CheckCircle className="w-4 h-4 text-green-500" />
+      return <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
     case 'Production Ready':
-      return <CheckCircle className="w-4 h-4 text-emerald-500" />
+      return <CheckCircle className="w-3.5 h-3.5 text-sky-600" />
     case 'In Development':
-      return <Clock className="w-4 h-4 text-blue-500" />
+      return <Clock className="w-3.5 h-3.5 text-amber-500" />
     default:
-      return <Zap className="w-4 h-4 text-purple-500" />
+      return <Zap className="w-3.5 h-3.5 text-indigo-500" />
   }
 }
 
-const getStatusColor = (status: string) => {
+const getStatusStyle = (status: string) => {
   switch (status) {
     case 'Production':
-      return 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-300'
+      return 'bg-emerald-50 text-emerald-700 border border-emerald-200'
     case 'Production Ready':
-      return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-800/20 dark:text-emerald-300'
+      return 'bg-sky-50 text-sky-700 border border-sky-200'
     case 'In Development':
-      return 'bg-blue-100 text-blue-800 dark:bg-blue-800/20 dark:text-blue-300'
+      return 'bg-amber-50 text-amber-700 border border-amber-200'
     default:
-      return 'bg-purple-100 text-purple-800 dark:bg-purple-800/20 dark:text-purple-300'
+      return 'bg-indigo-50 text-indigo-700 border border-indigo-200'
   }
+}
+
+const accentDots: Record<string, string> = {
+  'indus-inspection': 'bg-sky-500',
+  creaboost: 'bg-violet-500',
+  'dr-turbine': 'bg-indigo-500',
+  filahi: 'bg-emerald-500',
 }
 
 export function Projects() {
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
+    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24 bg-white">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Featured{' '}
-            <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Projects
-            </span>
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">
+            Featured <span className="text-sky-600">Projects</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Innovative solutions that make a difference
+          <p className="text-slate-500 text-lg">
+            End-to-end platforms shipped across AI, geospatial, and industrial domains
           </p>
         </motion.div>
 
-        <div className="space-y-8">
+        <div className="space-y-10">
           {projects.map((project, index) => (
-            <motion.div
+            <motion.article
               key={project.id}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              className="rounded-2xl border border-slate-200 bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300"
             >
-              <Card className="overflow-hidden hover:shadow-2xl transition-shadow duration-500 bg-card/50 backdrop-blur-sm">
-                <div className="grid lg:grid-cols-2 gap-4 p-4 sm:gap-6 sm:p-6 lg:gap-8 lg:p-8">
-                  {/* Project Info */}
-                  <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
-                    <CardHeader className="p-0 pb-6">
-                      <div className="flex flex-wrap gap-2 justify-between items-start mb-4">
-                        <div>
-                          <CardTitle className="text-2xl sm:text-3xl mb-2">
-                            {project.title}
-                          </CardTitle>
-                          <CardDescription className="flex flex-wrap items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            {project.year}
-                            <span aria-hidden="true">·</span>
-                            {project.category}
-                          </CardDescription>
-                        </div>
-                        <Badge className={getStatusColor(project.status)}>
-                          {getStatusIcon(project.status)}
-                          <span className="ml-1">{project.status}</span>
-                        </Badge>
-                      </div>
-                    </CardHeader>
-
-                    <CardContent className="p-0 space-y-6">
-                      <p className="text-muted-foreground leading-relaxed">{project.description}</p>
-
-                      {/* Features */}
-                      <div>
-                        <h4 className="font-semibold mb-3">Key Features</h4>
-                        <div className="grid grid-cols-1 min-[360px]:grid-cols-2 gap-2">
-                          {project.features.map((feature) => (
-                            <div
-                              key={`${project.id}-feature-${feature}`}
-                              className="flex items-center gap-2"
-                            >
-                              <div
-                                aria-hidden="true"
-                                className={cn(
-                                  'w-2 h-2 rounded-full bg-gradient-to-r',
-                                  project.gradient,
-                                )}
-                              />
-                              <span className="text-sm text-muted-foreground">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Tech Stack */}
-                      <div>
-                        <h4 className="font-semibold mb-3">Technology Stack</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {project.tech.map((tech) => (
-                            <Badge key={tech} variant="secondary" className="text-xs">
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </div>
-                  {/* Project Preview */}
-                  <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                    <CardContainer
-                      containerClassName="py-0 w-full min-h-[16rem] sm:min-h-[20rem] md:min-h-[24rem] flex justify-center"
-                      className="inter-var w-full"
+              <div className="grid lg:grid-cols-2 gap-0">
+                {/* Project Info */}
+                <div
+                  className={`p-6 sm:p-8 lg:p-10 flex flex-col justify-center ${index % 2 === 1 ? 'lg:order-2' : ''}`}
+                >
+                  {/* Meta row */}
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <span
+                      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${getStatusStyle(project.status)}`}
                     >
-                      <CardBody className="relative w-full h-[16rem] sm:h-[20rem] md:h-[24rem] rounded-xl border bg-card/50 backdrop-blur-sm dark:border-white/10 border-black/10">
-                        <CardItem
-                          translateZ={40}
-                          className={cn(
-                            'absolute inset-0 w-full rounded-xl p-[5px] bg-gradient-to-br',
-                            project.gradient,
-                          )}
-                        >
-                          <div className="w-full h-full rounded-[10px] bg-background flex items-center justify-center">
-                            {project.image ? (
-                              <Image
-                                src={project.image || ''}
-                                alt={`${project.title} - ${project.category} project screenshot`}
-                                width={448}
-                                height={384}
-                                sizes="(max-width: 640px) 100vw, 448px"
-                                loading="lazy"
-                                className="w-full h-full object-cover rounded-xl group-hover/card:shadow-xl"
-                              />
-                            ) : (
-                              <div className="text-center">
-                                <div
-                                  className={cn(
-                                    'w-20 h-20 mx-auto rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 bg-gradient-to-r',
-                                    project.gradient,
-                                  )}
-                                >
-                                  {project.title
-                                    .split(' ')
-                                    .map((word) => word[0])
-                                    .join('')}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </CardItem>
+                      {getStatusIcon(project.status)}
+                      {project.status}
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-slate-500">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {project.year}
+                    </span>
+                    <span className="text-xs text-slate-400">·</span>
+                    <span className="text-xs text-slate-500">{project.category}</span>
+                  </div>
 
-                        <CardItem translateZ={80} className="absolute top-4 left-4">
-                          <span
-                            className={cn(
-                              'px-2 py-1 rounded-md text-xs font-medium text-white bg-gradient-to-r',
-                              project.gradient,
-                            )}
-                          >
-                            {project.year}
-                          </span>
-                        </CardItem>
-                      </CardBody>
-                    </CardContainer>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
+                    {project.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed mb-6">{project.description}</p>
+
+                  {/* Features */}
+                  <div className="mb-6">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+                      Key Features
+                    </h4>
+                    <div className="grid grid-cols-1 min-[360px]:grid-cols-2 gap-y-2 gap-x-4">
+                      {project.features.map((feature) => (
+                        <div key={`${project.id}-${feature}`} className="flex items-start gap-2">
+                          <div
+                            aria-hidden="true"
+                            className={`w-1.5 h-1.5 mt-1.5 rounded-full shrink-0 ${accentDots[project.id] ?? 'bg-slate-400'}`}
+                          />
+                          <span className="text-sm text-slate-600">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tech Stack */}
+                  <div>
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+                      Stack
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.tech.map((tech) => (
+                        <Badge
+                          key={tech}
+                          variant="secondary"
+                          className="text-xs bg-slate-100 text-slate-700 border-0 font-normal"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </Card>
-            </motion.div>
+
+                {/* Project Screenshot */}
+                <div
+                  className={`relative bg-slate-50 flex items-center justify-center min-h-[280px] sm:min-h-[320px] ${index % 2 === 1 ? 'lg:order-1' : ''}`}
+                >
+                  {project.image ? (
+                    <div className="absolute inset-0">
+                      <Image
+                        src={project.image}
+                        alt={`${project.title} screenshot`}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        loading="lazy"
+                        className="object-cover object-center"
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-center p-8">
+                      <div className="w-16 h-16 mx-auto rounded-xl bg-slate-200 flex items-center justify-center text-slate-500 text-xl font-bold mb-3">
+                        {project.title
+                          .split(' ')
+                          .map((w) => w[0])
+                          .join('')}
+                      </div>
+                      <span className="text-slate-400 text-sm">Preview unavailable</span>
+                    </div>
+                  )}
+                  {/* Year overlay */}
+                  <span className="absolute top-3 right-3 text-xs font-mono font-medium bg-white/90 text-slate-600 px-2 py-1 rounded-md shadow-sm border border-slate-200">
+                    {project.year}
+                  </span>
+                </div>
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>

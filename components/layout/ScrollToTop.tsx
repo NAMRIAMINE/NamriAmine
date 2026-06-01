@@ -19,7 +19,7 @@ export function ScrollToTop() {
       onClick={scrollToTop}
       size="icon"
       aria-label="Scroll to top"
-      className="fixed bottom-8 right-8 z-50 bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-2xl transition-all duration-300 hover:scale-110"
+      className="fixed bottom-8 right-8 z-50 bg-sky-600 hover:bg-sky-700 text-white shadow-md transition-colors duration-200"
     >
       <ArrowUp className="w-5 h-5" />
     </Button>
