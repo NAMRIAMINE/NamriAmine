@@ -80,7 +80,6 @@ export function About() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
                   className="text-center p-4 rounded-lg bg-card/50 backdrop-blur-sm hover:bg-card/70 transition-colors cursor-default"
                 >
                   <stat.icon className="w-6 h-6 mx-auto mb-2 text-primary" />
@@ -104,9 +103,8 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              whileHover={{ y: -4 }}
             >
-              <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+              <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <div
@@ -132,7 +130,6 @@ export function About() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.5 + index * 0.1 }}
-                        whileHover={{ scale: 1.1 }}
                       >
                         <Badge variant="secondary">{project.title}</Badge>
                       </motion.div>
@@ -148,9 +145,8 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              whileHover={{ y: -4 }}
             >
-              <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+              <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300">
                 <CardHeader>
                   <CardTitle>Languages</CardTitle>
                 </CardHeader>

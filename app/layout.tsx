@@ -100,9 +100,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div id="main-content" tabIndex={-1} className="relative z-10">
-              {children}
-            </div>
+            <div className="relative z-10">{children}</div>
           </ThemeProvider>
         </div>
         <Analytics />

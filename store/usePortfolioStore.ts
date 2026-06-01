@@ -30,14 +30,18 @@ export const usePortfolioStore = create<PortfolioState>()(
         }
       },
 
-      setActiveSection: (section) => set({ activeSection: section }),
+      setActiveSection: (section) => {
+        if (get().activeSection !== section) set({ activeSection: section })
+      },
 
       toggleMobileMenu: () =>
         set((state) => ({
           isMobileMenuOpen: !state.isMobileMenuOpen,
         })),
 
-      setShowScrollTop: (show) => set({ showScrollTop: show }),
+      setShowScrollTop: (show) => {
+        if (get().showScrollTop !== show) set({ showScrollTop: show })
+      },
     }),
     {
       name: 'portfolio-storage',

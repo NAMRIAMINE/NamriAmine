@@ -108,7 +108,6 @@ export function Hero() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -2 }}
               >
                 <Badge variant="secondary" className="flex items-center gap-2 px-4 py-2">
                   <badge.icon className={`w-4 h-4 ${badge.color}`} />
@@ -120,7 +119,7 @@ export function Hero() {
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row justify-center gap-6"
+            className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -129,7 +128,7 @@ export function Hero() {
             <Button
               size="lg"
               onClick={() => scrollToSection('projects')}
-              className="group bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-2xl transition-all duration-300 hover:scale-105"
+              className="group bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-2xl transition-shadow duration-300"
             >
               View My Work
               <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -139,7 +138,7 @@ export function Hero() {
               size="lg"
               variant="outline"
               onClick={() => scrollToSection('contact')}
-              className="border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105"
+              className="border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
             >
               <Mail className="w-5 h-5 mr-2" />
               Get In Touch
@@ -148,8 +147,8 @@ export function Hero() {
             <Button
               asChild
               size="lg"
-              variant="outline"
-              className="border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105"
+              variant="ghost"
+              className="text-muted-foreground hover:text-foreground transition-colors duration-300"
             >
               <Link
                 href="/Namri_Amine_Resume.pdf"

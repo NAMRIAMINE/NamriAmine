@@ -66,17 +66,21 @@ export function Projects() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] bg-card/50 backdrop-blur-sm">
-                <div className="grid lg:grid-cols-2 gap-8 p-8">
+              <Card className="overflow-hidden hover:shadow-2xl transition-shadow duration-500 bg-card/50 backdrop-blur-sm">
+                <div className="grid lg:grid-cols-2 gap-4 p-4 sm:gap-6 sm:p-6 lg:gap-8 lg:p-8">
                   {/* Project Info */}
                   <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
                     <CardHeader className="p-0 pb-6">
-                      <div className="flex justify-between items-start mb-4">
+                      <div className="flex flex-wrap gap-2 justify-between items-start mb-4">
                         <div>
-                          <CardTitle className="text-3xl mb-2">{project.title}</CardTitle>
-                          <CardDescription className="flex items-center gap-2">
+                          <CardTitle className="text-2xl sm:text-3xl mb-2">
+                            {project.title}
+                          </CardTitle>
+                          <CardDescription className="flex flex-wrap items-center gap-2">
                             <Calendar className="w-4 h-4" />
                             {project.year}
+                            <span aria-hidden="true">·</span>
+                            {project.category}
                           </CardDescription>
                         </div>
                         <Badge className={getStatusColor(project.status)}>
@@ -92,7 +96,7 @@ export function Projects() {
                       {/* Features */}
                       <div>
                         <h4 className="font-semibold mb-3">Key Features</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 min-[360px]:grid-cols-2 gap-2">
                           {project.features.map((feature) => (
                             <div
                               key={`${project.id}-feature-${feature}`}
@@ -127,10 +131,10 @@ export function Projects() {
                   {/* Project Preview */}
                   <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
                     <CardContainer
-                      containerClassName="py-0 w-full min-h-[24rem] flex justify-center"
+                      containerClassName="py-0 w-full min-h-[16rem] sm:min-h-[20rem] md:min-h-[24rem] flex justify-center"
                       className="inter-var w-full"
                     >
-                      <CardBody className="relative w-full sm:w-[28rem] h-[24rem] rounded-xl border bg-card/50 backdrop-blur-sm dark:border-white/10 border-black/10">
+                      <CardBody className="relative w-full h-[16rem] sm:h-[20rem] md:h-[24rem] rounded-xl border bg-card/50 backdrop-blur-sm dark:border-white/10 border-black/10">
                         <CardItem
                           translateZ={40}
                           className={cn(

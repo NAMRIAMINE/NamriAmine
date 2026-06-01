@@ -1,4 +1,3 @@
-// app/components/layout/Navigation.tsx
 'use client'
 
 import { Menu, Moon, Sun } from 'lucide-react'
@@ -7,7 +6,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { personalInfo } from '@/data/personal'
 import { useActiveSection } from '@/hooks/useActiveSection'
 import { navigationSections } from '@/lib/constants'
@@ -47,10 +46,12 @@ export function Navigation() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex h-full justify-between items-center">
           {/* Logo */}
-          <motion.div
+          <motion.button
+            type="button"
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-3 cursor-pointer"
+            className="flex items-center space-x-3"
             onClick={() => scrollToSection('home')}
+            aria-label="Go to top"
           >
             <Avatar className="w-10 h-10">
               <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold">
@@ -58,10 +59,12 @@ export function Navigation() {
               </AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-xl font-bold">{personalInfo.name}</h1>
-              <p className="text-xs text-muted-foreground">Senior Full-Stack Developer</p>
+              <span className="block text-xl font-bold">{personalInfo.name}</span>
+              <span className="block text-xs text-muted-foreground">
+                Senior Full-Stack Developer
+              </span>
             </div>
-          </motion.div>
+          </motion.button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6">
@@ -93,7 +96,12 @@ export function Navigation() {
           {/* Actions */}
           <div className="flex items-center space-x-2">
             {mounted && (
-              <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleDarkMode}
+                aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
                 {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </Button>
             )}
@@ -101,11 +109,17 @@ export function Navigation() {
             {/* Mobile Menu */}
             <Sheet open={isMobileMenuOpen} onOpenChange={toggleMobileMenu}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden"
+                  aria-label="Open navigation menu"
+                >
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
+                <SheetTitle className="sr-only">Navigation menu</SheetTitle>
                 <div className="flex flex-col space-y-4 pt-6">
                   {navigationSections.map((section) => (
                     <Button

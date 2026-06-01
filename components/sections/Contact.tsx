@@ -43,10 +43,7 @@ export function Contact() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Let&apos;s{' '}
-            <span className="bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">
-              Connect
-            </span>
+            Let&apos;s <span className="text-rose-500">Connect</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             Ready to discuss your next project or opportunity
@@ -73,7 +70,6 @@ export function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                whileHover={{ y: -8 }}
               >
                 <Link
                   href={contact.href}
@@ -81,10 +77,10 @@ export function Contact() {
                   rel={contact.href.includes('http') ? 'noopener noreferrer' : undefined}
                   className="group block h-full"
                 >
-                  <Card className="h-full bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-105 text-center">
+                  <Card className="h-full bg-card/50 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300 text-center">
                     <CardHeader>
                       <div
-                        className={`w-16 h-16 mx-auto rounded-full bg-gradient-to-r ${contact.gradient} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}
+                        className={`w-16 h-16 mx-auto rounded-full bg-gradient-to-r ${contact.gradient} flex items-center justify-center text-white mb-4`}
                       >
                         <contact.icon className="w-8 h-8" />
                       </div>

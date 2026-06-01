@@ -116,10 +116,7 @@ export function Skills() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Technical{' '}
-            <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
-              Skills
-            </span>
+            Technical <span className="text-emerald-500">Skills</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             Expertise across the modern web development stack
@@ -138,7 +135,7 @@ export function Skills() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-3">
                       <div
