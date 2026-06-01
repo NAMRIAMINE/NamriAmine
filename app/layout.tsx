@@ -24,11 +24,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://namri-amine.vercel.app'),
-  title: 'Namri Amine - Full Stack Developer | React, Next.js, TypeScript',
+  title:
+    'Namri Amine - Senior Full-Stack Developer | AI Platforms, Geospatial SaaS, Next.js, FastAPI',
   description:
-    'Experienced Full Stack Developer with 5+ years in React, Next.js, TypeScript, and Node.js. Building scalable applications for agriculture, industry, and web platforms. Based in Casablanca, Morocco.',
+    'Senior Full-Stack Developer with 6+ years shipping AI pipelines, geospatial SaaS, and industrial inspection platforms. Next.js, TypeScript, FastAPI, YOLOv8, MapLibreGL. Based in Casablanca, Morocco.',
   keywords:
-    'Full Stack Developer, React Developer, Next.js Developer, TypeScript, Node.js, JavaScript, Casablanca, Morocco, Remote Developer',
+    'Senior Full Stack Developer, AI Platforms, Geospatial SaaS, Industrial Inspection, Next.js, FastAPI, TypeScript, React, YOLOv8, Computer Vision, Casablanca, Morocco, Remote Developer',
   authors: [{ name: 'Namri Amine', url: 'https://linkedin.com/in/namriamine' }],
   alternates: {
     canonical: '/',
@@ -39,8 +40,9 @@ export const metadata: Metadata = {
     apple: '/favicon.ico',
   },
   openGraph: {
-    title: 'Namri Amine - Full Stack Developer',
-    description: 'Building scalable applications with React, Next.js, TypeScript, and Node.js',
+    title: 'Namri Amine - Senior Full-Stack Developer',
+    description:
+      'Shipping AI, geospatial, and industrial inspection platforms with Next.js, TypeScript, and FastAPI.',
     url: '/',
     siteName: 'Namri Amine Portfolio',
     type: 'website',
@@ -48,8 +50,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Namri Amine - Full Stack Developer',
-    description: 'Building scalable applications with React, Next.js, TypeScript, and Node.js',
+    title: 'Namri Amine - Senior Full-Stack Developer',
+    description:
+      'Shipping AI, geospatial, and industrial inspection platforms with Next.js, TypeScript, and FastAPI.',
   },
   robots: {
     index: true,

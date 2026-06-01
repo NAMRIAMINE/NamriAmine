@@ -31,7 +31,7 @@ export default function HomePage() {
             '@type': 'Person',
             name: 'Namri Amine',
             url: process.env.NEXT_PUBLIC_SITE_URL || 'https://namri-amine.vercel.app',
-            jobTitle: 'Full Stack Developer',
+            jobTitle: 'Senior Full-Stack Developer',
             sameAs: ['https://linkedin.com/in/namriamine', 'https://github.com/namriamine'],
             address: {
               '@type': 'PostalAddress',
@@ -46,6 +46,10 @@ export default function HomePage() {
               'TailwindCSS',
               'Python',
               'FastAPI',
+              'AI Pipelines',
+              'Computer Vision',
+              'Geospatial SaaS',
+              'Industrial Inspection',
             ],
           })}
         </Script>

@@ -46,7 +46,7 @@ export function Hero() {
               <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                 <Image
                   src="/pdp.png"
-                  alt="Namri Amine - Full Stack Developer"
+                  alt="Namri Amine - Senior Full-Stack Developer"
                   width={160}
                   height={160}
                   priority
@@ -65,7 +65,7 @@ export function Hero() {
               transition={{ duration: 0.6, ease: 'easeOut' }}
               className="text-4xl sm:text-6xl md:text-8xl font-bold leading-tight break-words"
             >
-              <span className="inline text-foreground">Full Stack</span>{' '}
+              <span className="inline text-foreground">Senior Full-Stack</span>{' '}
               <ColourfulText text="Developer" />
             </motion.h1>
 
@@ -76,10 +76,10 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed"
             >
-              Crafting exceptional digital experiences with{' '}
-              <span className="text-blue-500 font-semibold">React</span>,{' '}
-              <span className="text-green-500 font-semibold">Next.js</span>, and{' '}
-              <span className="text-purple-500 font-semibold">TypeScript</span>
+              Shipping complex <span className="text-blue-500 font-semibold">AI</span>,{' '}
+              <span className="text-green-500 font-semibold">geospatial</span>, and{' '}
+              <span className="text-purple-500 font-semibold">industrial inspection</span> platforms
+              end to end
             </motion.p>
 
             <motion.p
@@ -89,7 +89,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-lg text-muted-foreground"
             >
-              5+ years building scalable applications for agriculture & industry
+              6+ years · Next.js · TypeScript · FastAPI · CV pipelines · geospatial workflows
             </motion.p>
           </div>
 
@@ -151,7 +151,12 @@ export function Hero() {
               variant="outline"
               className="border-2 border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105"
             >
-              <Link href="/Namri_Amine_Resume.pdf" download target="_blank" rel="noopener noreferrer">
+              <Link
+                href="/Namri_Amine_Resume.pdf"
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Download className="w-5 h-5 mr-2" />
                 Download Resume
               </Link>

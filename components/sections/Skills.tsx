@@ -2,40 +2,40 @@
 'use client'
 
 import type { LucideIcon } from 'lucide-react'
-import { Code, Database, Server, Terminal, Brain, Settings } from 'lucide-react'
+import {
+  Brain,
+  Code,
+  Database,
+  Map as MapIcon,
+  Monitor,
+  Server,
+  Settings,
+  Terminal,
+} from 'lucide-react'
 import { motion } from 'motion/react'
 import type { IconType } from 'react-icons'
+import { FaPaw } from 'react-icons/fa'
 import {
-  SiBiome,
   SiDocker,
   SiExpress,
-  SiFirebase,
+  SiFastapi,
   SiGit,
-  SiMongodb,
+  SiGithubactions,
   SiMysql,
   SiNextdotjs,
   SiNodedotjs,
   SiPostgresql,
   SiPrisma,
+  SiPython,
   SiRadixui,
   SiReact,
-  SiSocketdotio,
+  SiRedis,
   SiSupabase,
   SiTailwindcss,
-  SiTurborepo,
   SiTypescript,
   SiVercel,
-  SiPython,
-  SiFastapi,
-  SiOpenai,
-  SiRedis,
-  SiGithubactions,
-  SiPrometheus,
-  SiGrafana,
-  SiPostman,
 } from 'react-icons/si'
-import { TbBrandVscode, TbApi } from 'react-icons/tb'
-import { FaPaw } from 'react-icons/fa'
+import { TbApi } from 'react-icons/tb'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { skillCategories } from '@/data/skills'
 import { cn } from '@/lib/utils'
@@ -62,6 +62,11 @@ const skillIconMap: Record<string, SkillIcon> = {
   nextjs: SiNextdotjs,
   typescript: SiTypescript,
   tailwindcss: SiTailwindcss,
+  maplibregl: MapIcon,
+  reactkonva: Code,
+  reactnative: SiReact,
+  expo: Code,
+  electron: Monitor,
   shadcnui: SiRadixui,
   zustand: FaPaw,
   python: SiPython,
@@ -69,35 +74,29 @@ const skillIconMap: Record<string, SkillIcon> = {
   nodejs: SiNodedotjs,
   expressjs: SiExpress,
   restapis: TbApi,
-  socketio: SiSocketdotio,
-  openaiapi: SiOpenai,
-  ragpipelines: Brain,
-  vectordatabases: Database,
-  embeddings: Brain,
-  promptengineering: Brain,
-  langchain: Brain,
+  betterauth: Settings,
+  yolov8: Brain,
+  onnxruntime: Brain,
+  opencv: Brain,
+  googlegeminisdk: Brain,
+  aipipelines: Brain,
+  pyproj: MapIcon,
   postgresql: SiPostgresql,
-  pgvector: SiPostgresql,
   mysql: SiMysql,
-  mongodb: SiMongodb,
   redis: SiRedis,
   prisma: SiPrisma,
-  firebase: SiFirebase,
   supabase: SiSupabase,
+  bullmqpro: Settings,
   docker: SiDocker,
   githubactions: SiGithubactions,
-  prometheus: SiPrometheus,
-  grafana: SiGrafana,
-  opentelemetry: Settings,
+  bunnycdn: Settings,
+  ssewebsockets: TbApi,
   celery: Settings,
   gitgithub: SiGit,
-  vscodecursor: TbBrandVscode,
   vercel: SiVercel,
-  poetry: Settings,
+  vitest: Settings,
   pytest: Settings,
-  postman: SiPostman,
-  turbopack: SiTurborepo,
-  biome: SiBiome,
+  playwright: Settings,
 }
 
 const getSkillIcon = (name: string) => {

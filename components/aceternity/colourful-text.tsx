@@ -22,7 +22,7 @@ export function ColourfulText({ text }: { text: string }) {
   React.useEffect(() => {
     setMounted(true)
     // Use a deterministic shuffle on mount to avoid hydration mismatch
-    const initialShuffle = [...BASE_COLORS].sort((a, b) => {
+    const initialShuffle = [...BASE_COLORS].sort((a) => {
       // Use a deterministic seed based on text length
       const seed = text.length
       return (a.charCodeAt(0) + seed) % 2 === 0 ? 1 : -1
@@ -41,7 +41,19 @@ export function ColourfulText({ text }: { text: string }) {
     return () => clearInterval(interval)
   }, [mounted])
 
-  const chars = React.useMemo(() => text.split(''), [text])
+  const chars = React.useMemo(() => {
+    const counts = new Map<string, number>()
+
+    return text.split('').map((char) => {
+      const count = counts.get(char) ?? 0
+      counts.set(char, count + 1)
+
+      return {
+        char,
+        key: `${char}-${count}`,
+      }
+    })
+  }, [text])
 
   if (!mounted) {
     // Return a static version during SSR to avoid hydration mismatch
@@ -52,9 +64,9 @@ export function ColourfulText({ text }: { text: string }) {
     )
   }
 
-  return chars.map((char, index) => (
+  return chars.map(({ char, key }, index) => (
     <motion.span
-      key={`${char}-${index}`}
+      key={key}
       animate={{
         color: currentColors[index % currentColors.length],
         y: [0, -3, 0],

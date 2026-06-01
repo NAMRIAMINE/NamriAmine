@@ -82,7 +82,7 @@ export function Footer() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-muted-foreground text-sm mt-2"
         >
-          © 2025 {personalInfo.name}. All rights reserved.
+          © 2026 {personalInfo.name}. All rights reserved.
         </motion.p>
       </div>
     </footer>

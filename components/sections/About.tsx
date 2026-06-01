@@ -3,11 +3,11 @@
 
 import { Calendar, Globe, Layers, MapPin } from 'lucide-react'
 import { motion } from 'motion/react'
+import { SectionWrapper } from '@/components/shared/SectionWrapper'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { personalInfo } from '@/data/personal'
 import { projects } from '@/data/projects'
-import { SectionWrapper } from '@/components/shared/SectionWrapper'
 
 export function About() {
   const stats = [
@@ -44,7 +44,8 @@ export function About() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-muted-foreground text-lg"
           >
-            Passionate about creating innovative solutions
+            AI creative automation · industrial drone inspection · geospatial SaaS · precision
+            agriculture
           </motion.p>
         </SectionWrapper>
 
@@ -58,14 +59,16 @@ export function About() {
           >
             <h3 className="text-3xl font-bold">{personalInfo.title}</h3>
             <p className="text-muted-foreground text-lg leading-relaxed">
-              Experienced Full Stack Developer specializing in JavaScript and TypeScript with
-              expertise in modern frameworks. Building scalable, performant web applications since
-              2022.
+              Senior Full-Stack Developer with 6+ years building production systems across AI
+              creative automation, industrial drone inspection, precision agriculture, and
+              geospatial SaaS. Full stack ownership from Next.js/TypeScript frontends to FastAPI
+              backends with YOLOv8 CV pipelines and MapLibreGL geospatial interfaces.
             </p>
 
             <p className="text-muted-foreground text-lg leading-relaxed">
-              Strong background in precision agriculture, industrial inspection, and web platform
-              development with a proven track record of delivering quality solutions.
+              Currently at Talio shipping Creaboost — a Gemini-powered creative platform. Previously
+              built Indus Inspection, an end-to-end drone inspection platform for towers, pylons,
+              wind, and solar assets.
             </p>
 
             {/* Stats Grid */}
@@ -106,7 +109,10 @@ export function About() {
               <Card className="bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <div aria-hidden="true" className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                    <div
+                      aria-hidden="true"
+                      className="w-3 h-3 bg-green-500 rounded-full animate-pulse"
+                    />
                     Current Position
                   </CardTitle>
                 </CardHeader>

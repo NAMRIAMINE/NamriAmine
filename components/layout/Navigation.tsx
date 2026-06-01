@@ -59,7 +59,7 @@ export function Navigation() {
             </Avatar>
             <div>
               <h1 className="text-xl font-bold">{personalInfo.name}</h1>
-              <p className="text-xs text-muted-foreground">Full Stack Developer</p>
+              <p className="text-xs text-muted-foreground">Senior Full-Stack Developer</p>
             </div>
           </motion.div>
 
