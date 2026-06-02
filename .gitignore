@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local QA / screenshots
+screenshot-*.png
+qa-*.png
+dev-server*.log
+test-results/
+resume_render_check/
+
+# local tooling / session artifacts
+.playwright-mcp/
+.agents/
+.claude/
+skills-lock.json
+
+# local resume drafts (keep public/ copy tracked)
+Namri_Amine_Resume_*_fixed.docx

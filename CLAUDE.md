@@ -31,9 +31,7 @@ Single-page portfolio — Next.js 15 App Router, React 19, TypeScript, Tailwind 
 
 **Scroll progress** (`components/layout/ScrollProgress.tsx`): Single `ticking` boolean rAF guard — only one `requestAnimationFrame` queued at a time. No CSS transition on the bar (tracks instantly). Uses `will-change-transform`.
 
-**Aceternity components** (`components/aceternity/`): `3d-card.tsx` and `colourful-text.tsx` are present but currently unused. Do not delete — may be used in future. Do not import them unless intentionally adding back.
-
-**Theme**: Light-only. No dark mode. `next-themes` has been removed. `ThemeProvider` in `components/theme/theme-provider.tsx` is a thin wrapper around `MotionConfig reducedMotion="user"` only. Do not add dark mode back without updating globals.css, layout.tsx, all components, and removing the `@custom-variant dark` line that was intentionally deleted.
+**Theme**: Light-only. No dark mode. `next-themes` has been removed. `ThemeProvider` in `components/theme/theme-provider.tsx` is a thin wrapper around `MotionConfig reducedMotion="user"` only. Do not add dark mode back. The `@custom-variant dark` line was intentionally deleted from globals.css; re-adding it requires updating globals.css, layout.tsx, and all components. Do not add `dark:` utilities anywhere.
 
 **Reduced motion**: `MotionConfig reducedMotion="user"` wraps all children inside `ThemeProvider`. All `motion/*` components respect the OS reduce-motion setting automatically — no per-component handling needed.
 
