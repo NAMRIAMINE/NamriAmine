@@ -4,7 +4,7 @@ import type { LucideIcon } from 'lucide-react'
 import {
   Brain,
   Code,
-  Database,
+  Layers,
   Map as MapIcon,
   Monitor,
   Server,
@@ -40,32 +40,32 @@ import { skillCategories } from '@/data/skills'
 type SkillIcon = IconType | LucideIcon
 
 const categoryConfig: Record<string, { icon: LucideIcon; accent: string; chipAccent: string }> = {
-  frontend: {
+  coreWeb: {
     icon: Code,
     accent: 'text-sky-600',
     chipAccent: 'bg-sky-50 text-sky-700 border-sky-200',
   },
-  backend: {
+  backendData: {
     icon: Server,
     accent: 'text-emerald-600',
     chipAccent: 'bg-emerald-50 text-emerald-700 border-emerald-200',
   },
-  ai: {
+  productSystems: {
+    icon: Layers,
+    accent: 'text-violet-600',
+    chipAccent: 'bg-violet-50 text-violet-700 border-violet-200',
+  },
+  appliedAI: {
     icon: Brain,
     accent: 'text-indigo-600',
     chipAccent: 'bg-indigo-50 text-indigo-700 border-indigo-200',
   },
-  database: {
-    icon: Database,
-    accent: 'text-violet-600',
-    chipAccent: 'bg-violet-50 text-violet-700 border-violet-200',
-  },
-  devops: {
-    icon: Settings,
+  mobileDesktop: {
+    icon: Monitor,
     accent: 'text-rose-600',
     chipAccent: 'bg-rose-50 text-rose-700 border-rose-200',
   },
-  tools: {
+  testingDelivery: {
     icon: Terminal,
     accent: 'text-amber-600',
     chipAccent: 'bg-amber-50 text-amber-700 border-amber-200',
@@ -83,41 +83,41 @@ const skillIconMap: Record<string, SkillIcon> = {
   nextjs: SiNextdotjs,
   typescript: SiTypescript,
   tailwindcss: SiTailwindcss,
-  maplibregl: MapIcon,
+  shadcnui: SiRadixui,
+  zustand: FaPaw,
   reactkonva: Code,
   reactnative: SiReact,
   expo: Code,
   electron: Monitor,
-  shadcnui: SiRadixui,
-  zustand: FaPaw,
   python: SiPython,
   fastapi: SiFastapi,
   nodejs: SiNodedotjs,
   expressjs: SiExpress,
   restapis: TbApi,
   betterauth: Settings,
+  bullmqpro: Settings,
+  celery: Settings,
+  ssewebsockets: TbApi,
+  docker: SiDocker,
+  vercel: SiVercel,
+  githubactions: SiGithubactions,
   yolov8: Brain,
   onnxruntime: Brain,
   opencv: Brain,
   googlegeminisdk: Brain,
   aipipelines: Brain,
+  maplibregl: MapIcon,
   pyproj: MapIcon,
   postgresql: SiPostgresql,
   mysql: SiMysql,
   redis: SiRedis,
   prisma: SiPrisma,
   supabase: SiSupabase,
-  bullmqpro: Settings,
-  docker: SiDocker,
-  githubactions: SiGithubactions,
-  bunnycdn: Settings,
-  ssewebsockets: TbApi,
-  celery: Settings,
   gitgithub: SiGit,
-  vercel: SiVercel,
   vitest: Settings,
   pytest: Settings,
   playwright: Settings,
+  bunnycdn: Settings,
 }
 
 const getSkillIcon = (name: string) => {

@@ -38,6 +38,13 @@ const accentDots: Record<string, string> = {
   filahi: 'bg-emerald-500',
 }
 
+const outcomeAccent: Record<string, string> = {
+  'indus-inspection': 'bg-sky-50 border-sky-100 text-sky-800',
+  creaboost: 'bg-violet-50 border-violet-100 text-violet-800',
+  'dr-turbine': 'bg-indigo-50 border-indigo-100 text-indigo-800',
+  filahi: 'bg-emerald-50 border-emerald-100 text-emerald-800',
+}
+
 export function Projects() {
   return (
     <section
@@ -56,7 +63,7 @@ export function Projects() {
             Featured <span className="text-sky-600">Projects</span>
           </h2>
           <p className="text-slate-500 text-lg">
-            End-to-end platforms shipped across AI, geospatial, and industrial domains
+            End-to-end platforms shipped across SaaS, AI, geospatial, and industrial domains
           </p>
         </motion.div>
 
@@ -91,24 +98,37 @@ export function Projects() {
                     <span className="text-xs text-slate-500">{project.category}</span>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">
                     {project.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed mb-6">{project.description}</p>
 
-                  {/* Features */}
+                  {project.role && (
+                    <p className="text-sm text-slate-400 italic mb-3">{project.role}</p>
+                  )}
+
+                  <p className="text-slate-600 leading-relaxed mb-4">{project.description}</p>
+
+                  {project.outcome && (
+                    <div
+                      className={`mb-5 rounded-lg border px-4 py-3 ${outcomeAccent[project.id] ?? 'bg-slate-50 border-slate-100 text-slate-700'}`}
+                    >
+                      <p className="text-sm font-medium">{project.outcome}</p>
+                    </div>
+                  )}
+
+                  {/* Scope or Features */}
                   <div className="mb-6">
                     <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
-                      Key Features
+                      {project.scope ? 'Scope' : 'Key Features'}
                     </h4>
                     <div className="grid grid-cols-1 min-[360px]:grid-cols-2 gap-y-2 gap-x-4">
-                      {project.features.map((feature) => (
-                        <div key={`${project.id}-${feature}`} className="flex items-start gap-2">
+                      {(project.scope ?? project.features).map((item) => (
+                        <div key={`${project.id}-item-${item}`} className="flex items-start gap-2">
                           <div
                             aria-hidden="true"
                             className={`w-1.5 h-1.5 mt-1.5 rounded-full shrink-0 ${accentDots[project.id] ?? 'bg-slate-400'}`}
                           />
-                          <span className="text-sm text-slate-600">{feature}</span>
+                          <span className="text-sm text-slate-600">{item}</span>
                         </div>
                       ))}
                     </div>

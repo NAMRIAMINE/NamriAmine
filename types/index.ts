@@ -11,6 +11,9 @@ export interface Project {
   liveUrl?: string
   githubUrl?: string
   image?: string
+  role?: string
+  scope?: string[]
+  outcome?: string
 }
 
 export interface SkillItem {

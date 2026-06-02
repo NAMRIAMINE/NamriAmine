@@ -35,8 +35,8 @@ export function About() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-slate-500 text-lg"
           >
-            AI creative automation · industrial drone inspection · geospatial SaaS · precision
-            agriculture
+            Full-stack product engineering across SaaS, automation, geospatial, AI, mobile, and
+            desktop workflows
           </motion.p>
         </SectionWrapper>
 
@@ -50,16 +50,17 @@ export function About() {
           >
             <h3 className="text-2xl font-bold text-slate-900">{personalInfo.title}</h3>
             <p className="text-slate-600 text-lg leading-relaxed">
-              Senior Full-Stack Developer with 6+ years building production systems across AI
-              creative automation, industrial drone inspection, precision agriculture, and
-              geospatial SaaS. Full stack ownership from Next.js/TypeScript frontends to FastAPI
-              backends with YOLOv8 CV pipelines and MapLibreGL geospatial interfaces.
+              Senior JavaScript Full-Stack Developer with 6+ years building production platforms end
+              to end. Deep experience across Next.js/React frontends, Node.js/FastAPI backends,
+              PostgreSQL/MySQL/Redis data layers, auth systems, background queues, REST APIs, and
+              responsive UX — the full stack a SaaS product needs to ship.
             </p>
 
             <p className="text-slate-600 text-lg leading-relaxed">
-              Currently at Talio shipping Creaboost — a Gemini-powered creative platform. Previously
-              built Indus Inspection, an end-to-end drone inspection platform for towers, pylons,
-              wind, and solar assets.
+              Currently at Talio shipping Creaboost, a Gemini-powered creative platform with media
+              workflows and campaign-building UX. Previously built Indus Inspection, a full-stack
+              drone inspection system with AI defect review, geospatial positioning, and PDF/ZIP
+              export pipelines.
             </p>
 
             {/* Stats Grid */}

@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
 
-export const alt = 'Namri Amine - Senior Full-Stack Developer'
+export const alt = 'Namri Amine - Senior JavaScript Full-Stack Developer'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -54,7 +54,7 @@ export default function OgImage() {
           marginTop: '16px',
         }}
       >
-        Senior Full-Stack Developer
+        Senior JavaScript Full-Stack Developer
       </div>
 
       {/* Domain line */}
@@ -66,7 +66,7 @@ export default function OgImage() {
           fontWeight: 400,
         }}
       >
-        AI Platforms · Geospatial SaaS · Industrial Inspection
+        SaaS Platforms · Next.js · Node.js · FastAPI · AI/Geospatial
       </div>
 
       {/* Tech chips */}
@@ -78,7 +78,7 @@ export default function OgImage() {
           flexWrap: 'wrap',
         }}
       >
-        {['Next.js', 'TypeScript', 'FastAPI', 'YOLOv8', 'MapLibreGL'].map((tech) => (
+        {['Next.js', 'React', 'TypeScript', 'Node.js', 'FastAPI'].map((tech) => (
           <div
             key={tech}
             style={{

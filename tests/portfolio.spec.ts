@@ -33,7 +33,9 @@ for (const width of WIDTHS) {
 
 test('hero contains positioning text', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Senior Full-Stack')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    'Senior JavaScript Full-Stack',
+  )
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Developer')
 })
 

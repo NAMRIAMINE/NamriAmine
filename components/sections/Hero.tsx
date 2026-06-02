@@ -16,10 +16,13 @@ const STATUS_BADGES = [
 ] as const
 
 const DOMAIN_CHIPS = [
-  { label: 'Industrial AI', color: 'bg-sky-50 text-sky-700 border border-sky-200' },
-  { label: 'Geospatial SaaS', color: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
-  { label: 'Computer Vision', color: 'bg-indigo-50 text-indigo-700 border border-indigo-200' },
-  { label: 'AI Automation', color: 'bg-amber-50 text-amber-700 border border-amber-200' },
+  { label: 'Next.js / React', color: 'bg-sky-50 text-sky-700 border border-sky-200' },
+  { label: 'TypeScript', color: 'bg-blue-50 text-blue-700 border border-blue-200' },
+  { label: 'Node.js / FastAPI', color: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
+  { label: 'Databases & APIs', color: 'bg-violet-50 text-violet-700 border border-violet-200' },
+  { label: 'AI/CV Workflows', color: 'bg-indigo-50 text-indigo-700 border border-indigo-200' },
+  { label: 'Maps & Geospatial', color: 'bg-teal-50 text-teal-700 border border-teal-200' },
+  { label: 'Mobile / Desktop', color: 'bg-amber-50 text-amber-700 border border-amber-200' },
 ]
 
 export function Hero() {
@@ -56,7 +59,7 @@ export function Hero() {
               transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
               className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-slate-900"
             >
-              Senior Full-Stack <span className="text-sky-600">Developer</span>
+              Senior JavaScript Full-Stack <span className="text-sky-600">Developer</span>
             </motion.h1>
 
             <motion.p
@@ -65,10 +68,10 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed"
             >
-              Shipping complex <span className="text-sky-600 font-semibold">AI</span>,{' '}
-              <span className="text-emerald-600 font-semibold">geospatial</span>, and{' '}
-              <span className="text-indigo-600 font-semibold">industrial inspection</span> platforms
-              end to end. 6+ years: Next.js, FastAPI, YOLOv8.
+              I build production web platforms end to end: Next.js, React, TypeScript, Node/FastAPI,
+              databases, queues, and{' '}
+              <span className="text-indigo-600 font-semibold">AI/geospatial workflows</span> when
+              the product needs them. 6+ years.
             </motion.p>
           </div>
 

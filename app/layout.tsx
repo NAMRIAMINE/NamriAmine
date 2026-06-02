@@ -22,11 +22,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://namri-amine.vercel.app'),
   title:
-    'Namri Amine - Senior Full-Stack Developer | AI Platforms, Geospatial SaaS, Next.js, FastAPI',
+    'Namri Amine - Senior JavaScript Full-Stack Developer | Next.js, React, TypeScript, Node.js, FastAPI',
   description:
-    'Senior Full-Stack Developer with 6+ years shipping AI pipelines, geospatial SaaS, and industrial inspection platforms. Next.js, TypeScript, FastAPI, YOLOv8, MapLibreGL. Based in Casablanca, Morocco.',
+    'Senior JavaScript Full-Stack Developer with 6+ years building production SaaS platforms end to end. Next.js, React, TypeScript, Node.js, FastAPI, PostgreSQL, Redis, AI/geospatial workflows. Based in Casablanca, Morocco.',
   keywords:
-    'Senior Full Stack Developer, AI Platforms, Geospatial SaaS, Industrial Inspection, Next.js, FastAPI, TypeScript, React, YOLOv8, Computer Vision, Casablanca, Morocco, Remote Developer',
+    'Senior Full Stack Developer, JavaScript Developer, Next.js, React, TypeScript, Node.js, FastAPI, SaaS Platforms, REST APIs, AI Workflows, Geospatial, Casablanca, Morocco, Remote Developer',
   authors: [{ name: 'Namri Amine', url: 'https://linkedin.com/in/namriamine' }],
   alternates: {
     canonical: '/',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Namri Amine - Senior Full-Stack Developer',
     description:
-      'Shipping AI, geospatial, and industrial inspection platforms with Next.js, TypeScript, and FastAPI.',
+      'Building production SaaS platforms end to end with Next.js, React, TypeScript, Node.js, FastAPI, and AI/geospatial workflows.',
     url: '/',
     siteName: 'Namri Amine Portfolio',
     type: 'website',
@@ -47,9 +47,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Namri Amine - Senior Full-Stack Developer',
+    title: 'Namri Amine - Senior JavaScript Full-Stack Developer',
     description:
-      'Shipping AI, geospatial, and industrial inspection platforms with Next.js, TypeScript, and FastAPI.',
+      'Building production SaaS platforms end to end with Next.js, React, TypeScript, Node.js, FastAPI, and AI/geospatial workflows.',
   },
   robots: {
     index: true,
