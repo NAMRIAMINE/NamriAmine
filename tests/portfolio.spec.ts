@@ -40,9 +40,7 @@ test('hero contains positioning text', async ({ page }) => {
 test('primary CTA scrolls to projects section', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'View My Work' }).click()
-  await page.waitForTimeout(600)
-  const projectsSection = page.locator('#projects')
-  await expect(projectsSection).toBeInViewport()
+  await expect(page.locator('#projects')).toBeInViewport({ timeout: 5000 })
 })
 
 test('resume link points to correct PDF', async ({ page }) => {
@@ -98,6 +96,33 @@ test('html element does not have dark class', async ({ page }) => {
   expect(hasDark).toBe(false)
 })
 
+// ─── Static asset routes ─────────────────────────────────────────────────────
+
+test('opengraph-image route returns 200', async ({ page }) => {
+  const response = await page.goto('/opengraph-image')
+  expect(response?.status()).toBe(200)
+})
+
+test('resume PDF returns 200 with pdf content-type', async ({ request }) => {
+  const response = await request.get('/Namri_Amine_Resume.pdf')
+  expect(response.status()).toBe(200)
+  const contentType = response.headers()['content-type'] ?? ''
+  expect(contentType).toContain('pdf')
+})
+
+for (const image of [
+  '/indus-inspection.png',
+  '/creaboost.png',
+  '/dr-turbine.png',
+  '/filahi.png',
+  '/pdp.png',
+]) {
+  test(`public image ${image} returns 200`, async ({ page }) => {
+    const response = await page.goto(image)
+    expect(response?.status()).toBe(200)
+  })
+}
+
 // ─── Reduced motion ──────────────────────────────────────────────────────────
 
 test('page renders correctly under reduced motion preference', async ({ browser }) => {
@@ -106,7 +131,7 @@ test('page renders correctly under reduced motion preference', async ({ browser 
   })
   const page = await context.newPage()
   await page.goto('/')
-  await page.waitForLoadState('networkidle')
+  await page.waitForLoadState('load')
 
   // heading still present
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

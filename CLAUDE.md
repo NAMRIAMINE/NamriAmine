@@ -12,6 +12,7 @@ pnpm lint         # biome check (no fixes)
 pnpm lint:fix     # biome check --write --unsafe
 pnpm format       # biome format --write
 pnpm type-check   # tsc --noEmit
+pnpm test:e2e     # playwright e2e (requires prior pnpm build)
 ```
 
 Package manager: **pnpm** (not npm/yarn).
@@ -56,6 +57,18 @@ Single-page portfolio — Next.js 15 App Router, React 19, TypeScript, Tailwind 
 ## Public assets
 
 `public/` contains: `creaboost.png`, `dr-turbine.png`, `filahi.png`, `indus-inspection.png`, `pdp.png`, `Namri_Amine_Resume.pdf`, `Namri_Amine_Resume.docx`. All are referenced. Do not add unreferenced images — Next.js image optimization only helps files served via `<Image>`.
+
+## E2E tests
+
+Playwright (`tests/portfolio.spec.ts`) — 66 tests across Chromium desktop, Pixel 5 (mobile), Mobile Safari (WebKit).
+
+**Critical**: tests run against the **production build** on port 3001 (`pnpm exec next start -p 3001`). Always run `pnpm build` before `pnpm test:e2e`. Do not switch back to `pnpm dev` as the test server — dev HMR causes chunk 404s that silently break React hydration and fail click-handler tests.
+
+Coverage: overflow at 5 breakpoints, hero content, CTA scroll, resume PDF (via `request` fixture), project order, mobile menu, light-only checks, reduced motion, OG image route, all 5 public project images.
+
+## Overflow handling
+
+`html { overflow-x: hidden }` is set in `globals.css` (raw CSS, not utility). The `<body>` also has `overflow-x-hidden` (Tailwind utility in `layout.tsx`) and the `#projects` section has `overflow-x-hidden`. All three are intentional: Framer Motion animated elements computed `overflow: visible` in Playwright's `getComputedStyle`, so the raw CSS on `html` is the reliable anchor for `document.documentElement.scrollWidth` tests.
 
 ## Environment
 
