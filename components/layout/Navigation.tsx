@@ -35,14 +35,13 @@ export function Navigation() {
           {/* Logo */}
           <motion.button
             type="button"
-            whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-3"
             onClick={() => scrollToSection('home')}
             aria-label="Go to top"
           >
             <Avatar className="w-10 h-10">
               <AvatarFallback className="bg-sky-600 text-white font-bold">
-                <Image src="/pdp.png" alt="Namri Amine" width={100} height={100} />
+                <Image src="/pdp.webp" alt="Namri Amine" width={100} height={100} />
               </AvatarFallback>
             </Avatar>
             <div>

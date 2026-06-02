@@ -33,15 +33,14 @@ for (const width of WIDTHS) {
 
 test('hero contains positioning text', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'Senior JavaScript Full-Stack',
-  )
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Senior JavaScript')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Full-Stack')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Developer')
 })
 
 test('primary CTA scrolls to projects section', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('button', { name: 'View My Work' }).click()
+  await page.getByRole('button', { name: 'View Work' }).click()
   await expect(page.locator('#projects')).toBeInViewport({ timeout: 5000 })
 })
 
@@ -113,11 +112,11 @@ test('resume PDF returns 200 with pdf content-type', async ({ request }) => {
 })
 
 for (const image of [
-  '/indus-inspection.png',
-  '/creaboost.png',
-  '/dr-turbine.png',
-  '/filahi.png',
-  '/pdp.png',
+  '/indus-inspection.webp',
+  '/creaboost.webp',
+  '/dr-turbine.webp',
+  '/filahi.webp',
+  '/pdp.webp',
 ]) {
   test(`public image ${image} returns 200`, async ({ page }) => {
     const response = await page.goto(image)

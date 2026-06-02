@@ -45,10 +45,10 @@ export const projects: Project[] = [
       'Workspace auth and roles',
     ],
     outcome:
-      'End-to-end platform for drone inspection of towers, pylons, wind, and solar assets — from image upload through AI defect review to client-ready PDF reports.',
+      'End-to-end platform for drone inspection of towers, pylons, wind, and solar assets: from image upload through AI defect review to client-ready PDF reports.',
     status: 'Production Ready',
     category: 'Full-Stack SaaS / Industrial AI',
-    image: '/indus-inspection.png',
+    image: '/indus-inspection.webp',
   },
   {
     id: 'creaboost',
@@ -89,7 +89,7 @@ export const projects: Project[] = [
       'Production AI creative automation platform: Gemini brand import, batch media processing, accessible campaign builder shipped to Talio clients.',
     status: 'Production',
     category: 'Full-Stack SaaS / AI Automation',
-    image: '/creaboost.png',
+    image: '/creaboost.webp',
   },
   {
     id: 'dr-turbine',
@@ -126,7 +126,7 @@ export const projects: Project[] = [
       'Drone-based wind turbine blade inspection platform with AI damage detection and side-by-side annotation tools.',
     status: 'In Development',
     category: 'Industrial Tech',
-    image: '/dr-turbine.png',
+    image: '/dr-turbine.webp',
   },
   {
     id: 'filahi',
@@ -152,6 +152,6 @@ export const projects: Project[] = [
       'Precision agriculture platform combining drone, satellite, and AI analytics with real-time alerts and PDF/CSV reporting.',
     status: 'Production',
     category: 'Agriculture Tech',
-    image: '/filahi.png',
+    image: '/filahi.webp',
   },
 ]

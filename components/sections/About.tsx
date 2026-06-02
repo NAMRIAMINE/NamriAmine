@@ -53,7 +53,7 @@ export function About() {
               Senior JavaScript Full-Stack Developer with 6+ years building production platforms end
               to end. Deep experience across Next.js/React frontends, Node.js/FastAPI backends,
               PostgreSQL/MySQL/Redis data layers, auth systems, background queues, REST APIs, and
-              responsive UX — the full stack a SaaS product needs to ship.
+              responsive UX: the full stack a SaaS product needs to ship.
             </p>
 
             <p className="text-slate-600 text-lg leading-relaxed">
@@ -100,7 +100,7 @@ export function About() {
               </div>
               <p className="font-semibold text-sky-600 mb-1">{personalInfo.experience.position}</p>
               <p className="text-slate-500 text-sm mb-4">
-                {personalInfo.experience.company} · {personalInfo.experience.startDate} – Present
+                {personalInfo.experience.company} · {personalInfo.experience.startDate} - Present
               </p>
               <div className="flex flex-wrap gap-2">
                 {projects.slice(0, 3).map((project) => (

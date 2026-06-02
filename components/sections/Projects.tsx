@@ -1,9 +1,15 @@
 'use client'
-import { Calendar, CheckCircle, Clock, Zap } from 'lucide-react'
+
+import { CheckCircle, Clock, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { projects } from '@/data/projects'
+
+const FLAGSHIP_COUNT = 2
+const FLAGSHIP_TECH_LIMIT = 8
+const FLAGSHIP_SCOPE_LIMIT = 5
+const SUPPORTING_TECH_LIMIT = 5
 
 const getStatusIcon = (status: string) => {
   switch (status) {
@@ -31,134 +37,120 @@ const getStatusStyle = (status: string) => {
   }
 }
 
-const accentDots: Record<string, string> = {
-  'indus-inspection': 'bg-sky-500',
-  creaboost: 'bg-violet-500',
-  'dr-turbine': 'bg-indigo-500',
-  filahi: 'bg-emerald-500',
-}
-
-const outcomeAccent: Record<string, string> = {
-  'indus-inspection': 'bg-sky-50 border-sky-100 text-sky-800',
-  creaboost: 'bg-violet-50 border-violet-100 text-violet-800',
-  'dr-turbine': 'bg-indigo-50 border-indigo-100 text-indigo-800',
-  filahi: 'bg-emerald-50 border-emerald-100 text-emerald-800',
-}
-
 export function Projects() {
+  const flagship = projects.slice(0, FLAGSHIP_COUNT)
+  const supporting = projects.slice(FLAGSHIP_COUNT)
+
   return (
     <section
       id="projects"
       className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24 bg-white overflow-x-hidden"
     >
       <div className="max-w-6xl mx-auto">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-14"
+          className="mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">
             Featured <span className="text-sky-600">Projects</span>
           </h2>
-          <p className="text-slate-500 text-lg">
+          <p className="text-slate-500 text-lg max-w-2xl">
             End-to-end platforms shipped across SaaS, AI, geospatial, and industrial domains
           </p>
         </motion.div>
 
-        <div className="space-y-10">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="rounded-2xl border border-slate-200 bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="grid lg:grid-cols-2 gap-0">
-                {/* Project Info */}
-                <div
-                  className={`p-6 sm:p-8 lg:p-10 flex flex-col justify-center ${index % 2 === 1 ? 'lg:order-2' : ''}`}
-                >
-                  {/* Meta row */}
-                  <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span
-                      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${getStatusStyle(project.status)}`}
-                    >
-                      {getStatusIcon(project.status)}
-                      {project.status}
-                    </span>
-                    <span className="flex items-center gap-1 text-xs text-slate-500">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {project.year}
-                    </span>
-                    <span className="text-xs text-slate-400">·</span>
-                    <span className="text-xs text-slate-500">{project.category}</span>
-                  </div>
+        {/* Flagship case studies */}
+        <div className="space-y-12">
+          {flagship.map((project, index) => {
+            const isAlt = index % 2 === 1
+            const scope = (project.scope ?? project.features).slice(0, FLAGSHIP_SCOPE_LIMIT)
+            const tech = project.tech.slice(0, FLAGSHIP_TECH_LIMIT)
 
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">
-                    {project.title}
-                  </h3>
-
-                  {project.role && (
-                    <p className="text-sm text-slate-400 italic mb-3">{project.role}</p>
-                  )}
-
-                  <p className="text-slate-600 leading-relaxed mb-4">{project.description}</p>
-
-                  {project.outcome && (
-                    <div
-                      className={`mb-5 rounded-lg border px-4 py-3 ${outcomeAccent[project.id] ?? 'bg-slate-50 border-slate-100 text-slate-700'}`}
-                    >
-                      <p className="text-sm font-medium">{project.outcome}</p>
+            return (
+              <motion.article
+                key={project.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="rounded-2xl border border-slate-200 bg-white overflow-hidden hover:shadow-md transition-shadow duration-300"
+              >
+                <div className="grid lg:grid-cols-2 gap-0">
+                  {/* Content */}
+                  <div
+                    className={`p-7 sm:p-9 lg:p-10 flex flex-col justify-center ${isAlt ? 'lg:order-2' : ''}`}
+                  >
+                    {/* Meta row */}
+                    <div className="flex flex-wrap items-center gap-2 mb-4">
+                      <span
+                        className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${getStatusStyle(project.status)}`}
+                      >
+                        {getStatusIcon(project.status)}
+                        {project.status}
+                      </span>
+                      <span className="text-xs text-slate-400">{project.year}</span>
+                      <span className="text-xs text-slate-300">·</span>
+                      <span className="text-xs text-slate-500">{project.category}</span>
                     </div>
-                  )}
 
-                  {/* Scope or Features */}
-                  <div className="mb-6">
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
-                      {project.scope ? 'Scope' : 'Key Features'}
-                    </h4>
-                    <div className="grid grid-cols-1 min-[360px]:grid-cols-2 gap-y-2 gap-x-4">
-                      {(project.scope ?? project.features).map((item) => (
-                        <div key={`${project.id}-item-${item}`} className="flex items-start gap-2">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">
+                      {project.title}
+                    </h3>
+
+                    {project.role && <p className="text-sm text-slate-400 mb-5">{project.role}</p>}
+
+                    {/* Outcome callout */}
+                    {project.outcome && (
+                      <div className="mb-6 border-l-2 border-sky-500 pl-4 py-1.5 bg-sky-50 rounded-r-lg">
+                        <p className="text-sm text-slate-700 leading-relaxed">{project.outcome}</p>
+                      </div>
+                    )}
+
+                    {/* Scope */}
+                    <div className="mb-5">
+                      <p className="text-xs font-medium text-slate-400 mb-2.5">Scope</p>
+                      <div className="space-y-1.5">
+                        {scope.map((item) => (
                           <div
-                            aria-hidden="true"
-                            className={`w-1.5 h-1.5 mt-1.5 rounded-full shrink-0 ${accentDots[project.id] ?? 'bg-slate-400'}`}
-                          />
-                          <span className="text-sm text-slate-600">{item}</span>
-                        </div>
-                      ))}
+                            key={`${project.id}-scope-${item}`}
+                            className="flex items-start gap-2"
+                          >
+                            <div
+                              aria-hidden="true"
+                              className="w-1.5 h-1.5 mt-1.5 rounded-full shrink-0 bg-slate-400"
+                            />
+                            <span className="text-sm text-slate-600">{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Stack */}
+                    <div>
+                      <p className="text-xs font-medium text-slate-400 mb-2.5">Stack</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {tech.map((t) => (
+                          <Badge
+                            key={t}
+                            variant="secondary"
+                            className="text-xs bg-slate-100 text-slate-700 border-0 font-normal"
+                          >
+                            {t}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Tech Stack */}
-                  <div>
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
-                      Stack
-                    </h4>
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.tech.map((tech) => (
-                        <Badge
-                          key={tech}
-                          variant="secondary"
-                          className="text-xs bg-slate-100 text-slate-700 border-0 font-normal"
-                        >
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Project Screenshot */}
-                <div
-                  className={`relative bg-slate-50 flex items-center justify-center min-h-[280px] sm:min-h-[320px] ${index % 2 === 1 ? 'lg:order-1' : ''}`}
-                >
-                  {project.image ? (
-                    <div className="absolute inset-0">
+                  {/* Screenshot */}
+                  <div
+                    className={`relative bg-slate-50 min-h-[260px] sm:min-h-[300px] lg:min-h-[440px] ${isAlt ? 'lg:order-1' : ''}`}
+                  >
+                    {project.image ? (
                       <Image
                         src={project.image}
                         alt={`${project.title} screenshot`}
@@ -167,26 +159,96 @@ export function Projects() {
                         loading="lazy"
                         className="object-cover object-center"
                       />
-                    </div>
-                  ) : (
-                    <div className="text-center p-8">
-                      <div className="w-16 h-16 mx-auto rounded-xl bg-slate-200 flex items-center justify-center text-slate-500 text-xl font-bold mb-3">
-                        {project.title
-                          .split(' ')
-                          .map((w) => w[0])
-                          .join('')}
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-slate-400 text-sm">No preview</span>
                       </div>
-                      <span className="text-slate-400 text-sm">Preview unavailable</span>
-                    </div>
-                  )}
-                  {/* Year overlay */}
-                  <span className="absolute top-3 right-3 text-xs font-mono font-medium bg-white/90 text-slate-600 px-2 py-1 rounded-md shadow-sm border border-slate-200">
-                    {project.year}
-                  </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </motion.article>
-          ))}
+              </motion.article>
+            )
+          })}
+        </div>
+
+        {/* Supporting projects */}
+        <div className="mt-16 grid md:grid-cols-2 gap-6">
+          {supporting.map((project, index) => {
+            const scope = (project.scope ?? project.features).slice(0, 4)
+            const tech = project.tech.slice(0, SUPPORTING_TECH_LIMIT)
+
+            return (
+              <motion.article
+                key={project.id}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="rounded-xl border border-slate-200 bg-white overflow-hidden hover:shadow-md transition-shadow duration-300"
+              >
+                {/* Image */}
+                {project.image && (
+                  <div className="relative h-44 bg-slate-50">
+                    <Image
+                      src={project.image}
+                      alt={`${project.title} screenshot`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      loading="lazy"
+                      className="object-cover object-center"
+                    />
+                  </div>
+                )}
+
+                {/* Content */}
+                <div className="p-6">
+                  {/* Meta */}
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <span
+                      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${getStatusStyle(project.status)}`}
+                    >
+                      {getStatusIcon(project.status)}
+                      {project.status}
+                    </span>
+                    <span className="text-xs text-slate-400">{project.year}</span>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-slate-900 mb-1">{project.title}</h3>
+                  <p className="text-xs text-slate-400 mb-3">{project.category}</p>
+
+                  {project.outcome && (
+                    <p className="text-sm text-slate-600 mb-4 leading-relaxed">{project.outcome}</p>
+                  )}
+
+                  {/* Scope */}
+                  <div className="mb-4 space-y-1.5">
+                    {scope.map((item) => (
+                      <div key={`${project.id}-scope-${item}`} className="flex items-start gap-2">
+                        <div
+                          aria-hidden="true"
+                          className="w-1.5 h-1.5 mt-1.5 rounded-full shrink-0 bg-slate-300"
+                        />
+                        <span className="text-xs text-slate-600">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Stack */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {tech.map((t) => (
+                      <Badge
+                        key={t}
+                        variant="secondary"
+                        className="text-xs bg-slate-100 text-slate-600 border-0 font-normal"
+                      >
+                        {t}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </motion.article>
+            )
+          })}
         </div>
       </div>
     </section>

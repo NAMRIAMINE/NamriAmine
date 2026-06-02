@@ -59,7 +59,7 @@ export function Contact() {
             Let&apos;s <span className="text-rose-500">Connect</span>
           </h2>
           <p className="text-slate-500 text-lg max-w-xl">
-            Open to senior full-stack and engineering lead roles. Based in Casablanca — available
+            Open to senior full-stack and engineering lead roles. Based in Casablanca, available
             remote or hybrid.
           </p>
         </motion.div>

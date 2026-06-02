@@ -56,7 +56,7 @@ Single-page portfolio — Next.js 15 App Router, React 19, TypeScript, Tailwind 
 
 ## Public assets
 
-`public/` contains: `creaboost.png`, `dr-turbine.png`, `filahi.png`, `indus-inspection.png`, `pdp.png`, `Namri_Amine_Resume.pdf`, `Namri_Amine_Resume.docx`. All are referenced. Do not add unreferenced images — Next.js image optimization only helps files served via `<Image>`.
+`public/` contains: `creaboost.webp`, `dr-turbine.webp`, `filahi.webp`, `indus-inspection.webp`, `pdp.webp`, `Namri_Amine_Resume.pdf`, `Namri_Amine_Resume.docx`. All are referenced. Do not add unreferenced images — Next.js image optimization only helps files served via `<Image>`.
 
 ## E2E tests
 
