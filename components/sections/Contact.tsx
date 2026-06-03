@@ -1,102 +1,127 @@
 'use client'
 
-import { Github, Linkedin, Mail, Phone } from 'lucide-react'
+import { ArrowUpRight, Github, Linkedin, Phone } from 'lucide-react'
 import { motion } from 'motion/react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 import { personalInfo } from '@/data/personal'
 
-const contactMethods = [
-  {
-    icon: Mail,
-    title: 'Email',
-    value: personalInfo.email,
-    href: `mailto:${personalInfo.email}`,
-    accent: 'text-sky-600',
-    bg: 'bg-sky-50',
-    border: 'border-sky-200',
-  },
-  {
-    icon: Phone,
-    title: 'Phone',
-    value: personalInfo.phone,
-    href: `tel:${personalInfo.phone}`,
-    accent: 'text-emerald-600',
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-200',
-  },
+const CONTACT_LINKS = [
   {
     icon: Linkedin,
-    title: 'LinkedIn',
+    label: 'LinkedIn',
     value: '/in/namriamine',
     href: personalInfo.linkedin,
-    accent: 'text-indigo-600',
-    bg: 'bg-indigo-50',
-    border: 'border-indigo-200',
   },
   {
     icon: Github,
-    title: 'GitHub',
+    label: 'GitHub',
     value: 'github.com/namriamine',
     href: 'https://github.com/namriamine',
-    accent: 'text-slate-700',
-    bg: 'bg-slate-100',
-    border: 'border-slate-200',
   },
-]
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: personalInfo.phone,
+    href: `tel:${personalInfo.phone}`,
+  },
+] as const
 
 export function Contact() {
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24 bg-white">
-      <div className="max-w-4xl mx-auto">
+    <section id="contact" className="scroll-mt-24 bg-white px-4 py-24 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-14"
+          transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+          className="rounded-[2.25rem] bg-sky-100/70 p-2 shadow-[0_28px_80px_rgba(2,132,199,0.12)]"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">
-            Let&apos;s <span className="text-rose-500">Connect</span>
-          </h2>
-          <p className="text-slate-500 text-lg max-w-xl">
-            Open to senior full-stack and engineering lead roles. Based in Casablanca, available
-            remote or hybrid.
-          </p>
-        </motion.div>
+          <div className="grid gap-8 rounded-[1.75rem] bg-white p-6 text-slate-950 ring-1 ring-sky-100 sm:p-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:p-10">
+            <div>
+              <p className="text-sm font-medium text-sky-700">
+                Available for contract and full-time
+              </p>
+              <h2 className="mt-5 max-w-[10ch] text-4xl font-semibold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+                Let&apos;s build the next platform.
+              </h2>
+              <p className="mt-6 max-w-[54ch] text-base leading-7 text-slate-600 sm:text-lg">
+                I can join as a senior full-stack developer for SaaS, product systems, AI workflows,
+                geospatial interfaces, or client delivery missions.
+              </p>
 
-        <div className="grid sm:grid-cols-2 gap-4">
-          {contactMethods.map((method, index) => (
-            <motion.div
-              key={method.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.1 + index * 0.07 }}
-            >
-              <Link
-                href={method.href}
-                target={method.href.startsWith('http') ? '_blank' : undefined}
-                rel={method.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="group flex items-center gap-4 p-5 rounded-xl border border-slate-200 bg-white hover:shadow-md hover:border-slate-300 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-sky-600"
-                aria-label={`${method.title}: ${method.value}`}
-              >
-                <div
-                  className={`w-10 h-10 rounded-lg ${method.bg} border ${method.border} flex items-center justify-center shrink-0`}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button
+                  asChild
+                  size="lg"
+                  className="group rounded-full bg-sky-600 px-5 pr-2 text-white shadow-[0_18px_45px_rgba(2,132,199,0.2)] transition-colors duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-sky-700 active:translate-y-px"
                 >
-                  <method.icon className={`w-5 h-5 ${method.accent}`} aria-hidden="true" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-0.5">
-                    {method.title}
-                  </p>
-                  <p className="text-sm font-medium text-slate-800 truncate group-hover:text-sky-600 transition-colors">
-                    {method.value}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+                  <Link href={`mailto:${personalInfo.email}`}>
+                    Email me
+                    <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-300 group-hover:translate-x-0.5">
+                      <ArrowUpRight className="h-4 w-4" />
+                    </span>
+                  </Link>
+                </Button>
+
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full border-slate-300 bg-white px-5 text-slate-800 transition-colors duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 active:translate-y-px"
+                >
+                  <Link
+                    href="/Namri_Amine_Resume.pdf"
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Resume PDF
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="rounded-[1.5rem] bg-[#f8fbff] p-4 ring-1 ring-slate-200/80">
+              <div className="rounded-[1.1rem] bg-white p-4 text-slate-950 ring-1 ring-slate-200/70">
+                <p className="text-xs font-medium text-slate-400">Direct email</p>
+                <Link
+                  href={`mailto:${personalInfo.email}`}
+                  className="mt-2 block truncate text-lg font-semibold text-slate-950 hover:text-sky-700"
+                >
+                  {personalInfo.email}
+                </Link>
+                <p className="mt-4 text-sm leading-6 text-slate-500">
+                  Based in {personalInfo.location}. Remote contract and full-time roles are both in
+                  scope.
+                </p>
+              </div>
+
+              <div className="mt-3 space-y-2">
+                {CONTACT_LINKS.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    target={item.href.startsWith('http') ? '_blank' : undefined}
+                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="group flex items-center justify-between gap-3 rounded-2xl bg-white px-4 py-3 text-slate-800 ring-1 ring-slate-200/80 transition-colors duration-300 hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
+                    aria-label={`${item.label}: ${item.value}`}
+                  >
+                    <span className="flex min-w-0 items-center gap-3">
+                      <item.icon className="h-4 w-4 shrink-0 text-sky-600" aria-hidden="true" />
+                      <span className="truncate text-sm font-medium">{item.value}</span>
+                    </span>
+                    <ArrowUpRight
+                      className="h-4 w-4 shrink-0 text-slate-400 transition-transform duration-300 group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )

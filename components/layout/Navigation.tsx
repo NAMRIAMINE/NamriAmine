@@ -3,7 +3,6 @@
 import { Menu } from 'lucide-react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { personalInfo } from '@/data/personal'
@@ -24,91 +23,97 @@ export function Navigation() {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
       aria-label="Primary"
-      className="fixed top-0 w-full z-50 h-16 backdrop-blur-md bg-white/90 border-b border-slate-200"
+      className="fixed inset-x-0 top-3 z-50 px-3 sm:px-6"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div className="flex h-full justify-between items-center">
-          {/* Logo */}
-          <motion.button
-            type="button"
-            className="flex items-center space-x-3"
-            onClick={() => scrollToSection('home')}
-            aria-label="Go to top"
-          >
-            <Avatar className="w-10 h-10">
-              <AvatarFallback className="bg-sky-600 text-white font-bold">
-                <Image src="/pdp.webp" alt="Namri Amine" width={100} height={100} />
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <span className="block text-xl font-bold text-slate-900">{personalInfo.name}</span>
-              <span className="block text-xs text-slate-500">Senior Full-Stack Developer</span>
-            </div>
-          </motion.button>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-6">
-            {navigationSections.map((section) => (
-              <motion.div key={section.id} whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleNavClick(section.id)}
-                  className={`capitalize transition-all duration-300 relative ${
-                    activeSection === section.id
-                      ? 'text-sky-600 font-semibold'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                  aria-current={activeSection === section.id ? 'page' : undefined}
-                >
-                  {section.label}
-                  {activeSection === section.id && (
-                    <motion.div
-                      layoutId="activeSection"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-600 rounded-full"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </Button>
-              </motion.div>
-            ))}
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full bg-white/88 px-2.5 shadow-[0_18px_55px_rgba(15,23,42,0.12)] ring-1 ring-slate-200/80 backdrop-blur-md">
+        <motion.button
+          type="button"
+          className="flex min-w-0 items-center gap-2 rounded-full py-1 pl-1 pr-3 text-left transition-colors duration-300 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+          onClick={() => scrollToSection('home')}
+          aria-label="Go to top"
+        >
+          <div className="h-10 w-10 overflow-hidden rounded-full ring-1 ring-slate-200">
+            <Image
+              src="/pdp.webp"
+              alt="Namri Amine"
+              width={40}
+              height={40}
+              className="h-full w-full object-cover"
+            />
           </div>
+          <span className="hidden min-w-0 sm:block">
+            <span className="block truncate text-sm font-semibold text-slate-950">
+              {personalInfo.name}
+            </span>
+            <span className="block truncate text-[11px] text-slate-500">{personalInfo.title}</span>
+          </span>
+        </motion.button>
 
-          {/* Mobile Menu */}
-          <Sheet open={isMobileMenuOpen} onOpenChange={toggleMobileMenu}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                aria-label="Open navigation menu"
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <SheetTitle className="sr-only">Navigation menu</SheetTitle>
-              <div className="flex flex-col space-y-4 pt-6">
-                {navigationSections.map((section) => (
+        <div className="hidden items-center gap-1 md:flex">
+          {navigationSections.map((section) => (
+            <Button
+              key={section.id}
+              variant="ghost"
+              onClick={() => handleNavClick(section.id)}
+              className={`relative h-9 rounded-full px-3 text-xs font-medium capitalize transition-colors duration-300 ${
+                activeSection === section.id
+                  ? 'text-slate-950'
+                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+              }`}
+              aria-current={activeSection === section.id ? 'page' : undefined}
+            >
+              {activeSection === section.id && (
+                <motion.span
+                  layoutId="activeSection"
+                  className="absolute inset-0 rounded-full bg-sky-50 ring-1 ring-sky-100"
+                  transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+                />
+              )}
+              <span className="relative z-10">{section.label}</span>
+            </Button>
+          ))}
+        </div>
+
+        <Sheet open={isMobileMenuOpen} onOpenChange={toggleMobileMenu}>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full md:hidden"
+              aria-label="Open navigation menu"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right">
+            <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+            <div className="flex flex-col space-y-3 pt-6">
+              {navigationSections.map((section, index) => (
+                <motion.div
+                  key={section.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, delay: index * 0.04 }}
+                >
                   <Button
-                    key={section.id}
                     variant="ghost"
                     onClick={() => handleNavClick(section.id)}
-                    className={`justify-start ${
-                      activeSection === section.id ? 'bg-sky-50 text-sky-600' : ''
+                    className={`w-full justify-start rounded-2xl ${
+                      activeSection === section.id ? 'bg-sky-50 text-sky-700' : 'text-slate-700'
                     }`}
                   >
-                    <section.icon className="w-4 h-4 mr-2" />
+                    <section.icon className="mr-2 h-4 w-4" />
                     {section.label}
                   </Button>
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+                </motion.div>
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </motion.nav>
   )

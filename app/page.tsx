@@ -24,7 +24,7 @@ export default function HomePage() {
     <div className="relative min-h-screen">
       <Navigation />
       <ScrollProgress />
-      <main id="main-content" tabIndex={-1} className="pt-16">
+      <main id="main-content" tabIndex={-1}>
         <Script id="ld-json-person" type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',

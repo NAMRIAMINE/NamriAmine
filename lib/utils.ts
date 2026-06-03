@@ -11,6 +11,7 @@ export function scrollToSection(sectionId: string) {
   const element = document.getElementById(sectionId)
   if (element) {
     const elementPosition = element.offsetTop - SCROLL_OFFSET
-    window.scrollTo({ top: elementPosition, behavior: 'smooth' })
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: elementPosition, behavior: reduced ? 'instant' : 'smooth' })
   }
 }

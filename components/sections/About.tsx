@@ -1,138 +1,121 @@
 'use client'
 
-import { Calendar, Globe, Layers, MapPin } from 'lucide-react'
+import { Calendar, Globe2, Layers3, MapPin } from 'lucide-react'
 import { motion } from 'motion/react'
-import { SectionWrapper } from '@/components/shared/SectionWrapper'
-import { Badge } from '@/components/ui/badge'
 import { personalInfo } from '@/data/personal'
 import { projects } from '@/data/projects'
 
+const STATS = [
+  {
+    label: 'Years building production software',
+    value: personalInfo.experience.years,
+    icon: Calendar,
+  },
+  { label: 'Major product systems delivered', value: '15+', icon: Layers3 },
+  { label: 'Primary delivery stack', value: 'JS/TS', icon: Globe2 },
+  { label: 'Based in Casablanca, working remote', value: 'MA', icon: MapPin },
+] as const
+
+const OPERATING_MODEL = [
+  'Translate product requirements into frontend, backend, data, and deployment scope.',
+  'Own user-facing workflows, API contracts, auth, queues, media handling, and reporting.',
+  'Integrate advanced domains like AI, computer vision, maps, and industrial inspection when needed.',
+] as const
+
 export function About() {
-  const stats = [
-    { label: 'Years Experience', value: personalInfo.experience.years, icon: Calendar },
-    { label: 'Major Projects', value: '15+', icon: Layers },
-    { label: 'Technologies', value: '20+', icon: Globe },
-    { label: 'Languages', value: '3', icon: MapPin },
-  ]
-
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 scroll-mt-24">
-      <div className="max-w-6xl mx-auto">
-        <SectionWrapper className="mb-14">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-slate-900 mb-3"
-          >
-            About <span className="text-sky-600">Me</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-slate-500 text-lg"
-          >
-            Full-stack product engineering across SaaS, automation, geospatial, AI, mobile, and
-            desktop workflows
-          </motion.p>
-        </SectionWrapper>
-
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+    <section id="about" className="scroll-mt-24 bg-[#f8fbff] px-4 py-24 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-6"
+            transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
           >
-            <h3 className="text-2xl font-bold text-slate-900">{personalInfo.title}</h3>
-            <p className="text-slate-600 text-lg leading-relaxed">
-              Senior JavaScript Full-Stack Developer with 6+ years building production platforms end
-              to end. Deep experience across Next.js/React frontends, Node.js/FastAPI backends,
-              PostgreSQL/MySQL/Redis data layers, auth systems, background queues, REST APIs, and
-              responsive UX: the full stack a SaaS product needs to ship.
+            <h2 className="max-w-[9ch] text-4xl font-semibold leading-[0.98] tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-6xl">
+              Product engineer, full stack by default.
+            </h2>
+            <p className="mt-6 max-w-[56ch] text-base leading-7 text-slate-600 sm:text-lg">
+              Full-stack product engineering across SaaS, automation, geospatial, AI, mobile, and
+              desktop workflows.
             </p>
-
-            <p className="text-slate-600 text-lg leading-relaxed">
-              Currently at Talio shipping Creaboost, a Gemini-powered creative platform with media
-              workflows and campaign-building UX. Previously built Indus Inspection, a full-stack
-              drone inspection system with AI defect review, geospatial positioning, and PDF/ZIP
-              export pipelines.
-            </p>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-3 py-4">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.3 + index * 0.07 }}
-                  className="flex flex-col items-center text-center p-4 rounded-xl bg-white border border-slate-200"
-                >
-                  <stat.icon className="w-5 h-5 mb-2 text-sky-600" />
-                  <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-                  <div className="text-xs text-slate-500 mt-0.5">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-5"
+            transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1], delay: 0.08 }}
+            className="space-y-8"
           >
-            {/* Current Position */}
-            <div className="rounded-xl border border-slate-200 bg-white p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div
-                  aria-hidden="true"
-                  className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"
-                />
-                <h4 className="font-semibold text-slate-800">Current Position</h4>
-              </div>
-              <p className="font-semibold text-sky-600 mb-1">{personalInfo.experience.position}</p>
-              <p className="text-slate-500 text-sm mb-4">
-                {personalInfo.experience.company} · {personalInfo.experience.startDate} - Present
+            <div className="space-y-5 border-y border-slate-200 py-8">
+              <p className="text-lg leading-8 text-slate-700">
+                Senior JavaScript Full-Stack Developer with 6+ years building production platforms
+                end to end: Next.js/React interfaces, Node.js/FastAPI services,
+                PostgreSQL/MySQL/Redis data layers, auth, queues, REST APIs, and responsive UX.
               </p>
-              <div className="flex flex-wrap gap-2">
-                {projects.slice(0, 3).map((project) => (
-                  <Badge
-                    key={project.id}
-                    variant="secondary"
-                    className="bg-slate-100 text-slate-700 border-0"
-                  >
-                    {project.title}
-                  </Badge>
-                ))}
-              </div>
+              <p className="text-lg leading-8 text-slate-700">
+                Currently at Talio shipping Creaboost. Previously built Indus Inspection, a drone
+                inspection system with AI defect review, geospatial positioning, and PDF/ZIP export
+                pipelines.
+              </p>
             </div>
 
-            {/* Languages */}
-            <div className="rounded-xl border border-slate-200 bg-white p-6">
-              <h4 className="font-semibold text-slate-800 mb-4">Languages</h4>
-              <div className="space-y-3">
-                {personalInfo.languages.map((lang, index) => (
-                  <motion.div
-                    key={lang.name}
-                    initial={{ opacity: 0, x: -16 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 + index * 0.07 }}
-                    className="flex justify-between items-center"
-                  >
-                    <span className="text-slate-700">{lang.name}</span>
-                    <Badge variant="outline" className="text-xs border-slate-200 text-slate-600">
-                      {lang.level}
-                    </Badge>
-                  </motion.div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {STATS.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className="flex items-center gap-4 rounded-3xl bg-white/70 p-4 shadow-[0_1px_0_rgba(15,23,42,0.05)] ring-1 ring-slate-200/80"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-50 text-sky-700 ring-1 ring-sky-100">
+                    <stat.icon className="h-4 w-4" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="font-mono text-lg font-semibold leading-none text-slate-950">
+                      {stat.value}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500">{stat.label}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="rounded-[2rem] bg-sky-50/80 p-6 text-slate-950 shadow-[0_24px_70px_rgba(2,132,199,0.08)] ring-1 ring-sky-100">
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-slate-950">
+                    {personalInfo.experience.company}
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">
+                    {personalInfo.experience.position} since {personalInfo.experience.startDate}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {projects.slice(0, 2).map((project) => (
+                    <span
+                      key={project.id}
+                      className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700 ring-1 ring-sky-100"
+                    >
+                      {project.title}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-6 grid gap-3">
+                {OPERATING_MODEL.map((item) => (
+                  <div key={item} className="flex gap-3 text-sm leading-6 text-slate-600">
+                    <span
+                      aria-hidden="true"
+                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-500"
+                    />
+                    <span>{item}</span>
+                  </div>
                 ))}
               </div>
             </div>

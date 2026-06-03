@@ -1,4 +1,3 @@
-// app/components/layout/ScrollToTop.tsx
 'use client'
 
 import { ArrowUp } from 'lucide-react'
@@ -9,7 +8,8 @@ export function ScrollToTop() {
   const { showScrollTop } = usePortfolioStore()
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, behavior: reduced ? 'instant' : 'smooth' })
   }
 
   if (!showScrollTop) return null
@@ -19,9 +19,9 @@ export function ScrollToTop() {
       onClick={scrollToTop}
       size="icon"
       aria-label="Scroll to top"
-      className="fixed bottom-8 right-8 z-50 bg-sky-600 hover:bg-sky-700 text-white shadow-md transition-colors duration-200"
+      className="fixed bottom-6 right-6 z-50 rounded-full bg-sky-600 text-white shadow-[0_18px_45px_rgba(2,132,199,0.22)] transition-colors duration-300 hover:bg-sky-700 sm:bottom-8 sm:right-8"
     >
-      <ArrowUp className="w-5 h-5" />
+      <ArrowUp className="h-5 w-5" />
     </Button>
   )
 }

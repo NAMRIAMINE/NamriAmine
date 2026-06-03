@@ -38,6 +38,23 @@ test('hero contains positioning text', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Developer')
 })
 
+test('hero primary actions are visible at mobile and desktop widths', async ({ page }) => {
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 1440, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport)
+    await page.goto('/')
+    await page.waitForLoadState('load')
+
+    const hero = page.locator('#home')
+    await expect(hero.getByRole('button', { name: 'View Work' })).toBeVisible()
+    await expect(hero.getByRole('button', { name: 'Contact' })).toBeVisible()
+    await expect(hero.getByRole('link', { name: /Download Resume/i })).toBeVisible()
+    await noHorizontalOverflow(page)
+  }
+})
+
 test('primary CTA scrolls to projects section', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'View Work' }).click()

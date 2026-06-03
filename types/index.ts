@@ -1,4 +1,3 @@
-// app/types/index.ts
 export interface Project {
   id: string
   title: string
@@ -18,7 +17,6 @@ export interface Project {
 
 export interface SkillItem {
   name: string
-  level: number
   years: string
 }
 
