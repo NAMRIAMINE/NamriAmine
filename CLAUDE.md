@@ -44,7 +44,10 @@ Single-page portfolio: Next.js 15 App Router, React 19, TypeScript, Tailwind v4.
 - **Light-only premium system.** The site uses white and `#f8fbff` surfaces with slate typography and sky as the single primary accent. Never add `dark:` utilities. There is no dark variant registered.
 - **Navigation**: floating fixed pill, not a full-width bar. Keep desktop nav on one line and preserve the mobile `aria-label="Open navigation menu"` trigger used by tests.
 - **Hero**: asymmetric product-engineering composition. Keep the `Senior JavaScript Full-Stack Developer` headline, `View Work` button, `Contact` button, and one `Download Resume` link.
-- **Project proof**: Indus Inspection and Creaboost are full-width flagship case studies. Dr Turbine and Filahi stay in the compact supporting systems area.
+- **Project proof**: Indus Inspection and Creaboost are full-width flagship case studies (`presentation: 'flagship'`). Dr Turbine is the secondary case study (`presentation: 'secondary'`). Filahi is archive (`presentation: 'archive'`) — intentionally lower tier, rendered via `ArchiveCase` under a border-t separator.
+- **Project visual hierarchy**: flagship (white card + shadow) > secondary (tinted `#f8fbff` card) > archive (white card, thin `ring-slate-200/50`). Do not change archive to the same tint as secondary.
+- **ImageFrame**: shared component used by all project tiers. The `compact` prop switches to `aspect-[16/9]`. The `sizes` prop defaults to `320px` for compact and `55vw` for full — always pass `sizes` explicitly when the column width is known.
+- **About section layout**: left column holds heading + tagline + bio paragraphs; right column holds stat cards + operating model block. Do not move bio text back to the right column — it was there originally and created an empty left side.
 - **Image treatment**: project screenshots render inside machined frames with `object-contain`, not cropped thumbnail cards.
 - **Skills**: capability bands, not progress bars or icon-heavy badge dumps. Keep full-stack breadth first, specialty tools second.
 - **Contact**: closing CTA block with direct channels as support. Do not turn it back into a generic contact-card grid.

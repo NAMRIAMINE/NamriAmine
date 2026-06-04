@@ -1,4 +1,3 @@
-// app/lib/constants.ts
 import { Briefcase, Code, Home, Mail, User } from 'lucide-react'
 
 export const navigationSections = [

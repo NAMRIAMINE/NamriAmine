@@ -1,15 +1,14 @@
 'use client'
 
-import { ArrowUpRight, CheckCircle, Clock, Zap } from 'lucide-react'
+import { CheckCircle, Clock, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
 import { projects } from '@/data/projects'
 import type { Project } from '@/types'
 
-const FLAGSHIP_COUNT = 2
 const FLAGSHIP_TECH_LIMIT = 8
 const FLAGSHIP_SCOPE_LIMIT = 5
-const SUPPORTING_TECH_LIMIT = 5
+const SUPPORTING_TECH_LIMIT = 6
 
 const getStatusIcon = (status: Project['status']) => {
   switch (status) {
@@ -34,12 +33,29 @@ function StatusPill({ status }: { status: Project['status'] }) {
   )
 }
 
-function ImageFrame({ project, priority = false }: { project: Project; priority?: boolean }) {
+function ImageFrame({
+  project,
+  priority = false,
+  compact = false,
+  sizes,
+}: {
+  project: Project
+  priority?: boolean
+  compact?: boolean
+  sizes?: string
+}) {
   const imageLoadingProps = priority ? { priority: true } : { loading: 'lazy' as const }
+  const resolvedSizes =
+    sizes ??
+    (compact ? '(max-width: 1024px) calc(100vw - 3rem), 320px' : '(max-width: 1024px) 100vw, 55vw')
 
   return (
     <div className="rounded-[2rem] bg-sky-50 p-2 ring-1 ring-sky-100">
-      <div className="relative min-h-[260px] overflow-hidden rounded-[1.5rem] bg-white p-3 ring-1 ring-slate-200/80 sm:min-h-[340px] lg:min-h-[430px]">
+      <div
+        className={`relative overflow-hidden rounded-[1.5rem] bg-white p-3 ring-1 ring-slate-200/80 ${
+          compact ? 'aspect-[16/9]' : 'min-h-[260px] sm:min-h-[340px] lg:min-h-[430px]'
+        }`}
+      >
         <div className="absolute left-5 top-4 z-10 flex gap-1.5" aria-hidden="true">
           <span className="h-2 w-2 rounded-full bg-slate-300" />
           <span className="h-2 w-2 rounded-full bg-slate-300" />
@@ -50,7 +66,7 @@ function ImageFrame({ project, priority = false }: { project: Project; priority?
             src={project.image}
             alt={`${project.title} screenshot`}
             fill
-            sizes="(max-width: 1024px) 100vw, 55vw"
+            sizes={resolvedSizes}
             {...imageLoadingProps}
             className="object-contain p-6 pt-10"
           />
@@ -79,6 +95,7 @@ function FlagshipCase({
 
   return (
     <motion.article
+      data-project-presentation="flagship"
       initial={{ opacity: 0, y: 42 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
@@ -104,7 +121,7 @@ function FlagshipCase({
               {project.title}
             </h3>
             {project.role && (
-              <p className="mt-3 max-w-[48ch] text-sm font-medium leading-6 text-slate-500">
+              <p className="mt-3 max-w-[52ch] text-sm font-medium leading-6 text-slate-500">
                 {project.role}
               </p>
             )}
@@ -156,9 +173,106 @@ function FlagshipCase({
   )
 }
 
+function SecondaryCase({ project }: { project: Project }) {
+  const tech = project.tech.slice(0, SUPPORTING_TECH_LIMIT)
+
+  return (
+    <motion.article
+      data-project-presentation="secondary"
+      initial={{ opacity: 0, y: 34 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
+      className="rounded-[2.25rem] bg-[#f8fbff] p-4 ring-1 ring-slate-200/80 sm:p-6 lg:p-8"
+    >
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center">
+        <div>
+          <div className="flex flex-wrap items-center gap-2">
+            <StatusPill status={project.status} />
+            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
+              {project.year}
+            </span>
+            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
+              Secondary case study
+            </span>
+          </div>
+
+          <h3 className="mt-7 text-3xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-4xl">
+            {project.title}
+          </h3>
+          <p className="mt-3 text-sm font-medium leading-6 text-slate-500">{project.category}</p>
+          {project.outcome && (
+            <p className="mt-5 max-w-[58ch] text-base leading-7 text-slate-600">
+              {project.outcome}
+            </p>
+          )}
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {tech.map((item) => (
+              <span
+                key={item}
+                className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200/70"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <ImageFrame project={project} compact />
+      </div>
+    </motion.article>
+  )
+}
+
+function ArchiveCase({ project }: { project: Project }) {
+  const tech = project.tech.slice(0, 5)
+
+  return (
+    <motion.article
+      data-project-presentation="archive"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+      className="grid gap-6 rounded-2xl bg-white p-5 ring-1 ring-slate-200/50 sm:p-6 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-center"
+    >
+      <ImageFrame project={project} compact />
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusPill status={project.status} />
+          <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
+            {project.year}
+          </span>
+          <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
+            {project.category}
+          </span>
+        </div>
+        <h4 className="mt-5 text-xl font-semibold tracking-[-0.02em] text-slate-950 sm:text-2xl">
+          {project.title}
+        </h4>
+        {project.outcome && (
+          <p className="mt-3 max-w-[58ch] text-sm leading-6 text-slate-600">{project.outcome}</p>
+        )}
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {tech.map((item) => (
+            <span
+              key={item}
+              className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200/70"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.article>
+  )
+}
+
 export function Projects() {
-  const flagship = projects.slice(0, FLAGSHIP_COUNT)
-  const supporting = projects.slice(FLAGSHIP_COUNT)
+  const flagship = projects.filter((project) => project.presentation === 'flagship')
+  const secondary = projects.find((project) => project.presentation === 'secondary')
+  const archive = projects.filter((project) => project.presentation === 'archive')
 
   return (
     <section
@@ -171,12 +285,12 @@ export function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-          className="max-w-3xl"
+          className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-end"
         >
-          <h2 className="text-4xl font-semibold leading-none tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-6xl">
-            Work proof, not just project thumbnails.
+          <h2 className="max-w-[18ch] text-4xl font-semibold leading-none tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-6xl">
+            Work proof across product systems.
           </h2>
-          <p className="mt-5 max-w-[58ch] text-base leading-7 text-slate-600 sm:text-lg">
+          <p className="max-w-[62ch] text-base leading-7 text-slate-600 sm:text-lg">
             Selected platforms where I owned the path from user experience to APIs, data, background
             jobs, AI workflows, geospatial interfaces, and exports.
           </p>
@@ -193,79 +307,37 @@ export function Projects() {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-          className="mt-16 rounded-[2rem] bg-[#f8fbff] p-5 ring-1 ring-slate-200/80 sm:p-7"
-        >
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        {secondary && (
+          <div className="mt-12">
+            <SecondaryCase project={secondary} />
+          </div>
+        )}
+
+        {archive.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
+            className="mt-12 border-t border-slate-100 pt-12"
+          >
             <div>
-              <h3 className="text-2xl font-semibold tracking-[-0.025em] text-slate-950">
-                Selected supporting systems
+              <h3 className="text-xl font-semibold tracking-[-0.02em] text-slate-500">
+                Earlier product systems
               </h3>
-              <p className="mt-2 max-w-[56ch] text-sm leading-6 text-slate-600">
-                Earlier and adjacent work that shows the same product-building pattern across
-                industrial and agriculture domains.
+              <p className="mt-2 max-w-[62ch] text-sm leading-6 text-slate-400">
+                Older work stays visible as range proof, but the hierarchy stays focused on the
+                current and strongest platforms.
               </p>
             </div>
-            <ArrowUpRight className="hidden h-6 w-6 text-sky-600 sm:block" aria-hidden="true" />
-          </div>
 
-          <div className="mt-7 grid gap-4 md:grid-cols-2">
-            {supporting.map((project, index) => {
-              const tech = project.tech.slice(0, SUPPORTING_TECH_LIMIT)
-
-              return (
-                <motion.article
-                  key={project.id}
-                  initial={{ opacity: 0, y: 22 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.06 }}
-                  className="grid gap-4 rounded-3xl bg-white p-4 shadow-[0_1px_0_rgba(15,23,42,0.05)] ring-1 ring-slate-200/80 sm:grid-cols-[128px_minmax(0,1fr)]"
-                >
-                  {project.image && (
-                    <div className="relative min-h-32 overflow-hidden rounded-2xl bg-sky-50 ring-1 ring-sky-100 sm:min-h-0">
-                      <Image
-                        src={project.image}
-                        alt={`${project.title} screenshot`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 128px"
-                        loading="lazy"
-                        className="object-contain p-2"
-                      />
-                    </div>
-                  )}
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <StatusPill status={project.status} />
-                      <span className="text-xs font-medium text-slate-400">{project.year}</span>
-                    </div>
-                    <h4 className="mt-3 text-lg font-semibold text-slate-950">{project.title}</h4>
-                    <p className="mt-1 text-xs font-medium text-slate-400">{project.category}</p>
-                    {project.outcome && (
-                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
-                        {project.outcome}
-                      </p>
-                    )}
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {tech.map((item) => (
-                        <span
-                          key={item}
-                          className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.article>
-              )
-            })}
-          </div>
-        </motion.div>
+            <div className="mt-7 grid gap-4">
+              {archive.map((project) => (
+                <ArchiveCase key={project.id} project={project} />
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   )
