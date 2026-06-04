@@ -47,7 +47,7 @@ function ImageFrame({
   const imageLoadingProps = priority ? { priority: true } : { loading: 'lazy' as const }
   const resolvedSizes =
     sizes ??
-    (compact ? '(max-width: 1024px) calc(100vw - 3rem), 320px' : '(max-width: 1024px) 100vw, 55vw')
+    (compact ? '(max-width: 1024px) calc(100vw - 3rem), 52vw' : '(max-width: 1024px) 100vw, 55vw')
 
   return (
     <div className="rounded-[2rem] bg-sky-50 p-2 ring-1 ring-sky-100">
@@ -235,7 +235,7 @@ function ArchiveCase({ project }: { project: Project }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-      className="grid gap-6 rounded-2xl bg-white p-5 ring-1 ring-slate-200/50 sm:p-6 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-center"
+      className="grid gap-6 rounded-2xl bg-white p-5 ring-1 ring-slate-200/50 sm:p-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center"
     >
       <ImageFrame project={project} compact />
       <div className="min-w-0">
