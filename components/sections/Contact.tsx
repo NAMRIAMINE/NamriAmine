@@ -43,7 +43,7 @@ export function Contact() {
               <p className="text-sm font-medium text-sky-700">
                 Available for contract and full-time
               </p>
-              <h2 className="mt-5 max-w-[10ch] text-4xl font-semibold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+              <h2 className="mt-5 max-w-[15ch] text-4xl font-semibold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
                 Let&apos;s build the next platform.
               </h2>
               <p className="mt-6 max-w-[54ch] text-base leading-7 text-slate-600 sm:text-lg">

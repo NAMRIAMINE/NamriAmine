@@ -3,7 +3,7 @@ import type { SkillCategory } from '@/types'
 export const skillCategories: Record<string, SkillCategory> = {
   coreWeb: {
     title: 'Core Web',
-    color: 'from-blue-500 to-cyan-500',
+    accent: 'sky',
     skills: [
       { name: 'React.js', years: '6+' },
       { name: 'Next.js', years: '4+' },
@@ -16,7 +16,7 @@ export const skillCategories: Record<string, SkillCategory> = {
   },
   backendData: {
     title: 'Backend & Data',
-    color: 'from-green-500 to-emerald-500',
+    accent: 'emerald',
     skills: [
       { name: 'Node.js', years: '4+' },
       { name: 'Express.js', years: '4+' },
@@ -31,7 +31,7 @@ export const skillCategories: Record<string, SkillCategory> = {
   },
   productSystems: {
     title: 'Product Systems',
-    color: 'from-purple-500 to-violet-500',
+    accent: 'violet',
     skills: [
       { name: 'REST APIs', years: '5+' },
       { name: 'Better Auth', years: '1+' },
@@ -45,7 +45,7 @@ export const skillCategories: Record<string, SkillCategory> = {
   },
   appliedAI: {
     title: 'Applied AI & Geospatial',
-    color: 'from-indigo-500 to-purple-500',
+    accent: 'amber',
     skills: [
       { name: 'YOLOv8', years: '1+' },
       { name: 'ONNX Runtime', years: '1+' },
@@ -58,7 +58,7 @@ export const skillCategories: Record<string, SkillCategory> = {
   },
   mobileDesktop: {
     title: 'Mobile & Desktop',
-    color: 'from-rose-500 to-pink-500',
+    accent: 'rose',
     skills: [
       { name: 'React Native', years: '2+' },
       { name: 'Expo', years: '2+' },
@@ -67,7 +67,7 @@ export const skillCategories: Record<string, SkillCategory> = {
   },
   testingDelivery: {
     title: 'Testing & Delivery',
-    color: 'from-orange-500 to-amber-500',
+    accent: 'slate',
     skills: [
       { name: 'Vitest', years: '1+' },
       { name: 'pytest', years: '2+' },

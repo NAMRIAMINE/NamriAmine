@@ -1,3 +1,7 @@
+export type ProjectPresentation = 'flagship' | 'secondary' | 'archive'
+
+export type SkillAccent = 'sky' | 'emerald' | 'violet' | 'amber' | 'rose' | 'slate'
+
 export interface Project {
   id: string
   title: string
@@ -7,6 +11,7 @@ export interface Project {
   features: string[]
   status: 'Production' | 'Production Ready' | 'In Development' | 'Live'
   category: string
+  presentation: ProjectPresentation
   liveUrl?: string
   githubUrl?: string
   image?: string
@@ -23,5 +28,5 @@ export interface SkillItem {
 export interface SkillCategory {
   title: string
   skills: SkillItem[]
-  color: string
+  accent: SkillAccent
 }

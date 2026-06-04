@@ -41,11 +41,13 @@ yarn-error.log*
 next-env.d.ts
 
 # local QA / screenshots
+projects-*.png
 screenshot-*.png
 qa-*.png
 dev-server*.log
 test-results/
 resume_render_check/
+resume_review_current/
 
 # local tooling / session artifacts
 .playwright-mcp/

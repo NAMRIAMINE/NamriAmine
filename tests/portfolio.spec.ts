@@ -81,6 +81,20 @@ test('second project is Creaboost', async ({ page }) => {
   await expect(secondProject).toContainText('Creaboost')
 })
 
+test('Dr Turbine is rendered as a secondary project case study', async ({ page }) => {
+  await page.goto('/')
+  const secondaryProject = page.locator('[data-project-presentation="secondary"]')
+  await expect(secondaryProject).toContainText('Dr Turbine')
+  await expect(secondaryProject.locator('img')).toBeVisible()
+})
+
+test('Filahi is rendered as an archive project', async ({ page }) => {
+  await page.goto('/')
+  const archiveProject = page.locator('[data-project-presentation="archive"]')
+  await expect(archiveProject).toContainText('Filahi WebApp')
+  await expect(archiveProject.locator('img')).toBeVisible()
+})
+
 // ─── Mobile menu ─────────────────────────────────────────────────────────────
 
 test('mobile menu opens and shows nav items at 390px', async ({ page }) => {
