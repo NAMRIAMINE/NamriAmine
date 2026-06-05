@@ -1,14 +1,36 @@
 'use client'
 
-import { CheckCircle, Clock, Zap } from 'lucide-react'
-import { motion } from 'motion/react'
+import { useGSAP } from '@gsap/react'
+import { ArrowUpRight, CheckCircle, Clock, GithubLogo, Lightning } from '@phosphor-icons/react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRef, useState } from 'react'
+import { personalInfo } from '@/data/personal'
 import { projects } from '@/data/projects'
+import { cn } from '@/lib/utils'
 import type { Project } from '@/types'
 
-const FLAGSHIP_TECH_LIMIT = 8
-const FLAGSHIP_SCOPE_LIMIT = 5
-const SUPPORTING_TECH_LIMIT = 6
+gsap.registerPlugin(ScrollTrigger, useGSAP)
+
+const PRESENTATION_STYLES = {
+  flagship: {
+    frame: 'bg-[linear-gradient(180deg,#ddf2ff_0%,#edf8ff_100%)]',
+    shell: 'bg-[linear-gradient(180deg,rgba(15,23,42,0.98),rgba(15,23,42,0.88))]',
+  },
+  secondary: {
+    frame: 'bg-[linear-gradient(180deg,#edf4ff_0%,#f6f9ff_100%)]',
+    shell: 'bg-[linear-gradient(180deg,rgba(15,23,42,0.94),rgba(30,41,59,0.84))]',
+  },
+  archive: {
+    frame: 'bg-[linear-gradient(180deg,#f5f8fb_0%,#ffffff_100%)]',
+    shell: 'bg-[linear-gradient(180deg,rgba(30,41,59,0.92),rgba(51,65,85,0.82))]',
+  },
+} as const
+
+const TECH_LIMIT = 5
+const FEATURE_LIMIT = 4
 
 const getStatusIcon = (status: Project['status']) => {
   switch (status) {
@@ -18,7 +40,7 @@ const getStatusIcon = (status: Project['status']) => {
     case 'In Development':
       return Clock
     default:
-      return Zap
+      return Lightning
   }
 }
 
@@ -26,318 +48,234 @@ function StatusPill({ status }: { status: Project['status'] }) {
   const Icon = getStatusIcon(status)
 
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-800 ring-1 ring-sky-100">
-      <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/88 backdrop-blur-md">
+      <Icon className="h-3.5 w-3.5" aria-hidden="true" weight="fill" />
       {status}
     </span>
   )
 }
 
-function ImageFrame({
-  project,
-  priority = false,
-  compact = false,
-  sizes,
-}: {
-  project: Project
-  priority?: boolean
-  compact?: boolean
-  sizes?: string
-}) {
-  const imageLoadingProps = priority ? { priority: true } : { loading: 'lazy' as const }
-  const resolvedSizes =
-    sizes ??
-    (compact ? '(max-width: 1024px) calc(100vw - 3rem), 52vw' : '(max-width: 1024px) 100vw, 55vw')
+function ProjectLinks({ project }: { project: Project }) {
+  const publicLinks = [
+    project.liveUrl ? { label: 'Live product', href: project.liveUrl, icon: ArrowUpRight } : null,
+    project.githubUrl ? { label: 'Repository', href: project.githubUrl, icon: GithubLogo } : null,
+  ].filter(Boolean) as Array<{
+    label: string
+    href: string
+    icon: typeof ArrowUpRight | typeof GithubLogo
+  }>
+
+  const walkthroughHref = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
+    `Walkthrough request - ${project.title}`,
+  )}`
 
   return (
-    <div className="rounded-[2rem] bg-sky-50 p-2 ring-1 ring-sky-100">
-      <div
-        className={`relative overflow-hidden rounded-[1.5rem] bg-white p-3 ring-1 ring-slate-200/80 ${
-          compact ? 'aspect-[16/9]' : 'min-h-[260px] sm:min-h-[340px] lg:min-h-[430px]'
-        }`}
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      {publicLinks.map((link) => (
+        <Link
+          key={`${project.id}-${link.label}`}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-4 text-sm font-medium text-slate-950 transition-colors duration-300 hover:bg-teal-100"
+        >
+          <link.icon className="h-4 w-4" weight="bold" />
+          {link.label}
+        </Link>
+      ))}
+      <Link
+        href={walkthroughHref}
+        className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/20 bg-transparent px-4 text-sm font-medium text-white transition-colors duration-300 hover:bg-white/10"
       >
-        <div className="absolute left-5 top-4 z-10 flex gap-1.5" aria-hidden="true">
-          <span className="h-2 w-2 rounded-full bg-slate-300" />
-          <span className="h-2 w-2 rounded-full bg-slate-300" />
-          <span className="h-2 w-2 rounded-full bg-sky-400" />
-        </div>
-        {project.image ? (
-          <Image
-            src={project.image}
-            alt={`${project.title} screenshot`}
-            fill
-            sizes={resolvedSizes}
-            {...imageLoadingProps}
-            className="object-contain p-6 pt-10"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-sm text-slate-400">No preview</span>
-          </div>
-        )}
-      </div>
+        <ArrowUpRight className="h-4 w-4" weight="bold" />
+        Request walkthrough
+      </Link>
     </div>
   )
 }
 
-function FlagshipCase({
-  project,
-  index,
-  variant,
-}: {
-  project: Project
-  index: number
-  variant: 'platform' | 'workflow'
-}) {
-  const scope = (project.scope ?? project.features).slice(0, FLAGSHIP_SCOPE_LIMIT)
-  const tech = project.tech.slice(0, FLAGSHIP_TECH_LIMIT)
-  const isWorkflow = variant === 'workflow'
-
-  return (
-    <motion.article
-      data-project-presentation="flagship"
-      initial={{ opacity: 0, y: 42 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1], delay: index * 0.06 }}
-      className="overflow-hidden rounded-[2.25rem] bg-white shadow-[0_28px_90px_rgba(15,23,42,0.1)] ring-1 ring-slate-200/80"
-    >
-      <div
-        className={`grid gap-0 ${isWorkflow ? 'lg:grid-cols-[1.08fr_0.92fr]' : 'lg:grid-cols-[0.86fr_1.14fr]'}`}
-      >
-        <div className={`p-6 sm:p-8 lg:p-10 ${isWorkflow ? 'lg:order-2' : ''}`}>
-          <div className="flex flex-wrap items-center gap-2">
-            <StatusPill status={project.status} />
-            <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-500">
-              {project.year}
-            </span>
-            <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-500">
-              {project.category}
-            </span>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="text-3xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-4xl">
-              {project.title}
-            </h3>
-            {project.role && (
-              <p className="mt-3 max-w-[52ch] text-sm font-medium leading-6 text-slate-500">
-                {project.role}
-              </p>
-            )}
-          </div>
-
-          {project.outcome && (
-            <div className="mt-7 rounded-3xl bg-[#f8fbff] p-5 ring-1 ring-slate-200/80">
-              <p className="text-sm font-medium leading-7 text-slate-700">{project.outcome}</p>
-            </div>
-          )}
-
-          <div className="mt-7 grid gap-5">
-            <div>
-              <p className="mb-3 text-xs font-semibold tracking-[0.12em] text-slate-400">Scope</p>
-              <div className="grid gap-2">
-                {scope.map((item) => (
-                  <div key={`${project.id}-scope-${item}`} className="flex gap-3">
-                    <span
-                      aria-hidden="true"
-                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-500"
-                    />
-                    <span className="text-sm leading-6 text-slate-600">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <p className="mb-3 text-xs font-semibold tracking-[0.12em] text-slate-400">Stack</p>
-              <div className="flex flex-wrap gap-2">
-                {tech.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200/70"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={`bg-[#f8fbff] p-4 sm:p-6 lg:p-8 ${isWorkflow ? 'lg:order-1' : ''}`}>
-          <ImageFrame project={project} priority={index === 0} />
-        </div>
-      </div>
-    </motion.article>
-  )
-}
-
-function SecondaryCase({ project }: { project: Project }) {
-  const tech = project.tech.slice(0, SUPPORTING_TECH_LIMIT)
-
-  return (
-    <motion.article
-      data-project-presentation="secondary"
-      initial={{ opacity: 0, y: 34 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-      className="rounded-[2.25rem] bg-[#f8fbff] p-4 ring-1 ring-slate-200/80 sm:p-6 lg:p-8"
-    >
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center">
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <StatusPill status={project.status} />
-            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
-              {project.year}
-            </span>
-            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
-              Secondary case study
-            </span>
-          </div>
-
-          <h3 className="mt-7 text-3xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-4xl">
-            {project.title}
-          </h3>
-          <p className="mt-3 text-sm font-medium leading-6 text-slate-500">{project.category}</p>
-          {project.outcome && (
-            <p className="mt-5 max-w-[58ch] text-base leading-7 text-slate-600">
-              {project.outcome}
-            </p>
-          )}
-
-          <div className="mt-6 flex flex-wrap gap-2">
-            {tech.map((item) => (
-              <span
-                key={item}
-                className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200/70"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <ImageFrame project={project} compact />
-      </div>
-    </motion.article>
-  )
-}
-
-function ArchiveCase({ project }: { project: Project }) {
-  const tech = project.tech.slice(0, 5)
-
-  return (
-    <motion.article
-      data-project-presentation="archive"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-      className="grid gap-6 rounded-2xl bg-white p-5 ring-1 ring-slate-200/50 sm:p-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center"
-    >
-      <ImageFrame project={project} compact />
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-2">
-          <StatusPill status={project.status} />
-          <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
-            {project.year}
-          </span>
-          <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
-            {project.category}
-          </span>
-        </div>
-        <h4 className="mt-5 text-xl font-semibold tracking-[-0.02em] text-slate-950 sm:text-2xl">
-          {project.title}
-        </h4>
-        {project.outcome && (
-          <p className="mt-3 max-w-[58ch] text-sm leading-6 text-slate-600">{project.outcome}</p>
-        )}
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {tech.map((item) => (
-            <span
-              key={item}
-              className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200/70"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-    </motion.article>
-  )
-}
-
 export function Projects() {
-  const flagship = projects.filter((project) => project.presentation === 'flagship')
-  const secondary = projects.find((project) => project.presentation === 'secondary')
-  const archive = projects.filter((project) => project.presentation === 'archive')
+  const sectionRef = useRef<HTMLElement>(null)
+  const [activeProjectId, setActiveProjectId] = useState(projects[0]?.id ?? '')
+
+  useGSAP(
+    () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+      const cards = gsap.utils.toArray<HTMLElement>('[data-project-card]')
+
+      cards.forEach((card) => {
+        const visual = card.querySelector<HTMLElement>('[data-project-visual]')
+        if (!visual) return
+
+        gsap.fromTo(
+          visual,
+          {
+            scale: 0.88,
+            opacity: 0.5,
+            filter: 'brightness(0.8)',
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            filter: 'brightness(1)',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 82%',
+              end: 'bottom 34%',
+              scrub: true,
+            },
+          },
+        )
+      })
+    },
+    { scope: sectionRef },
+  )
 
   return (
     <section
       id="projects"
-      className="scroll-mt-24 overflow-x-hidden bg-white px-4 py-24 sm:px-6 lg:px-8"
+      ref={sectionRef}
+      className="scroll-mt-24 overflow-x-hidden bg-white px-4 py-32 sm:px-6 lg:px-8 lg:py-40"
     >
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-          className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-end"
-        >
-          <h2 className="max-w-[18ch] text-4xl font-semibold leading-none tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-6xl">
-            Work proof across product systems.
+      <div className="page-shell">
+        <div className="max-w-3xl">
+          <h2 className="font-display max-w-[12ch] text-[clamp(2.8rem,5vw,5rem)] leading-[0.92] tracking-[-0.06em] text-slate-950">
+            Selected work that carries product weight.
           </h2>
-          <p className="max-w-[62ch] text-base leading-7 text-slate-600 sm:text-lg">
-            Selected platforms where I owned the path from user experience to APIs, data, background
-            jobs, AI workflows, geospatial interfaces, and exports.
+          <p className="mt-6 max-w-[62ch] text-lg leading-8 text-slate-600">
+            Four systems, four different delivery conditions. Hover or focus a case to open the full
+            brief on large screens.
           </p>
-        </motion.div>
-
-        <div className="mt-14 space-y-10">
-          {flagship.map((project, index) => (
-            <FlagshipCase
-              key={project.id}
-              project={project}
-              index={index}
-              variant={index === 0 ? 'platform' : 'workflow'}
-            />
-          ))}
         </div>
 
-        {secondary && (
-          <div className="mt-12">
-            <SecondaryCase project={secondary} />
-          </div>
-        )}
+        <div className="mt-16 flex flex-col gap-3 lg:min-h-[720px] lg:flex-row">
+          {projects.map((project) => {
+            const isActive = activeProjectId === project.id
+            const styles = PRESENTATION_STYLES[project.presentation]
 
-        {archive.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-            className="mt-12 border-t border-slate-100 pt-12"
-          >
-            <div>
-              <h3 className="text-xl font-semibold tracking-[-0.02em] text-slate-500">
-                Earlier product systems
-              </h3>
-              <p className="mt-2 max-w-[62ch] text-sm leading-6 text-slate-400">
-                Older work stays visible as range proof, but the hierarchy stays focused on the
-                current and strongest platforms.
-              </p>
-            </div>
+            return (
+              <article
+                key={project.id}
+                data-project-presentation={project.presentation}
+                data-project-card
+                onMouseEnter={() => setActiveProjectId(project.id)}
+                onFocusCapture={() => setActiveProjectId(project.id)}
+                className={cn(
+                  'group relative min-h-[560px] overflow-hidden rounded-[2.35rem] border border-white/85 p-3 shadow-[0_30px_90px_rgba(15,23,42,0.12)] ring-1 ring-slate-200/60 lg:min-h-[720px] lg:flex-1 lg:transition-[flex-grow,transform] lg:duration-700 lg:ease-out',
+                  styles.frame,
+                  isActive ? 'lg:flex-[2.15]' : 'lg:flex-[0.9]',
+                )}
+              >
+                <div
+                  data-project-visual
+                  className="absolute inset-3 overflow-hidden rounded-[1.95rem] border border-white/10"
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(45,212,191,0.18),rgba(255,255,255,0)_42%)]" />
+                  {project.image && (
+                    <Image
+                      src={project.image}
+                      alt={`${project.title} screenshot`}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 34vw"
+                      className="object-contain p-6 pt-20 transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  )}
+                </div>
 
-            <div className="mt-7 grid gap-4">
-              {archive.map((project) => (
-                <ArchiveCase key={project.id} project={project} />
-              ))}
-            </div>
-          </motion.div>
-        )}
+                <div
+                  className={cn(
+                    'relative flex h-full flex-col justify-between overflow-hidden rounded-[1.95rem] p-6 text-white lg:p-8',
+                    styles.shell,
+                  )}
+                >
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.12),rgba(15,23,42,0.68)_36%,rgba(15,23,42,0.94))]" />
+                  <div className="relative">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <StatusPill status={project.status} />
+                        <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/78 backdrop-blur-md">
+                          {project.year}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setActiveProjectId(project.id)}
+                        className="inline-flex h-9 items-center rounded-full border border-white/14 bg-white/10 px-3 text-xs font-medium uppercase text-white/74 transition-colors duration-300 hover:bg-white/16"
+                      >
+                        Open case
+                      </button>
+                    </div>
+
+                    <h3 className="font-display mt-6 max-w-[11ch] text-[2rem] leading-[0.92] tracking-[-0.05em] text-white sm:text-[2.6rem]">
+                      {project.title}
+                    </h3>
+                    <p className="mt-3 text-sm font-medium uppercase text-white/56">
+                      {project.category}
+                    </p>
+                  </div>
+
+                  <div className="relative mt-10">
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.slice(0, TECH_LIMIT).map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-full border border-white/10 bg-white/8 px-3 py-1.5 text-xs font-medium text-white/78 backdrop-blur-md"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div
+                      className={cn(
+                        'mt-5 space-y-6',
+                        !isActive &&
+                          'lg:max-h-0 lg:translate-y-4 lg:overflow-hidden lg:opacity-0 lg:pointer-events-none',
+                        isActive && 'lg:max-h-[420px] lg:translate-y-0 lg:opacity-100',
+                      )}
+                    >
+                      <p className="max-w-[52ch] text-base leading-7 text-white/76">
+                        {project.description}
+                      </p>
+
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <div>
+                          <p className="text-xs font-medium uppercase text-white/42">
+                            Scope
+                          </p>
+                          <div className="mt-3 space-y-2">
+                            {(project.scope ?? project.features)
+                              .slice(0, FEATURE_LIMIT)
+                              .map((item) => (
+                                <p
+                                  key={`${project.id}-scope-${item}`}
+                                  className="text-sm leading-6 text-white/74"
+                                >
+                                  {item}
+                                </p>
+                              ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-xs font-medium uppercase text-white/42">
+                            Outcome
+                          </p>
+                          <p className="mt-3 text-sm leading-6 text-white/74">
+                            {project.outcome ?? project.features.slice(0, FEATURE_LIMIT).join(', ')}
+                          </p>
+                        </div>
+                      </div>
+
+                      <ProjectLinks project={project} />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

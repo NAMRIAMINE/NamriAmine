@@ -1,180 +1,237 @@
-'use client'
-
-import { Brain, Code, Database, Devices, Stack, TestTube } from '@phosphor-icons/react'
-import { motion } from 'motion/react'
+import {
+  ArrowsClockwise,
+  ArrowsLeftRight,
+  CirclesThreePlus,
+  Code,
+  Devices,
+  GlobeHemisphereWest,
+  PlugsConnected,
+  Robot,
+  Stack,
+} from '@phosphor-icons/react/dist/ssr'
+import type { ElementType } from 'react'
+import {
+  SiBetterauth,
+  SiBunnydotnet,
+  SiCelery,
+  SiDocker,
+  SiElectron,
+  SiExpo,
+  SiExpress,
+  SiFastapi,
+  SiGithub,
+  SiGithubactions,
+  SiGooglegemini,
+  SiMaplibre,
+  SiMysql,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiOnnx,
+  SiOpencv,
+  SiPostgresql,
+  SiPrisma,
+  SiPytest,
+  SiPython,
+  SiReact,
+  SiRedis,
+  SiShadcnui,
+  SiSupabase,
+  SiTailwindcss,
+  SiTypescript,
+  SiVercel,
+  SiVitest,
+  SiYolo,
+} from 'react-icons/si'
 import { skillCategories } from '@/data/skills'
-import type { SkillAccent } from '@/types'
 
-const CATEGORY_META = {
+const CATEGORY_LAYOUT = {
   coreWeb: {
-    icon: Code,
-    summary: 'Interfaces, routing, state, component systems, and responsive product UI.',
+    span: 'lg:col-span-7',
+    summary: 'Interface systems, composable UX, and modern frontend delivery.',
+    shell:
+      'bg-[linear-gradient(180deg,rgba(204,251,241,0.62),rgba(255,255,255,0.94))] ring-teal-100/80',
   },
   backendData: {
-    icon: Database,
-    summary: 'APIs, services, relational data, caching, ORMs, and backend integration.',
+    span: 'lg:col-span-5',
+    summary: 'APIs, services, relational data, caching, and backend control surfaces.',
+    shell:
+      'bg-[linear-gradient(180deg,rgba(209,250,229,0.62),rgba(255,255,255,0.94))] ring-emerald-100/80',
   },
   productSystems: {
-    icon: Stack,
-    summary: 'Auth, queues, realtime updates, deployment, and product infrastructure.',
+    span: 'lg:col-span-4',
+    summary: 'Auth, queues, infrastructure hooks, and production workflow plumbing.',
+    shell:
+      'bg-[linear-gradient(180deg,rgba(237,233,254,0.64),rgba(255,255,255,0.94))] ring-violet-100/80',
   },
   appliedAI: {
-    icon: Brain,
-    summary: 'Computer vision, Gemini workflows, map interfaces, and geospatial processing.',
+    span: 'lg:col-span-4',
+    summary: 'Computer vision, model runtime work, geospatial tooling, and AI-assisted flows.',
+    shell:
+      'bg-[linear-gradient(180deg,rgba(254,243,199,0.66),rgba(255,255,255,0.94))] ring-amber-100/80',
   },
   mobileDesktop: {
-    icon: Devices,
-    summary: 'React Native, Expo, and Electron work where the product extends beyond web.',
+    span: 'lg:col-span-4',
+    summary: 'Mobile and desktop delivery when the product needs another surface.',
+    shell:
+      'bg-[linear-gradient(180deg,rgba(255,228,230,0.72),rgba(255,255,255,0.94))] ring-rose-100/80',
   },
   testingDelivery: {
-    icon: TestTube,
-    summary: 'Automated checks, browser QA, CI workflows, version control, and release hygiene.',
+    span: 'lg:col-span-12',
+    summary:
+      'Validation, release discipline, and delivery infrastructure that keeps work shippable.',
+    shell:
+      'bg-[linear-gradient(180deg,rgba(241,245,249,0.94),rgba(255,255,255,0.98))] ring-slate-200/80',
   },
 } as const
 
-const ACCENTS = {
-  sky: {
-    card: 'bg-sky-50/70 ring-sky-100',
-    icon: 'bg-white text-sky-700 ring-sky-100',
-    chip: 'bg-white text-sky-800 ring-sky-100',
-    years: 'text-sky-500',
-    dot: 'bg-sky-500',
-  },
-  emerald: {
-    card: 'bg-emerald-50/70 ring-emerald-100',
-    icon: 'bg-white text-emerald-700 ring-emerald-100',
-    chip: 'bg-white text-emerald-800 ring-emerald-100',
-    years: 'text-emerald-500',
-    dot: 'bg-emerald-500',
-  },
-  violet: {
-    card: 'bg-violet-50/70 ring-violet-100',
-    icon: 'bg-white text-violet-700 ring-violet-100',
-    chip: 'bg-white text-violet-800 ring-violet-100',
-    years: 'text-violet-500',
-    dot: 'bg-violet-500',
-  },
-  amber: {
-    card: 'bg-amber-50/70 ring-amber-100',
-    icon: 'bg-white text-amber-700 ring-amber-100',
-    chip: 'bg-white text-amber-900 ring-amber-100',
-    years: 'text-amber-600',
-    dot: 'bg-amber-500',
-  },
-  rose: {
-    card: 'bg-rose-50/70 ring-rose-100',
-    icon: 'bg-white text-rose-700 ring-rose-100',
-    chip: 'bg-white text-rose-800 ring-rose-100',
-    years: 'text-rose-500',
-    dot: 'bg-rose-500',
-  },
-  slate: {
-    card: 'bg-slate-50/90 ring-slate-200',
-    icon: 'bg-white text-slate-700 ring-slate-200',
-    chip: 'bg-white text-slate-800 ring-slate-200',
-    years: 'text-slate-500',
-    dot: 'bg-slate-500',
-  },
-} satisfies Record<
-  SkillAccent,
-  { card: string; icon: string; chip: string; years: string; dot: string }
->
+const TECH_ICONS: Record<string, ElementType<{ className?: string; 'aria-hidden'?: boolean }>> = {
+  'React.js': SiReact,
+  'Next.js': SiNextdotjs,
+  TypeScript: SiTypescript,
+  TailwindCSS: SiTailwindcss,
+  'Shadcn UI': SiShadcnui,
+  Zustand: CirclesThreePlus,
+  'react-konva': Code,
+  'Node.js': SiNodedotjs,
+  'Express.js': SiExpress,
+  FastAPI: SiFastapi,
+  Python: SiPython,
+  PostgreSQL: SiPostgresql,
+  MySQL: SiMysql,
+  Redis: SiRedis,
+  Prisma: SiPrisma,
+  Supabase: SiSupabase,
+  'REST APIs': PlugsConnected,
+  'Better Auth': SiBetterauth,
+  'BullMQ Pro': ArrowsClockwise,
+  Celery: SiCelery,
+  'SSE / WebSockets': ArrowsLeftRight,
+  Docker: SiDocker,
+  Vercel: SiVercel,
+  'GitHub Actions': SiGithubactions,
+  YOLOv8: SiYolo,
+  'ONNX Runtime': SiOnnx,
+  OpenCV: SiOpencv,
+  'Google Gemini SDK': SiGooglegemini,
+  'AI Pipelines': Robot,
+  MapLibreGL: SiMaplibre,
+  PyProj: GlobeHemisphereWest,
+  'React Native': Devices,
+  Expo: SiExpo,
+  Electron: SiElectron,
+  Vitest: SiVitest,
+  pytest: SiPytest,
+  Playwright: Code,
+  'Git/GitHub': SiGithub,
+  'Bunny CDN': SiBunnydotnet,
+}
 
-const STACK_STRIP = ['React', 'Next.js', 'TypeScript', 'Node.js', 'FastAPI', 'PostgreSQL']
+const MARQUEE_ITEMS = [
+  'React.js',
+  'Next.js',
+  'TypeScript',
+  'Node.js',
+  'FastAPI',
+  'PostgreSQL',
+  'Google Gemini SDK',
+  'MapLibreGL',
+]
 
-export function Skills() {
-  const categories = Object.entries(skillCategories)
+function TechIcon({ name, className = 'h-4 w-4' }: { name: string; className?: string }) {
+  const Icon = TECH_ICONS[name] ?? Stack
+  return <Icon className={className} aria-hidden />
+}
+
+function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boolean }) {
+  const duplicated = [
+    ...items.map((item) => ({ id: `${item}-lead`, label: item })),
+    ...items.map((item) => ({ id: `${item}-trail`, label: item })),
+  ]
 
   return (
-    <section id="skills" className="scroll-mt-24 bg-[#f8fbff] px-4 py-24 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-          className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end"
-        >
-          <div>
-            <p className="text-sm font-medium text-sky-700">Capability map</p>
-            <h2 className="mt-4 max-w-[17ch] text-4xl font-semibold leading-none tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-6xl">
-              Built around the stack a product needs.
-            </h2>
-          </div>
-          <div>
-            <p className="max-w-[62ch] text-base leading-7 text-slate-600 sm:text-lg">
-              The core is JavaScript and TypeScript. The specialty layers are there when the product
-              needs AI, maps, media, realtime work, or deployment discipline.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {STACK_STRIP.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full bg-white px-3.5 py-2 text-sm font-medium text-slate-800 shadow-[0_1px_0_rgba(15,23,42,0.05)] ring-1 ring-slate-200/80"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+    <div className="overflow-hidden rounded-full border border-white/80 bg-white/72 px-4 py-3 shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
+      <div className={`flex w-max gap-3 ${reverse ? 'marquee-track-reverse' : 'marquee-track'}`}>
+        {duplicated.map((item) => (
+          <span
+            key={item.id}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-4 py-2 text-sm font-medium text-slate-700"
+          >
+            <TechIcon name={item.label} className="h-4 w-4 text-teal-600" />
+            {item.label}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
 
-        <div className="mt-14 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {categories.map(([key, category], index) => {
-            const meta = CATEGORY_META[key as keyof typeof CATEGORY_META]
-            const Icon = meta?.icon ?? Code
-            const accent = ACCENTS[category.accent]
-            const primarySkills = category.skills.slice(0, 5)
-            const secondarySkills = category.skills.slice(5)
+function SkillPill({ name, years }: { name: string; years: string }) {
+  return (
+    <span
+      className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-[0_12px_34px_rgba(15,23,42,0.04)]"
+      title={`${years} experience`}
+    >
+      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950/4 text-teal-600">
+        <TechIcon name={name} className="h-4 w-4" />
+      </span>
+      <span>{name}</span>
+      <span className="font-mono text-[11px] text-slate-500">{years}</span>
+    </span>
+  )
+}
+
+export function Skills() {
+  const categories = Object.entries(skillCategories) as Array<
+    [keyof typeof CATEGORY_LAYOUT, (typeof skillCategories)[string]]
+  >
+
+  return (
+    <section id="skills" className="scroll-mt-24 bg-[#f4f8fc] px-4 py-32 sm:px-6 lg:px-8 lg:py-40">
+      <div className="page-shell">
+        <div className="max-w-3xl">
+          <h2 className="font-display max-w-[12ch] text-[clamp(2.8rem,5vw,5rem)] leading-[0.92] tracking-[-0.06em] text-slate-950">
+            Every layer of the stack, covered.
+          </h2>
+          <p className="mt-6 max-w-[60ch] text-lg leading-8 text-slate-600">
+            From React interfaces and Node services to computer vision pipelines and mobile delivery.
+            Six categories, one working loop.
+          </p>
+        </div>
+
+        <div className="mt-12 space-y-4">
+          <MarqueeRow items={MARQUEE_ITEMS} />
+          <MarqueeRow items={[...MARQUEE_ITEMS].reverse()} reverse />
+        </div>
+
+        <div className="mt-14 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:grid-flow-dense">
+          {categories.map(([key, category]) => {
+            const layout = CATEGORY_LAYOUT[key]
+            const isWide = key === 'testingDelivery'
 
             return (
-              <motion.article
+              <article
                 key={key}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.42, delay: index * 0.04, ease: [0.32, 0.72, 0, 1] }}
-                className={`rounded-[2rem] p-5 ring-1 ${accent.card}`}
+                className={`${layout.span} rounded-[2.2rem] p-5 shadow-[0_26px_80px_rgba(15,23,42,0.06)] ring-1 backdrop-blur-xl ${layout.shell}`}
               >
-                <div className="flex items-start gap-4">
-                  <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ring-1 ${accent.icon}`}
-                  >
-                    <Icon size={22} weight="duotone" aria-hidden="true" />
-                  </div>
+                <div
+                  className={isWide ? 'grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]' : 'space-y-6'}
+                >
                   <div>
-                    <h3 className="text-base font-semibold text-slate-950">{category.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-500">{meta?.summary}</p>
-                  </div>
-                </div>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {primarySkills.map((skill) => (
-                    <span
-                      key={skill.name}
-                      className={`rounded-full px-3 py-1.5 text-xs font-medium ring-1 ${accent.chip}`}
-                      title={`${skill.years} experience`}
-                    >
-                      {skill.name}
-                      <span className={`ml-1 font-mono text-[10px] ${accent.years}`}>
-                        {skill.years}
-                      </span>
-                    </span>
-                  ))}
-                </div>
-
-                {secondarySkills.length > 0 && (
-                  <div className="mt-4 flex gap-2">
-                    <span
-                      aria-hidden="true"
-                      className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${accent.dot}`}
-                    />
-                    <p className="text-sm leading-6 text-slate-500">
-                      {secondarySkills.map((skill) => skill.name).join(' · ')}
+                    <p className="text-xs font-medium uppercase text-slate-400">
+                      {category.title}
                     </p>
+                    <h3 className="font-display mt-4 text-[1.75rem] leading-[0.94] tracking-[-0.04em] text-slate-950">
+                      {layout.summary}
+                    </h3>
                   </div>
-                )}
-              </motion.article>
+
+                  <div className="flex flex-wrap gap-2.5">
+                    {category.skills.map((skill) => (
+                      <SkillPill key={skill.name} name={skill.name} years={skill.years} />
+                    ))}
+                  </div>
+                </div>
+              </article>
             )
           })}
         </div>

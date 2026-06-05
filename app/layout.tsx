@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist_Mono, Plus_Jakarta_Sans } from 'next/font/google'
 import '@/app/globals.css'
 import { Analytics } from '@vercel/analytics/next'
 import Link from 'next/link'
 import { ThemeProvider } from '@/components/theme/theme-provider'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: '--font-plus-jakarta',
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 })
 
 const geistMono = Geist_Mono({
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'Namri Amine - Senior Full-Stack Developer',
@@ -42,6 +43,7 @@ export const metadata: Metadata = {
       'Building production SaaS platforms end to end with Next.js, React, TypeScript, Node.js, FastAPI, and AI/geospatial workflows.',
     url: '/',
     siteName: 'Namri Amine Portfolio',
+    images: ['/opengraph-image'],
     type: 'website',
     locale: 'en_US',
   },
@@ -50,6 +52,7 @@ export const metadata: Metadata = {
     title: 'Namri Amine - Senior JavaScript Full-Stack Developer',
     description:
       'Building production SaaS platforms end to end with Next.js, React, TypeScript, Node.js, FastAPI, and AI/geospatial workflows.',
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,
@@ -68,15 +71,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}>
+      <body
+        className={`${plusJakartaSans.variable} ${geistMono.variable} overflow-x-hidden bg-[var(--page-bg)] antialiased`}
+      >
         <Link
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-sky-600 focus:px-3 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-teal-600 focus:px-3 focus:py-2 focus:text-white"
         >
           Skip to content
         </Link>
         <ThemeProvider>
-          <div className="min-h-dvh w-full">{children}</div>
+          <div className="min-h-dvh w-full bg-transparent">{children}</div>
         </ThemeProvider>
         <Analytics />
       </body>
