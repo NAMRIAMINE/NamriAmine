@@ -40,10 +40,7 @@ export function Contact() {
         >
           <div className="grid gap-10 rounded-[2.2rem] border border-white/70 bg-white/76 p-7 backdrop-blur-2xl sm:p-9 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)] lg:p-12">
             <div>
-              <p className="text-sm font-medium uppercase text-slate-500">
-                Action
-              </p>
-              <h2 className="font-display mt-6 max-w-[8ch] text-[clamp(3rem,6vw,5.8rem)] leading-[0.9] tracking-[-0.07em] text-slate-950">
+              <h2 className="font-display max-w-[8ch] text-[clamp(3rem,6vw,5.8rem)] leading-[0.9] tracking-[-0.07em] text-slate-950">
                 Ready for the next build.
               </h2>
               <p className="mt-6 max-w-[54ch] text-lg leading-8 text-slate-600">
@@ -94,9 +91,7 @@ export function Contact() {
 
             <div className="space-y-3">
               <div className="rounded-[1.8rem] border border-white/80 bg-slate-950 p-6 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)]">
-                <p className="text-xs font-medium uppercase text-white/52">
-                  Direct email
-                </p>
+                <p className="text-xs font-medium uppercase text-white/52">Direct email</p>
                 <Link
                   href={`mailto:${personalInfo.email}`}
                   className="mt-4 block text-[clamp(1.5rem,3vw,2.2rem)] font-semibold leading-tight text-white transition-colors duration-300 hover:text-teal-300"

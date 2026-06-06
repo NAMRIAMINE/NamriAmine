@@ -1,99 +1,190 @@
 'use client'
 
-import { ArrowUpRight, DownloadSimple } from '@phosphor-icons/react'
+import { DownloadSimple } from '@phosphor-icons/react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { type ElementType, useEffect, useRef } from 'react'
+import {
+  SiFastapi,
+  SiGooglegemini,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiPostgresql,
+  SiPython,
+  SiReact,
+  SiTypescript,
+} from 'react-icons/si'
 import { Button } from '@/components/ui/button'
 import { personalInfo } from '@/data/personal'
-import { projects } from '@/data/projects'
 import { scrollToSection } from '@/lib/utils'
 
-function HeroVisualCard({
-  title,
-  caption,
-  image,
-  priority = false,
-  compact = false,
+type OrbitIconDef = { Icon: ElementType; label: string; color: string }
+
+const INNER_ICONS: OrbitIconDef[] = [
+  { Icon: SiNextdotjs, label: 'Next.js', color: '#0f172a' },
+  { Icon: SiReact, label: 'React', color: '#61dafb' },
+  { Icon: SiTypescript, label: 'TypeScript', color: '#3178c6' },
+  { Icon: SiFastapi, label: 'FastAPI', color: '#009688' },
+]
+
+const OUTER_ICONS: OrbitIconDef[] = [
+  { Icon: SiPython, label: 'Python', color: '#3776ab' },
+  { Icon: SiNodedotjs, label: 'Node.js', color: '#339933' },
+  { Icon: SiPostgresql, label: 'PostgreSQL', color: '#336791' },
+  { Icon: SiGooglegemini, label: 'Gemini', color: '#4285f4' },
+]
+
+// Layout constants (px) — scaled up so image dominates, icons read clearly
+const CONTAINER = 436
+const OUTER_RING = 380 // r = 190 — icon centers sit at container edges
+const INNER_RING = 280 // r = 140
+const PROFILE = 220 // circle diameter
+const ICON_HALF = 28 // half of 56px pill (h-14 w-14)
+
+function OrbitRing({
+  icons,
+  ringSize,
+  duration,
+  reverse = false,
+  initialAngle = -Math.PI / 2,
 }: {
-  title: string
-  caption: string
-  image?: string
-  priority?: boolean
-  compact?: boolean
+  icons: OrbitIconDef[]
+  ringSize: number
+  duration: number
+  reverse?: boolean
+  initialAngle?: number
 }) {
+  const r = ringSize / 2
+  const offset = (CONTAINER - ringSize) / 2
+
   return (
-    <article className="group rounded-[2rem] border border-white/80 bg-white/78 p-3 shadow-[0_30px_90px_rgba(15,23,42,0.1)] backdrop-blur-xl">
-      <div
-        className={`relative overflow-hidden rounded-[1.6rem] bg-[radial-gradient(circle_at_top,rgba(94,234,212,0.26),rgba(255,255,255,0)_55%),linear-gradient(180deg,rgba(241,245,249,0.9),rgba(255,255,255,0.98))] ${
-          compact ? 'min-h-[220px]' : 'min-h-[440px]'
-        }`}
-      >
-        <div className="absolute left-5 top-5 z-10 flex gap-1.5" aria-hidden="true">
-          <span className="h-2 w-2 rounded-full bg-slate-300" />
-          <span className="h-2 w-2 rounded-full bg-slate-300" />
-          <span className="h-2 w-2 rounded-full bg-teal-400" />
-        </div>
-        {image && (
-          <Image
-            src={image}
-            alt={`${title} screenshot`}
-            fill
-            priority={priority}
-            sizes={compact ? '(max-width: 1024px) 100vw, 22vw' : '(max-width: 1024px) 100vw, 38vw'}
-            className="object-contain p-6 pt-14 transition-transform duration-700 ease-out group-hover:scale-105"
-          />
-        )}
-        <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-slate-950/78 via-slate-950/26 to-transparent px-5 pb-5 pt-16 text-white">
-          <p className="text-sm font-semibold">{title}</p>
-          <p className="mt-1 max-w-[28ch] text-sm leading-6 text-white/74">{caption}</p>
-        </div>
-      </div>
-    </article>
+    <motion.div
+      aria-hidden="true"
+      className="absolute rounded-full border border-slate-200/60"
+      style={{ width: ringSize, height: ringSize, top: offset, left: offset }}
+      animate={{ rotate: reverse ? -360 : 360 }}
+      transition={{ repeat: Infinity, duration, ease: 'linear' }}
+    >
+      {icons.map(({ Icon, label, color }, i) => {
+        const angle = (i / icons.length) * 2 * Math.PI + initialAngle
+        const cx = r + r * Math.cos(angle) - ICON_HALF
+        const cy = r + r * Math.sin(angle) - ICON_HALF
+        return (
+          <motion.div
+            key={label}
+            className="absolute"
+            style={{ left: cx, top: cy }}
+            animate={{ rotate: reverse ? 360 : -360 }}
+            transition={{ repeat: Infinity, duration, ease: 'linear' }}
+          >
+            <div
+              className="flex h-14 w-14 items-center justify-center rounded-[1.1rem] border border-white/80 bg-white/90 shadow-[0_8px_24px_rgba(15,23,42,0.10)] backdrop-blur-md"
+              title={label}
+            >
+              <Icon style={{ color }} className="h-6 w-6" aria-hidden />
+            </div>
+          </motion.div>
+        )
+      })}
+    </motion.div>
+  )
+}
+
+// Inline film-grain noise — lightweight canvas, no new dependency
+function HeroNoise() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d', { alpha: true })
+    if (!ctx) return
+
+    const SIZE = 512
+    canvas.width = SIZE
+    canvas.height = SIZE
+
+    let frame = 0
+    let animId: number
+
+    const draw = () => {
+      const img = ctx.createImageData(SIZE, SIZE)
+      for (let i = 0; i < img.data.length; i += 4) {
+        const v = Math.random() * 255
+        img.data[i] = v
+        img.data[i + 1] = v
+        img.data[i + 2] = v
+        img.data[i + 3] = 14 // ~5.5% opacity
+      }
+      ctx.putImageData(img, 0, 0)
+    }
+
+    const loop = () => {
+      if (frame % 3 === 0) draw()
+      frame++
+      animId = requestAnimationFrame(loop)
+    }
+
+    loop()
+    return () => cancelAnimationFrame(animId)
+  }, [])
+
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
+      <canvas
+        ref={canvasRef}
+        className="h-full w-full"
+        style={{ imageRendering: 'pixelated', mixBlendMode: 'overlay', opacity: 0.6 }}
+      />
+    </div>
   )
 }
 
 export function Hero() {
-  const [leadProject, supportProject] = projects
+  const profileOffset = (CONTAINER - PROFILE) / 2 // 108 px
 
   return (
     <section
       id="home"
-      className="relative isolate overflow-hidden px-4 pb-20 pt-28 scroll-mt-16 sm:px-6 md:pb-28 md:pt-32 lg:px-8 lg:pb-36 lg:pt-40"
+      className="relative isolate overflow-hidden bg-[#edf1f7] px-4 pb-20 pt-28 scroll-mt-16 sm:px-6 md:pb-28 md:pt-32 lg:px-8 lg:pb-36 lg:pt-40"
     >
+      {/* Depth gradient — neutral slate left, teal accent right */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 -z-10 h-[36rem] bg-[radial-gradient(circle_at_20%_18%,rgba(45,212,191,0.22),rgba(255,255,255,0)_38%),radial-gradient(circle_at_82%_14%,rgba(94,234,212,0.2),rgba(255,255,255,0)_26%)]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute left-1/2 top-40 -z-10 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.8),rgba(255,255,255,0)_70%)] blur-3xl"
+        className="absolute inset-x-0 top-0 -z-10 h-[36rem] bg-[radial-gradient(ellipse_55%_45%_at_18%_15%,rgba(148,163,184,0.18),transparent),radial-gradient(ellipse_38%_32%_at_78%_22%,rgba(20,184,166,0.16),transparent)]"
       />
 
-      <div className="page-shell grid items-center gap-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(430px,0.95fr)] lg:gap-14">
+      {/* Film-grain texture from React Bits Noise pattern */}
+      <HeroNoise />
+
+      <div className="relative z-10 page-shell grid items-center gap-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(460px,0.95fr)] lg:gap-14">
+        {/* Left: editorial copy */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
           className="min-w-0"
         >
-          <p className="text-sm font-medium uppercase text-slate-500">
-            {personalInfo.title}
-          </p>
+          <p className="text-sm font-medium uppercase text-slate-500">{personalInfo.title}</p>
 
-          <h1 className="font-display mt-6 max-w-6xl text-[clamp(3.25rem,7vw,7rem)] leading-[0.9] tracking-[-0.08em] text-slate-950">
-            {personalInfo.name} builds
-            <span className="mx-3 inline-flex h-[0.88em] w-[1.95em] overflow-hidden rounded-full border border-white/90 align-[-0.1em] shadow-[0_14px_40px_rgba(15,23,42,0.14)]">
+          {/* Mobile-only avatar */}
+          <div className="mt-5 flex items-center gap-3 lg:hidden">
+            <div className="h-12 w-12 overflow-hidden rounded-full ring-2 ring-teal-300/60">
               <Image
-                src={leadProject?.image ?? '/indus-inspection.webp'}
-                alt=""
-                width={180}
-                height={90}
-                aria-hidden="true"
+                src="/profile-thumb.webp"
+                alt="Namri Amine"
+                width={48}
+                height={48}
                 className="h-full w-full object-cover"
               />
-            </span>
-            full-stack systems for SaaS, AI, and field operations.
+            </div>
+            <span className="text-sm font-medium text-slate-600">{personalInfo.location}</span>
+          </div>
+
+          <h1 className="font-display mt-6 max-w-6xl text-[clamp(2.5rem,5.5vw,5.5rem)] font-extrabold leading-[0.9] tracking-[-0.08em] text-slate-950">
+            {personalInfo.name} builds full-stack systems for SaaS, AI, and field operations.
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">
@@ -133,66 +224,65 @@ export function Hero() {
 
           <div className="mt-10 max-w-2xl border-t border-slate-200/80 pt-6 text-sm leading-7 text-slate-500">
             <span className="font-medium text-slate-700">
-              Currently shipping {supportProject?.title ?? 'Creaboost'} at{' '}
-              {personalInfo.experience.company}.
+              Currently at {personalInfo.experience.company}.
             </span>{' '}
             Available for remote contract and full-time product work.
           </div>
         </motion.div>
 
+        {/* Right: solar-system orbit */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, ease: [0.32, 0.72, 0, 1], delay: 0.08 }}
-          className="relative"
+          className="relative hidden lg:flex lg:flex-col lg:items-center lg:gap-5"
         >
+          {/* Ambient teal glow */}
           <div
             aria-hidden="true"
-            className="absolute -left-8 top-10 h-32 w-32 rounded-full bg-teal-200/40 blur-3xl"
+            className="absolute top-1/2 left-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-teal-200/30 blur-3xl"
           />
-          <div
-            aria-hidden="true"
-            className="absolute -right-8 bottom-6 h-40 w-40 rounded-full bg-teal-200/30 blur-3xl"
-          />
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(210px,0.64fr)]">
-            <HeroVisualCard
-              title={leadProject?.title ?? 'Indus Inspection'}
-              caption="Industrial inspection platform with AI review, mapping, and client-ready export flows."
-              image={leadProject?.image}
-              priority
+
+          {/* Orbit stage */}
+          <div className="relative" style={{ width: CONTAINER, height: CONTAINER }}>
+            {/* Outer ring — counter-clockwise, slow */}
+            <OrbitRing
+              icons={OUTER_ICONS}
+              ringSize={OUTER_RING}
+              duration={30}
+              reverse
+              initialAngle={-Math.PI / 2}
             />
-            <div className="grid gap-4">
-              <HeroVisualCard
-                title={supportProject?.title ?? 'Creaboost'}
-                caption="AI creative automation with media processing, campaign workflows, and ops-grade delivery."
-                image={supportProject?.image}
-                compact
+
+            {/* Inner ring — clockwise, faster, 45° offset */}
+            <OrbitRing
+              icons={INNER_ICONS}
+              ringSize={INNER_RING}
+              duration={18}
+              initialAngle={-Math.PI / 4}
+            />
+
+            {/* Profile circle */}
+            <div
+              className="absolute overflow-hidden rounded-full ring-2 ring-teal-400/50 ring-offset-2 ring-offset-[#edf1f7]"
+              style={{ width: PROFILE, height: PROFILE, top: profileOffset, left: profileOffset }}
+            >
+              <Image
+                src="/profile.webp"
+                alt="Namri Amine"
+                fill
+                priority
+                sizes="220px"
+                className="object-cover object-top"
               />
-              <div className="rounded-[2rem] border border-white/80 bg-white/74 p-5 shadow-[0_30px_90px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-                <div className="rounded-[1.6rem] bg-[linear-gradient(180deg,rgba(15,23,42,0.94),rgba(15,23,42,0.78))] p-6 text-white">
-                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/60">
-                    Delivery range
-                  </p>
-                  <div className="mt-4 space-y-4">
-                    <div>
-                      <p className="text-2xl font-semibold">Interfaces to infrastructure</p>
-                      <p className="mt-2 text-sm leading-6 text-white/72">
-                        React, Next.js, Node.js, FastAPI, queues, and production-ready data layers.
-                      </p>
-                    </div>
-                    <Link
-                      href={personalInfo.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm font-medium text-teal-300 transition-colors duration-300 hover:text-white"
-                    >
-                      LinkedIn
-                      <ArrowUpRight className="h-4 w-4" weight="bold" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
             </div>
+          </div>
+
+          {/* Name badge below orbit */}
+          <div className="flex items-center gap-2 rounded-full border border-white/80 bg-white/90 px-4 py-2 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-md">
+            <span className="h-2 w-2 rounded-full bg-teal-400" aria-hidden="true" />
+            <span className="text-sm font-semibold text-slate-950">{personalInfo.name}</span>
+            <span className="text-xs text-slate-500">Full-Stack Dev</span>
           </div>
         </motion.div>
       </div>

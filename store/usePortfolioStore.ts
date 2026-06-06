@@ -6,7 +6,7 @@ interface PortfolioState {
   showScrollTop: boolean
 
   setActiveSection: (section: string) => void
-  toggleMobileMenu: () => void
+  setMobileMenuOpen: (open: boolean) => void
   setShowScrollTop: (show: boolean) => void
 }
 
@@ -19,10 +19,9 @@ export const usePortfolioStore = create<PortfolioState>()((set, get) => ({
     if (get().activeSection !== section) set({ activeSection: section })
   },
 
-  toggleMobileMenu: () =>
-    set((state) => ({
-      isMobileMenuOpen: !state.isMobileMenuOpen,
-    })),
+  setMobileMenuOpen: (open) => {
+    if (get().isMobileMenuOpen !== open) set({ isMobileMenuOpen: open })
+  },
 
   setShowScrollTop: (show) => {
     if (get().showScrollTop !== show) set({ showScrollTop: show })

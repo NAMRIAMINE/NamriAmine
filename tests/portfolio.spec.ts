@@ -31,11 +31,13 @@ for (const width of WIDTHS) {
 
 // ─── Hero content ───────────────────────────────────────────────────────────
 
-test('hero contains positioning text', async ({ page }) => {
+test('hero contains the new positioning headline', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Senior JavaScript')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Full-Stack')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Developer')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Namri Amine')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('full-stack systems')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    'SaaS, AI, and field operations',
+  )
 })
 
 test('hero primary actions are visible at mobile and desktop widths', async ({ page }) => {
@@ -63,7 +65,7 @@ test('primary CTA scrolls to projects section', async ({ page }) => {
 
 test('resume link points to correct PDF', async ({ page }) => {
   await page.goto('/')
-  const resumeLink = page.getByRole('link', { name: /Download Resume/i })
+  const resumeLink = page.locator('#home').getByRole('link', { name: /Download Resume/i })
   await expect(resumeLink).toHaveAttribute('href', '/Namri_Amine_Resume.pdf')
 })
 
@@ -81,6 +83,12 @@ test('second project is Creaboost', async ({ page }) => {
   await expect(secondProject).toContainText('Creaboost')
 })
 
+test('flagship projects expose proof actions', async ({ page }) => {
+  await page.goto('/')
+  const flagshipProject = page.locator('[data-project-presentation="flagship"]').first()
+  await expect(flagshipProject.locator('a').first()).toBeVisible()
+})
+
 test('Dr Turbine is rendered as a secondary project case study', async ({ page }) => {
   await page.goto('/')
   const secondaryProject = page.locator('[data-project-presentation="secondary"]')
@@ -93,6 +101,15 @@ test('Filahi is rendered as an archive project', async ({ page }) => {
   const archiveProject = page.locator('[data-project-presentation="archive"]')
   await expect(archiveProject).toContainText('Filahi WebApp')
   await expect(archiveProject.locator('img')).toBeVisible()
+})
+
+test('skills section keeps brand and niche technologies visible', async ({ page }) => {
+  await page.goto('/')
+  const skills = page.locator('#skills')
+  await skills.scrollIntoViewIfNeeded()
+  await expect(skills).toContainText('FastAPI')
+  await expect(skills).toContainText('Better Auth')
+  await expect(skills).toContainText('MapLibreGL')
 })
 
 // ─── Mobile menu ─────────────────────────────────────────────────────────────
@@ -135,6 +152,12 @@ test('opengraph-image route returns 200', async ({ page }) => {
   expect(response?.status()).toBe(200)
 })
 
+test('unknown route renders the branded 404 page', async ({ page }) => {
+  const response = await page.goto('/missing-page')
+  expect(response?.status()).toBe(404)
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('This page is not here')
+})
+
 test('resume PDF returns 200 with pdf content-type', async ({ request }) => {
   const response = await request.get('/Namri_Amine_Resume.pdf')
   expect(response.status()).toBe(200)
@@ -147,7 +170,8 @@ for (const image of [
   '/creaboost.webp',
   '/dr-turbine.webp',
   '/filahi.webp',
-  '/pdp.webp',
+  '/profile.webp',
+  '/profile-thumb.webp',
 ]) {
   test(`public image ${image} returns 200`, async ({ page }) => {
     const response = await page.goto(image)

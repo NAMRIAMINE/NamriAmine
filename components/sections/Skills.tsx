@@ -193,8 +193,8 @@ export function Skills() {
             Every layer of the stack, covered.
           </h2>
           <p className="mt-6 max-w-[60ch] text-lg leading-8 text-slate-600">
-            From React interfaces and Node services to computer vision pipelines and mobile delivery.
-            Six categories, one working loop.
+            From React interfaces and Node services to computer vision pipelines and mobile
+            delivery. Six categories, one working loop.
           </p>
         </div>
 
@@ -217,9 +217,7 @@ export function Skills() {
                   className={isWide ? 'grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]' : 'space-y-6'}
                 >
                   <div>
-                    <p className="text-xs font-medium uppercase text-slate-400">
-                      {category.title}
-                    </p>
+                    <p className="text-xs font-medium uppercase text-slate-400">{category.title}</p>
                     <h3 className="font-display mt-4 text-[1.75rem] leading-[0.94] tracking-[-0.04em] text-slate-950">
                       {layout.summary}
                     </h3>

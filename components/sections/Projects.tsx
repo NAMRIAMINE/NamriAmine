@@ -242,9 +242,7 @@ export function Projects() {
 
                       <div className="grid gap-5 md:grid-cols-2">
                         <div>
-                          <p className="text-xs font-medium uppercase text-white/42">
-                            Scope
-                          </p>
+                          <p className="text-xs font-medium uppercase text-white/42">Scope</p>
                           <div className="mt-3 space-y-2">
                             {(project.scope ?? project.features)
                               .slice(0, FEATURE_LIMIT)
@@ -259,9 +257,7 @@ export function Projects() {
                           </div>
                         </div>
                         <div>
-                          <p className="text-xs font-medium uppercase text-white/42">
-                            Outcome
-                          </p>
+                          <p className="text-xs font-medium uppercase text-white/42">Outcome</p>
                           <p className="mt-3 text-sm leading-6 text-white/74">
                             {project.outcome ?? project.features.slice(0, FEATURE_LIMIT).join(', ')}
                           </p>

@@ -94,10 +94,7 @@ export function About() {
       <div className="page-shell grid gap-12 lg:grid-cols-[minmax(320px,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
         <div ref={headerRef} className="space-y-8 lg:pr-10">
           <div>
-            <p className="text-sm font-medium uppercase text-slate-500">
-              Operating model
-            </p>
-            <h2 className="font-display mt-6 max-w-[11ch] text-[clamp(2.8rem,5vw,5rem)] leading-[0.92] tracking-[-0.06em] text-slate-950">
+            <h2 className="font-display max-w-[11ch] text-[clamp(2.8rem,5vw,5rem)] leading-[0.92] tracking-[-0.06em] text-slate-950">
               End to end, not just the pleasant parts.
             </h2>
           </div>
@@ -155,9 +152,7 @@ export function About() {
                 key={card.label}
                 className="rounded-[2rem] border border-white/80 bg-white/78 p-5 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl"
               >
-                <p className="text-xs font-medium uppercase text-slate-400">
-                  {card.label}
-                </p>
+                <p className="text-xs font-medium uppercase text-slate-400">{card.label}</p>
                 <p className="mt-4 text-lg font-semibold leading-7 text-slate-950">{card.value}</p>
                 <p className="mt-3 text-sm leading-6 text-slate-600">{card.body}</p>
               </article>
@@ -165,9 +160,7 @@ export function About() {
           </div>
 
           <div className="rounded-[2rem] border border-white/80 bg-[linear-gradient(180deg,rgba(204,251,241,0.5),rgba(255,255,255,0.92))] p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06)]">
-            <p className="text-xs font-medium uppercase text-slate-400">
-              Recent systems
-            </p>
+            <p className="text-xs font-medium uppercase text-slate-400">Recent systems</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {projects.map((project) => (
                 <span

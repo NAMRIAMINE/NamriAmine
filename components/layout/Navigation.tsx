@@ -38,7 +38,7 @@ export function Navigation() {
         >
           <div className="h-10 w-10 overflow-hidden rounded-full ring-1 ring-slate-200/80">
             <Image
-              src="/pdp.webp"
+              src="/profile-thumb.webp"
               alt="Namri Amine"
               width={40}
               height={40}
@@ -113,7 +113,7 @@ export function Navigation() {
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 overflow-hidden rounded-full ring-1 ring-slate-200/80">
                     <Image
-                      src="/pdp.webp"
+                      src="/profile-thumb.webp"
                       alt="Namri Amine"
                       width={48}
                       height={48}
@@ -164,9 +164,7 @@ export function Navigation() {
                   </div>
 
                   <div className="mt-6 rounded-[1.5rem] bg-[#f3f8fd] p-4 ring-1 ring-slate-200/70">
-                    <p className="text-xs font-medium  text-slate-400">
-                      Availability
-                    </p>
+                    <p className="text-xs font-medium  text-slate-400">Availability</p>
                     <p className="mt-2 text-sm font-medium leading-6 text-slate-700">
                       {personalInfo.availability}
                     </p>
