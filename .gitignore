@@ -46,6 +46,7 @@ screenshot-*.png
 qa-*.png
 dev-server*.log
 test-results/
+ui-audit/
 resume_render_check/
 resume_review_current/
 

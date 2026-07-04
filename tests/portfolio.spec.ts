@@ -31,11 +31,41 @@ for (const width of WIDTHS) {
 
 // ─── Hero content ───────────────────────────────────────────────────────────
 
-test('hero contains positioning text', async ({ page }) => {
+test('hero contains the new positioning headline', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Senior JavaScript')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Full-Stack')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Developer')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Namri Amine')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('full-stack systems')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    'SaaS, AI, and field operations',
+  )
+})
+
+test('display typography uses Geist with restrained heading weights', async ({ page }) => {
+  await page.goto('/')
+
+  const typography = await page.locator('h1, h2, h3').evaluateAll((elements) =>
+    elements.map((element) => {
+      const styles = getComputedStyle(element)
+      return { family: styles.fontFamily, weight: Number.parseInt(styles.fontWeight, 10) }
+    }),
+  )
+
+  expect(typography.length).toBeGreaterThan(0)
+  expect(typography.every(({ family }) => /geist/i.test(family))).toBe(true)
+  expect(typography.every(({ weight }) => weight <= 600)).toBe(true)
+})
+
+test('content keeps minimum responsive page gutters', async ({ page }) => {
+  for (const viewport of [
+    { width: 390, height: 844, minimumGutter: 20 },
+    { width: 1440, height: 900, minimumGutter: 60 },
+  ]) {
+    await page.setViewportSize(viewport)
+    await page.goto('/')
+    const heading = await page.locator('#home h1').boundingBox()
+    expect(heading).not.toBeNull()
+    expect(heading?.x ?? 0).toBeGreaterThanOrEqual(viewport.minimumGutter)
+  }
 })
 
 test('hero primary actions are visible at mobile and desktop widths', async ({ page }) => {
@@ -51,8 +81,23 @@ test('hero primary actions are visible at mobile and desktop widths', async ({ p
     await expect(hero.getByRole('button', { name: 'View Work' })).toBeVisible()
     await expect(hero.getByRole('button', { name: 'Contact' })).toBeVisible()
     await expect(hero.getByRole('link', { name: /Download Resume/i })).toBeVisible()
+    await expect(hero.getByRole('button', { name: 'View Work' })).toBeInViewport()
     await noHorizontalOverflow(page)
   }
+})
+
+test('hero uses optimized profile assets and a desktop-only orbit', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+
+  const hero = page.locator('#home')
+  await expect(hero.locator('[data-hero-orbit]')).toBeVisible()
+  await expect(hero.locator('img[src*="profile.webp"]')).toBeVisible()
+  await expect(hero.locator('canvas')).toHaveCount(0)
+
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expect(hero.locator('[data-hero-orbit]')).not.toBeVisible()
+  await expect(hero.locator('img[src*="profile-thumb.webp"]')).toBeVisible()
 })
 
 test('primary CTA scrolls to projects section', async ({ page }) => {
@@ -63,7 +108,7 @@ test('primary CTA scrolls to projects section', async ({ page }) => {
 
 test('resume link points to correct PDF', async ({ page }) => {
   await page.goto('/')
-  const resumeLink = page.getByRole('link', { name: /Download Resume/i })
+  const resumeLink = page.locator('#home').getByRole('link', { name: /Download Resume/i })
   await expect(resumeLink).toHaveAttribute('href', '/Namri_Amine_Resume.pdf')
 })
 
@@ -81,6 +126,12 @@ test('second project is Creaboost', async ({ page }) => {
   await expect(secondProject).toContainText('Creaboost')
 })
 
+test('flagship projects expose proof actions', async ({ page }) => {
+  await page.goto('/')
+  const flagshipProject = page.locator('[data-project-presentation="flagship"]').first()
+  await expect(flagshipProject.locator('a').first()).toBeVisible()
+})
+
 test('Dr Turbine is rendered as a secondary project case study', async ({ page }) => {
   await page.goto('/')
   const secondaryProject = page.locator('[data-project-presentation="secondary"]')
@@ -93,6 +144,31 @@ test('Filahi is rendered as an archive project', async ({ page }) => {
   const archiveProject = page.locator('[data-project-presentation="archive"]')
   await expect(archiveProject).toContainText('Filahi WebApp')
   await expect(archiveProject.locator('img')).toBeVisible()
+})
+
+test('supporting projects share equal visual geometry at desktop', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+  const supporting = page.locator('[data-supporting-projects] [data-project-tier="supporting"]')
+  await expect(supporting).toHaveCount(2)
+
+  const frames = supporting.locator('[data-project-image]')
+  const first = await frames.nth(0).boundingBox()
+  const second = await frames.nth(1).boundingBox()
+
+  expect(first).not.toBeNull()
+  expect(second).not.toBeNull()
+  expect(Math.abs((first?.width ?? 0) - (second?.width ?? 0))).toBeLessThanOrEqual(1)
+  expect(Math.abs((first?.height ?? 0) - (second?.height ?? 0))).toBeLessThanOrEqual(1)
+})
+
+test('skills section keeps brand and niche technologies visible', async ({ page }) => {
+  await page.goto('/')
+  const skills = page.locator('#skills')
+  await skills.scrollIntoViewIfNeeded()
+  await expect(skills).toContainText('FastAPI')
+  await expect(skills).toContainText('Better Auth')
+  await expect(skills).toContainText('MapLibreGL')
 })
 
 // ─── Mobile menu ─────────────────────────────────────────────────────────────
@@ -135,6 +211,12 @@ test('opengraph-image route returns 200', async ({ page }) => {
   expect(response?.status()).toBe(200)
 })
 
+test('unknown route renders the branded 404 page', async ({ page }) => {
+  const response = await page.goto('/missing-page')
+  expect(response?.status()).toBe(404)
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('This page is not here')
+})
+
 test('resume PDF returns 200 with pdf content-type', async ({ request }) => {
   const response = await request.get('/Namri_Amine_Resume.pdf')
   expect(response.status()).toBe(200)
@@ -147,7 +229,8 @@ for (const image of [
   '/creaboost.webp',
   '/dr-turbine.webp',
   '/filahi.webp',
-  '/pdp.webp',
+  '/profile.webp',
+  '/profile-thumb.webp',
 ]) {
   test(`public image ${image} returns 200`, async ({ page }) => {
     const response = await page.goto(image)
@@ -167,6 +250,13 @@ test('page renders correctly under reduced motion preference', async ({ browser 
 
   // heading still present
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  await expect(page.locator('#home canvas')).toHaveCount(0)
+
+  const orbitRing = page.locator('[data-orbit-ring]').first()
+  const before = await orbitRing.evaluate((element) => getComputedStyle(element).transform)
+  await page.waitForTimeout(150)
+  const after = await orbitRing.evaluate((element) => getComputedStyle(element).transform)
+  expect(after).toBe(before)
 
   // project cards still render
   const articles = page.locator('#projects article')

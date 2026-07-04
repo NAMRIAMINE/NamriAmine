@@ -5,6 +5,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -30,51 +31,83 @@
 
 :root {
   --radius: 0.625rem;
-  /* Slate-50 near-white background */
-  --background: oklch(0.984 0.002 247);
-  --foreground: oklch(0.2 0.03 255);
+  --page-bg: #eef8f5;
+  --background: oklch(0.988 0.004 180);
+  --foreground: oklch(0.19 0.028 200);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.03 255);
+  --card-foreground: oklch(0.19 0.028 200);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.03 255);
-  /* sky-600 as primary */
-  --primary: oklch(0.546 0.175 221);
+  --popover-foreground: oklch(0.19 0.028 200);
+  --primary: oklch(0.60 0.118 183);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.961 0.008 247);
-  --secondary-foreground: oklch(0.2 0.03 255);
-  --muted: oklch(0.961 0.008 247);
-  --muted-foreground: oklch(0.52 0.04 255);
-  --accent: oklch(0.961 0.008 247);
-  --accent-foreground: oklch(0.2 0.03 255);
+  --secondary: oklch(0.965 0.008 180);
+  --secondary-foreground: oklch(0.19 0.028 200);
+  --muted: oklch(0.965 0.008 180);
+  --muted-foreground: oklch(0.5 0.03 190);
+  --accent: oklch(0.965 0.008 180);
+  --accent-foreground: oklch(0.19 0.028 200);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.01 255);
-  --input: oklch(0.9 0.01 255);
-  --ring: oklch(0.546 0.175 221 / 40%);
+  --border: oklch(0.91 0.008 180);
+  --input: oklch(0.91 0.008 180);
+  --ring: oklch(0.60 0.118 183 / 35%);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   html {
     overflow-x: hidden;
-    background: #f8fbff;
+    background: var(--page-bg);
   }
+
   body {
     @apply text-foreground;
+    position: relative;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 251, 255, 0.96) 100%),
+      radial-gradient(circle at 12% 8%, rgba(94, 234, 212, 0.22), transparent 28%),
+      radial-gradient(circle at 88% 10%, rgba(45, 212, 191, 0.12), transparent 22%),
+      radial-gradient(circle at 50% 100%, rgba(20, 184, 166, 0.08), transparent 30%),
+      linear-gradient(180deg, #fbfefd 0%, #f0faf8 44%, #f5fdfb 100%);
+  }
+
+  body::before,
+  body::after {
+    content: '';
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+  }
+
+  body::before {
+    opacity: 0.26;
+    background:
       repeating-linear-gradient(
         90deg,
-        rgba(14, 116, 144, 0.035) 0,
-        rgba(14, 116, 144, 0.035) 1px,
+        rgba(148, 163, 184, 0.12) 0,
+        rgba(148, 163, 184, 0.12) 1px,
         transparent 1px,
-        transparent 80px
+        transparent 88px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.28) 0,
+        rgba(255, 255, 255, 0.28) 1px,
+        transparent 1px,
+        transparent 88px
       );
   }
 
+  body::after {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8), transparent 45%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent 25%);
+  }
+
   ::selection {
-    background: rgba(2, 132, 199, 0.16);
+    background: rgba(13, 148, 136, 0.16);
     color: #0f172a;
   }
 
@@ -108,5 +141,52 @@
       animation-iteration-count: 1;
       transition-duration: 0.01ms;
     }
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+  }
+
+  .page-shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 92rem;
+    padding-inline: clamp(1.25rem, 4.5vw, 4rem);
+  }
+
+  .section-space {
+    padding-block: clamp(6rem, 9vw, 9rem);
+  }
+
+  .hero-noise {
+    opacity: 0.2;
+    mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.28) 0 0.55px, transparent 0.7px),
+      radial-gradient(circle at 70% 65%, rgba(15, 118, 110, 0.22) 0 0.45px, transparent 0.65px);
+    background-position: 0 0, 3px 2px;
+    background-size: 5px 5px, 7px 7px;
+  }
+
+  .marquee-track {
+    animation: marquee 28s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
   }
 }

@@ -1,99 +1,166 @@
 'use client'
 
-import {
-  ArrowUpRight,
-  Braces,
-  ChevronRight,
-  Database,
-  Download,
-  Mail,
-  Workflow,
-} from 'lucide-react'
-import { motion } from 'motion/react'
+import { DownloadSimple } from '@phosphor-icons/react'
+import { motion, useReducedMotion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import type { ElementType } from 'react'
+import {
+  SiFastapi,
+  SiGooglegemini,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiPostgresql,
+  SiPython,
+  SiReact,
+  SiTypescript,
+} from 'react-icons/si'
 import { Button } from '@/components/ui/button'
 import { personalInfo } from '@/data/personal'
 import { scrollToSection } from '@/lib/utils'
 
-const STACK_LAYERS = [
-  { label: 'Interface', value: 'Next.js, React, TypeScript', icon: Braces },
-  { label: 'Systems', value: 'Node/FastAPI, auth, queues', icon: Workflow },
-  { label: 'Data', value: 'PostgreSQL, Redis, Prisma', icon: Database },
-] as const
+type OrbitIconDef = { Icon: ElementType; label: string; color: string }
 
-const CAPABILITY_RAIL = [
-  {
-    label: 'Product platforms',
-    value: 'SaaS workflows, dashboards, roles, reporting',
-  },
-  {
-    label: 'APIs and data',
-    value: 'REST services, queues, relational data, cache layers',
-  },
-  {
-    label: 'Advanced domains',
-    value: 'AI pipelines, media processing, geospatial UX',
-  },
-] as const
+const INNER_ICONS: OrbitIconDef[] = [
+  { Icon: SiNextdotjs, label: 'Next.js', color: '#0f172a' },
+  { Icon: SiReact, label: 'React', color: '#61dafb' },
+  { Icon: SiTypescript, label: 'TypeScript', color: '#3178c6' },
+  { Icon: SiFastapi, label: 'FastAPI', color: '#009688' },
+]
 
-const PROOF_POINTS = [
-  { value: '6+', label: 'years' },
-  { value: '15+', label: 'systems' },
-  { value: 'Talio', label: 'current' },
-] as const
+const OUTER_ICONS: OrbitIconDef[] = [
+  { Icon: SiPython, label: 'Python', color: '#3776ab' },
+  { Icon: SiNodedotjs, label: 'Node.js', color: '#339933' },
+  { Icon: SiPostgresql, label: 'PostgreSQL', color: '#336791' },
+  { Icon: SiGooglegemini, label: 'Gemini', color: '#4285f4' },
+]
+
+// Layout constants (px) — scaled up so image dominates, icons read clearly
+const CONTAINER = 436
+const OUTER_RING = 380 // r = 190 — icon centers sit at container edges
+const INNER_RING = 280 // r = 140
+const PROFILE = 220 // circle diameter
+const ICON_HALF = 28 // half of 56px pill (h-14 w-14)
+
+function OrbitRing({
+  icons,
+  ringSize,
+  duration,
+  reverse = false,
+  initialAngle = -Math.PI / 2,
+  reducedMotion = false,
+}: {
+  icons: OrbitIconDef[]
+  ringSize: number
+  duration: number
+  reverse?: boolean
+  initialAngle?: number
+  reducedMotion?: boolean
+}) {
+  const r = ringSize / 2
+  const offset = (CONTAINER - ringSize) / 2
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      data-orbit-ring
+      className="absolute rounded-full border border-slate-200/60"
+      style={{ width: ringSize, height: ringSize, top: offset, left: offset }}
+      animate={{ rotate: reducedMotion ? 0 : reverse ? -360 : 360 }}
+      transition={reducedMotion ? { duration: 0 } : { repeat: Infinity, duration, ease: 'linear' }}
+    >
+      {icons.map(({ Icon, label, color }, i) => {
+        const angle = (i / icons.length) * 2 * Math.PI + initialAngle
+        const cx = r + r * Math.cos(angle) - ICON_HALF
+        const cy = r + r * Math.sin(angle) - ICON_HALF
+        return (
+          <motion.div
+            key={label}
+            className="absolute"
+            style={{ left: cx, top: cy }}
+            animate={{ rotate: reducedMotion ? 0 : reverse ? 360 : -360 }}
+            transition={
+              reducedMotion ? { duration: 0 } : { repeat: Infinity, duration, ease: 'linear' }
+            }
+          >
+            <div
+              className="flex h-14 w-14 items-center justify-center rounded-[1.1rem] border border-white/80 bg-white/90 shadow-[0_8px_24px_rgba(15,23,42,0.10)] backdrop-blur-md"
+              title={label}
+            >
+              <Icon style={{ color }} className="h-6 w-6" aria-hidden />
+            </div>
+          </motion.div>
+        )
+      })}
+    </motion.div>
+  )
+}
 
 export function Hero() {
+  const reducedMotion = useReducedMotion()
+  const profileOffset = (CONTAINER - PROFILE) / 2 // 108 px
+
   return (
     <section
       id="home"
-      className="relative isolate flex min-h-dvh items-center overflow-hidden bg-[#f8fbff] px-4 pb-14 pt-28 scroll-mt-16 sm:px-6 sm:pt-32 lg:px-8"
+      className="relative isolate overflow-hidden bg-[#edf1f7] pb-20 pt-24 scroll-mt-16 md:pb-24 md:pt-28 lg:pb-28 lg:pt-32"
     >
+      {/* Depth gradient — neutral slate left, teal accent right */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 -z-10 h-48 bg-[radial-gradient(circle_at_50%_0%,rgba(2,132,199,0.16),rgba(248,251,255,0)_62%)]"
+        className="absolute inset-x-0 top-0 -z-10 h-[36rem] bg-[radial-gradient(ellipse_55%_45%_at_18%_15%,rgba(148,163,184,0.18),transparent),radial-gradient(ellipse_38%_32%_at_78%_22%,rgba(20,184,166,0.16),transparent)]"
       />
-      <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,420px)] lg:gap-16">
+
+      <div aria-hidden="true" className="hero-noise pointer-events-none absolute inset-0 z-0" />
+
+      <div className="page-shell relative z-10 grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(420px,0.85fr)] lg:gap-12">
+        {/* Left: editorial copy */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: [0.32, 0.72, 0, 1] }}
+          transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
           className="min-w-0"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[11px] font-medium tracking-[0.16em] text-slate-500 shadow-[0_1px_0_rgba(15,23,42,0.06)] ring-1 ring-slate-200/80">
-            <span className="h-1.5 w-1.5 rounded-full bg-sky-500" aria-hidden="true" />
-            PRODUCT ENGINEERING
+          <p className="text-sm font-medium text-slate-500">{personalInfo.title}</p>
+
+          {/* Mobile-only avatar */}
+          <div className="mt-5 flex items-center gap-3 lg:hidden">
+            <div className="h-12 w-12 overflow-hidden rounded-full ring-2 ring-teal-300/60">
+              <Image
+                src="/profile-thumb.webp"
+                alt="Namri Amine"
+                width={48}
+                height={48}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <span className="text-sm font-medium text-slate-600">{personalInfo.location}</span>
           </div>
 
-          <h1 className="max-w-[14ch] text-[2.75rem] font-semibold leading-[0.96] tracking-[-0.055em] text-slate-950 sm:max-w-none sm:text-6xl lg:text-[5.35rem]">
-            <span className="block">Senior JavaScript</span>
-            <span className="block">Full-Stack Developer</span>
+          <h1 className="font-display mt-6 max-w-[15ch] text-[clamp(2.5rem,6vw,6rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-slate-950 sm:max-w-6xl">
+            {personalInfo.name} builds full-stack systems for SaaS, AI, and field operations.
           </h1>
 
-          <p className="mt-6 max-w-[58ch] text-base leading-7 text-slate-600 sm:text-lg">
-            I build production platforms end to end with React, TypeScript, APIs, data layers,
-            queues, and advanced AI/geospatial workflows when the product demands it.
+          <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600 md:mt-8 md:text-xl md:leading-8">
+            Based in {personalInfo.location}, shipping product platforms across interface, APIs,
+            data workflows, media pipelines, and applied AI when the product needs real depth.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-8 flex flex-row flex-wrap items-center gap-3 md:mt-10">
             <Button
               size="lg"
               onClick={() => scrollToSection('projects')}
-              className="group rounded-full bg-sky-600 px-5 pr-2 text-white shadow-[0_18px_45px_rgba(2,132,199,0.22)] transition-[background-color,box-shadow,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-sky-700 hover:shadow-[0_18px_45px_rgba(2,132,199,0.28)] active:translate-y-px"
+              className="rounded-full bg-slate-950 px-5 text-white shadow-[0_20px_60px_rgba(15,23,42,0.16)] transition-colors duration-300 hover:bg-slate-800"
             >
               View Work
-              <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/20 transition-transform duration-300 group-hover:translate-x-0.5">
-                <ChevronRight className="h-4 w-4" />
-              </span>
             </Button>
 
             <Button
               size="lg"
               variant="outline"
               onClick={() => scrollToSection('contact')}
-              className="rounded-full border-slate-300 bg-white/80 px-5 text-slate-800 shadow-[0_8px_24px_rgba(15,23,42,0.06)] transition-[border-color,color,background-color,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 active:translate-y-px"
+              className="rounded-full border-slate-300 bg-white/78 px-5 text-slate-900 transition-colors duration-300 hover:border-teal-300 hover:bg-white"
             >
-              <Mail className="mr-2 h-4 w-4" />
               Contact
             </Button>
 
@@ -102,105 +169,78 @@ export function Hero() {
               download
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-full px-3 text-sm font-medium text-slate-500 transition-colors duration-300 hover:text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 sm:justify-start"
+              className="inline-flex h-11 items-center gap-2 rounded-full px-2 text-sm font-medium text-slate-600 transition-colors duration-300 hover:text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
             >
-              <Download className="h-4 w-4" />
+              <DownloadSimple className="h-4 w-4" weight="bold" />
               Download Resume
             </Link>
           </div>
 
-          <div className="mt-9 grid gap-3 sm:grid-cols-3">
-            {CAPABILITY_RAIL.map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.16 + index * 0.05 }}
-                className="rounded-3xl bg-white/72 p-4 shadow-[0_12px_34px_rgba(15,23,42,0.05)] ring-1 ring-slate-200/80"
-              >
-                <p className="text-sm font-semibold text-slate-950">{item.label}</p>
-                <p className="mt-2 text-xs leading-5 text-slate-500">{item.value}</p>
-              </motion.div>
-            ))}
+          <div className="mt-10 max-w-2xl border-t border-slate-200/80 pt-6 text-sm leading-7 text-slate-500">
+            <span className="font-medium text-slate-700">
+              Currently at {personalInfo.experience.company}.
+            </span>{' '}
+            Available for remote contract and full-time product work.
           </div>
         </motion.div>
 
-        <motion.aside
-          initial={{ opacity: 0, y: 34 }}
+        {/* Right: solar-system orbit */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: [0.32, 0.72, 0, 1], delay: 0.12 }}
-          className="relative"
-          aria-label="Current engineering focus"
+          transition={{ duration: 0.75, ease: [0.32, 0.72, 0, 1], delay: 0.08 }}
+          className="relative hidden lg:flex lg:flex-col lg:items-center lg:gap-5"
         >
-          <div className="rounded-[2rem] bg-slate-900/5 p-2 shadow-[0_30px_90px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5">
-            <div className="overflow-hidden rounded-[1.55rem] bg-white shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-slate-200/80">
-              <div className="flex items-center justify-between gap-4 border-b border-slate-100 px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-11 w-11 overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
-                    <Image
-                      src="/pdp.webp"
-                      alt="Namri Amine"
-                      width={44}
-                      height={44}
-                      priority
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-slate-950">{personalInfo.name}</p>
-                    <p className="text-xs text-slate-500">Currently at Talio</p>
-                  </div>
-                </div>
-                <div className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-100">
-                  Available
-                </div>
-              </div>
+          {/* Ambient teal glow */}
+          <div
+            aria-hidden="true"
+            className="absolute top-1/2 left-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-teal-200/30 blur-3xl"
+          />
 
-              <div className="space-y-3 p-4">
-                <div className="rounded-3xl bg-sky-50 p-4 text-slate-950 ring-1 ring-sky-100">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-xs font-medium text-sky-700">Current focus</p>
-                    <ArrowUpRight className="h-4 w-4 text-sky-600" />
-                  </div>
-                  <p className="mt-2 text-xl font-semibold tracking-tight">
-                    Full-stack product platforms
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    SaaS delivery across UI, APIs, data, jobs, media, and reporting.
-                  </p>
-                </div>
+          {/* Orbit stage */}
+          <div data-hero-orbit className="relative" style={{ width: CONTAINER, height: CONTAINER }}>
+            {/* Outer ring — counter-clockwise, slow */}
+            <OrbitRing
+              icons={OUTER_ICONS}
+              ringSize={OUTER_RING}
+              duration={30}
+              reverse
+              initialAngle={-Math.PI / 2}
+              reducedMotion={Boolean(reducedMotion)}
+            />
 
-                <div className="grid gap-2">
-                  {STACK_LAYERS.map((layer) => (
-                    <div
-                      key={layer.label}
-                      className="flex items-center gap-3 rounded-2xl bg-slate-50 px-3.5 py-2.5 ring-1 ring-slate-200/70"
-                    >
-                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-sky-700 shadow-[0_1px_0_rgba(15,23,42,0.04)] ring-1 ring-slate-200">
-                        <layer.icon className="h-4 w-4" aria-hidden="true" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[11px] font-medium text-slate-400">{layer.label}</p>
-                        <p className="truncate text-sm font-medium text-slate-800">{layer.value}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+            {/* Inner ring — clockwise, faster, 45° offset */}
+            <OrbitRing
+              icons={INNER_ICONS}
+              ringSize={INNER_RING}
+              duration={18}
+              initialAngle={-Math.PI / 4}
+              reducedMotion={Boolean(reducedMotion)}
+            />
 
-                <div className="grid grid-cols-3 divide-x divide-slate-100 rounded-3xl bg-[#f8fbff] p-1 ring-1 ring-slate-200/70">
-                  {PROOF_POINTS.map((point) => (
-                    <div key={point.label} className="px-3 py-3 text-center">
-                      <p className="font-mono text-sm font-semibold text-slate-950">
-                        {point.value}
-                      </p>
-                      <p className="mt-1 text-[10px] leading-4 text-slate-500">{point.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Profile circle */}
+            <div
+              className="absolute overflow-hidden rounded-full ring-2 ring-teal-400/50 ring-offset-2 ring-offset-[#edf1f7]"
+              style={{ width: PROFILE, height: PROFILE, top: profileOffset, left: profileOffset }}
+            >
+              <Image
+                src="/profile.webp"
+                alt="Namri Amine"
+                fill
+                priority
+                sizes="220px"
+                className="object-cover object-top"
+              />
             </div>
           </div>
-        </motion.aside>
+
+          {/* Name badge below orbit */}
+          <div className="flex items-center gap-2 rounded-full border border-white/80 bg-white/90 px-4 py-2 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-md">
+            <span className="h-2 w-2 rounded-full bg-teal-400" aria-hidden="true" />
+            <span className="text-sm font-semibold text-slate-950">{personalInfo.name}</span>
+            <span className="text-xs text-slate-500">Full-Stack Dev</span>
+          </div>
+        </motion.div>
       </div>
     </section>
   )

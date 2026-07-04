@@ -1,342 +1,256 @@
-'use client'
-
-import { CheckCircle, Clock, Zap } from 'lucide-react'
-import { motion } from 'motion/react'
+import {
+  ArrowUpRight,
+  CheckCircle,
+  Clock,
+  GithubLogo,
+  Lightning,
+} from '@phosphor-icons/react/dist/ssr'
 import Image from 'next/image'
+import Link from 'next/link'
+import { personalInfo } from '@/data/personal'
 import { projects } from '@/data/projects'
 import type { Project } from '@/types'
 
-const FLAGSHIP_TECH_LIMIT = 8
-const FLAGSHIP_SCOPE_LIMIT = 5
-const SUPPORTING_TECH_LIMIT = 6
+const TECH_LIMIT = 6
+const SCOPE_LIMIT = 4
 
-const getStatusIcon = (status: Project['status']) => {
-  switch (status) {
-    case 'Production':
-    case 'Production Ready':
-      return CheckCircle
-    case 'In Development':
-      return Clock
-    default:
-      return Zap
-  }
-}
-
-function StatusPill({ status }: { status: Project['status'] }) {
-  const Icon = getStatusIcon(status)
+function Status({ project }: { project: Project }) {
+  const Icon =
+    project.status === 'In Development'
+      ? Clock
+      : project.status === 'Production' || project.status === 'Production Ready'
+        ? CheckCircle
+        : Lightning
 
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-800 ring-1 ring-sky-100">
-      <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-      {status}
+    <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-600">
+      <Icon className="h-4 w-4 text-teal-600" weight="fill" aria-hidden="true" />
+      {project.status}
     </span>
   )
 }
 
-function ImageFrame({
-  project,
-  priority = false,
-  compact = false,
-  sizes,
-}: {
-  project: Project
-  priority?: boolean
-  compact?: boolean
-  sizes?: string
-}) {
-  const imageLoadingProps = priority ? { priority: true } : { loading: 'lazy' as const }
-  const resolvedSizes =
-    sizes ??
-    (compact ? '(max-width: 1024px) calc(100vw - 3rem), 52vw' : '(max-width: 1024px) 100vw, 55vw')
+function ProjectActions({ project }: { project: Project }) {
+  const walkthroughHref = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
+    `Walkthrough request - ${project.title}`,
+  )}`
 
   return (
-    <div className="rounded-[2rem] bg-sky-50 p-2 ring-1 ring-sky-100">
-      <div
-        className={`relative overflow-hidden rounded-[1.5rem] bg-white p-3 ring-1 ring-slate-200/80 ${
-          compact ? 'aspect-[16/9]' : 'min-h-[260px] sm:min-h-[340px] lg:min-h-[430px]'
-        }`}
-      >
-        <div className="absolute left-5 top-4 z-10 flex gap-1.5" aria-hidden="true">
-          <span className="h-2 w-2 rounded-full bg-slate-300" />
-          <span className="h-2 w-2 rounded-full bg-slate-300" />
-          <span className="h-2 w-2 rounded-full bg-sky-400" />
-        </div>
-        {project.image ? (
-          <Image
-            src={project.image}
-            alt={`${project.title} screenshot`}
-            fill
-            sizes={resolvedSizes}
-            {...imageLoadingProps}
-            className="object-contain p-6 pt-10"
+    <div className="flex flex-wrap gap-3">
+      {project.liveUrl && (
+        <Link
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex h-11 items-center gap-2 rounded-full bg-slate-950 px-5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+        >
+          Live product
+          <ArrowUpRight
+            className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            weight="bold"
           />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-sm text-slate-400">No preview</span>
-          </div>
-        )}
-      </div>
+        </Link>
+      )}
+      {project.githubUrl && (
+        <Link
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-11 items-center gap-2 rounded-full border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-800 transition-colors duration-300 hover:border-teal-400 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+        >
+          <GithubLogo className="h-4 w-4" weight="bold" />
+          Repository
+        </Link>
+      )}
+      <Link
+        href={walkthroughHref}
+        className="inline-flex h-11 items-center gap-2 px-1 text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+      >
+        Request walkthrough
+        <ArrowUpRight className="h-4 w-4" weight="bold" />
+      </Link>
     </div>
   )
 }
 
-function FlagshipCase({
+function ProjectImage({
   project,
-  index,
-  variant,
+  priority = false,
+  eager = false,
+  sizes,
 }: {
   project: Project
-  index: number
-  variant: 'platform' | 'workflow'
+  priority?: boolean
+  eager?: boolean
+  sizes: string
 }) {
-  const scope = (project.scope ?? project.features).slice(0, FLAGSHIP_SCOPE_LIMIT)
-  const tech = project.tech.slice(0, FLAGSHIP_TECH_LIMIT)
-  const isWorkflow = variant === 'workflow'
-
   return (
-    <motion.article
-      data-project-presentation="flagship"
-      initial={{ opacity: 0, y: 42 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1], delay: index * 0.06 }}
-      className="overflow-hidden rounded-[2.25rem] bg-white shadow-[0_28px_90px_rgba(15,23,42,0.1)] ring-1 ring-slate-200/80"
+    <div
+      data-project-image
+      className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-[#e9f0f3] ring-1 ring-slate-200/80"
     >
       <div
-        className={`grid gap-0 ${isWorkflow ? 'lg:grid-cols-[1.08fr_0.92fr]' : 'lg:grid-cols-[0.86fr_1.14fr]'}`}
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 z-10 flex h-10 items-center gap-1.5 border-b border-white/70 bg-white/62 px-4"
       >
-        <div className={`p-6 sm:p-8 lg:p-10 ${isWorkflow ? 'lg:order-2' : ''}`}>
-          <div className="flex flex-wrap items-center gap-2">
-            <StatusPill status={project.status} />
-            <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-500">
-              {project.year}
-            </span>
-            <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-500">
-              {project.category}
-            </span>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="text-3xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-4xl">
-              {project.title}
-            </h3>
-            {project.role && (
-              <p className="mt-3 max-w-[52ch] text-sm font-medium leading-6 text-slate-500">
-                {project.role}
-              </p>
-            )}
-          </div>
-
-          {project.outcome && (
-            <div className="mt-7 rounded-3xl bg-[#f8fbff] p-5 ring-1 ring-slate-200/80">
-              <p className="text-sm font-medium leading-7 text-slate-700">{project.outcome}</p>
-            </div>
-          )}
-
-          <div className="mt-7 grid gap-5">
-            <div>
-              <p className="mb-3 text-xs font-semibold tracking-[0.12em] text-slate-400">Scope</p>
-              <div className="grid gap-2">
-                {scope.map((item) => (
-                  <div key={`${project.id}-scope-${item}`} className="flex gap-3">
-                    <span
-                      aria-hidden="true"
-                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-500"
-                    />
-                    <span className="text-sm leading-6 text-slate-600">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <p className="mb-3 text-xs font-semibold tracking-[0.12em] text-slate-400">Stack</p>
-              <div className="flex flex-wrap gap-2">
-                {tech.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200/70"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={`bg-[#f8fbff] p-4 sm:p-6 lg:p-8 ${isWorkflow ? 'lg:order-1' : ''}`}>
-          <ImageFrame project={project} priority={index === 0} />
-        </div>
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
+        <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
       </div>
-    </motion.article>
+      {project.image && (
+        <Image
+          src={project.image}
+          alt={`${project.title} product interface`}
+          fill
+          priority={priority}
+          loading={priority ? undefined : eager ? 'eager' : 'lazy'}
+          sizes={sizes}
+          className="object-contain px-4 pb-4 pt-12 sm:px-7 sm:pb-7 sm:pt-14"
+        />
+      )}
+    </div>
   )
 }
 
-function SecondaryCase({ project }: { project: Project }) {
-  const tech = project.tech.slice(0, SUPPORTING_TECH_LIMIT)
-
+function ProjectMeta({ project }: { project: Project }) {
   return (
-    <motion.article
-      data-project-presentation="secondary"
-      initial={{ opacity: 0, y: 34 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-      className="rounded-[2.25rem] bg-[#f8fbff] p-4 ring-1 ring-slate-200/80 sm:p-6 lg:p-8"
-    >
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center">
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <StatusPill status={project.status} />
-            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
-              {project.year}
-            </span>
-            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
-              Secondary case study
-            </span>
-          </div>
+    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-slate-200 pb-5">
+      <Status project={project} />
+      <span className="text-sm text-slate-500">{project.year}</span>
+      <span className="text-sm text-slate-500">{project.category}</span>
+    </div>
+  )
+}
 
-          <h3 className="mt-7 text-3xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-4xl">
+function FlagshipCase({ project, reverse }: { project: Project; reverse: boolean }) {
+  return (
+    <article
+      data-project-presentation="flagship"
+      className="border-t border-slate-200 py-14 first:border-t-0 first:pt-0 lg:py-20"
+    >
+      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+        <div className={reverse ? 'lg:order-2 lg:col-span-7' : 'lg:col-span-7'}>
+          <ProjectImage
+            project={project}
+            priority={project.id === 'indus-inspection'}
+            sizes="(max-width: 1024px) 100vw, 58vw"
+          />
+        </div>
+
+        <div className={reverse ? 'lg:order-1 lg:col-span-5' : 'lg:col-span-5'}>
+          <ProjectMeta project={project} />
+          <h3 className="font-display mt-7 text-[clamp(2.5rem,5vw,4.6rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-slate-950">
             {project.title}
           </h3>
-          <p className="mt-3 text-sm font-medium leading-6 text-slate-500">{project.category}</p>
-          {project.outcome && (
-            <p className="mt-5 max-w-[58ch] text-base leading-7 text-slate-600">
-              {project.outcome}
-            </p>
+          <p className="mt-5 text-lg leading-8 text-slate-600">{project.description}</p>
+
+          {project.role && (
+            <div className="mt-7 border-l-2 border-teal-500 pl-4">
+              <p className="text-xs font-semibold text-slate-500">Role</p>
+              <p className="mt-1 text-sm leading-6 text-slate-800">{project.role}</p>
+            </div>
           )}
 
-          <div className="mt-6 flex flex-wrap gap-2">
-            {tech.map((item) => (
-              <span
-                key={item}
-                className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200/70"
-              >
-                {item}
-              </span>
-            ))}
+          <div className="mt-8 grid gap-7 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            <div>
+              <p className="text-xs font-semibold text-slate-500">Selected scope</p>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                {(project.scope ?? project.features).slice(0, SCOPE_LIMIT).map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-500" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-slate-500">Outcome</p>
+              <p className="mt-3 text-sm leading-6 text-slate-700">{project.outcome}</p>
+            </div>
+          </div>
+
+          <p className="mt-7 text-sm leading-7 text-slate-500">
+            {project.tech.slice(0, TECH_LIMIT).join(' · ')}
+          </p>
+          <div className="mt-8">
+            <ProjectActions project={project} />
           </div>
         </div>
-
-        <ImageFrame project={project} compact />
       </div>
-    </motion.article>
+    </article>
   )
 }
 
-function ArchiveCase({ project }: { project: Project }) {
-  const tech = project.tech.slice(0, 5)
-
+function SupportingCase({ project }: { project: Project }) {
   return (
-    <motion.article
-      data-project-presentation="archive"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-      className="grid gap-6 rounded-2xl bg-white p-5 ring-1 ring-slate-200/50 sm:p-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center"
+    <article
+      data-project-presentation={project.presentation}
+      data-project-tier="supporting"
+      className="flex h-full flex-col border-t border-slate-200 pt-8"
     >
-      <ImageFrame project={project} compact />
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-2">
-          <StatusPill status={project.status} />
-          <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
-            {project.year}
-          </span>
-          <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200/70">
-            {project.category}
-          </span>
-        </div>
-        <h4 className="mt-5 text-xl font-semibold tracking-[-0.02em] text-slate-950 sm:text-2xl">
+      <ProjectImage project={project} eager sizes="(max-width: 1024px) 100vw, 44vw" />
+      <div className="flex flex-1 flex-col pt-7">
+        <ProjectMeta project={project} />
+        <h3 className="font-display mt-6 text-[clamp(2.25rem,4vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950">
           {project.title}
-        </h4>
-        {project.outcome && (
-          <p className="mt-3 max-w-[58ch] text-sm leading-6 text-slate-600">{project.outcome}</p>
+        </h3>
+        <p className="mt-4 text-base leading-7 text-slate-600">{project.description}</p>
+        {project.role && (
+          <p className="mt-5 border-l-2 border-teal-500 pl-4 text-sm leading-6 text-slate-700">
+            {project.role}
+          </p>
         )}
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {tech.map((item) => (
-            <span
-              key={item}
-              className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200/70"
-            >
-              {item}
-            </span>
-          ))}
+        <p className="mt-6 text-sm leading-7 text-slate-500">
+          {project.tech.slice(0, TECH_LIMIT).join(' · ')}
+        </p>
+        <div className="mt-auto pt-7">
+          <ProjectActions project={project} />
         </div>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
 export function Projects() {
-  const flagship = projects.filter((project) => project.presentation === 'flagship')
-  const secondary = projects.find((project) => project.presentation === 'secondary')
-  const archive = projects.filter((project) => project.presentation === 'archive')
+  const flagshipProjects = projects.filter((project) => project.presentation === 'flagship')
+  const supportingProjects = projects.filter((project) => project.presentation !== 'flagship')
 
   return (
-    <section
-      id="projects"
-      className="scroll-mt-24 overflow-x-hidden bg-white px-4 py-24 sm:px-6 lg:px-8"
-    >
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-          className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-end"
-        >
-          <h2 className="max-w-[18ch] text-4xl font-semibold leading-none tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-6xl">
-            Work proof across product systems.
+    <section id="projects" className="section-space scroll-mt-24 overflow-x-hidden bg-white">
+      <div className="page-shell">
+        <div className="grid gap-6 border-b border-slate-200 pb-12 lg:grid-cols-12 lg:items-end">
+          <h2 className="font-display text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-slate-950 lg:col-span-8">
+            Work built for real operating conditions.
           </h2>
-          <p className="max-w-[62ch] text-base leading-7 text-slate-600 sm:text-lg">
-            Selected platforms where I owned the path from user experience to APIs, data, background
-            jobs, AI workflows, geospatial interfaces, and exports.
+          <p className="max-w-[48ch] text-lg leading-8 text-slate-600 lg:col-span-4">
+            Product ownership from interface and APIs through background jobs, data, deployment, and
+            the specialist workflows each system required.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="mt-14 space-y-10">
-          {flagship.map((project, index) => (
-            <FlagshipCase
-              key={project.id}
-              project={project}
-              index={index}
-              variant={index === 0 ? 'platform' : 'workflow'}
-            />
+        <div className="pt-14 lg:pt-20">
+          {flagshipProjects.map((project, index) => (
+            <FlagshipCase key={project.id} project={project} reverse={index % 2 === 1} />
           ))}
         </div>
 
-        {secondary && (
-          <div className="mt-12">
-            <SecondaryCase project={secondary} />
-          </div>
-        )}
-
-        {archive.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
-            className="mt-12 border-t border-slate-100 pt-12"
-          >
-            <div>
-              <h3 className="text-xl font-semibold tracking-[-0.02em] text-slate-500">
-                Earlier product systems
+        {supportingProjects.length > 0 && (
+          <div className="mt-16 border-t border-slate-200 pt-10 lg:mt-20 lg:pt-12">
+            <div className="grid gap-4 lg:grid-cols-12 lg:items-end">
+              <h3 className="font-display text-3xl font-semibold tracking-[-0.03em] text-slate-950 lg:col-span-7 lg:text-4xl">
+                Additional systems
               </h3>
-              <p className="mt-2 max-w-[62ch] text-sm leading-6 text-slate-400">
-                Older work stays visible as range proof, but the hierarchy stays focused on the
-                current and strongest platforms.
+              <p className="max-w-[48ch] text-base leading-7 text-slate-600 lg:col-span-5">
+                Earlier and adjacent product work showing the same full-stack delivery range across
+                industrial and agriculture domains.
               </p>
             </div>
-
-            <div className="mt-7 grid gap-4">
-              {archive.map((project) => (
-                <ArchiveCase key={project.id} project={project} />
+            <div data-supporting-projects className="mt-8 grid gap-12 lg:grid-cols-2 lg:gap-10">
+              {supportingProjects.map((project) => (
+                <SupportingCase key={project.id} project={project} />
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
     </section>

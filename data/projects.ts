@@ -8,7 +8,7 @@ export const projects: Project[] = [
     description:
       'Industrial drone inspection platform for towers, pylons, wind, and solar assets. Connects drone imagery, engineering-plan calibration, AI-assisted defect review, geospatial positioning, and client-ready exports.',
     tech: [
-      'Next.js 16',
+      'Next.js 15',
       'React 19',
       'TypeScript',
       'FastAPI',
@@ -34,7 +34,7 @@ export const projects: Project[] = [
     ],
     role: 'Full-stack architect: CV pipeline integration, geospatial workflow, export system',
     scope: [
-      'Next.js 16 frontend',
+      'Next.js 15 frontend',
       'FastAPI backend',
       'PostgreSQL / Redis / Prisma',
       'Celery background jobs',
@@ -48,6 +48,8 @@ export const projects: Project[] = [
     status: 'Production Ready',
     category: 'Full-Stack SaaS / Industrial AI',
     presentation: 'flagship',
+    liveUrl: 'https://indus-nov.vercel.app',
+    githubUrl: 'https://github.com/NAMRIAMINE/indusNov',
     image: '/indus-inspection.webp',
   },
   {
@@ -128,6 +130,8 @@ export const projects: Project[] = [
     status: 'In Development',
     category: 'Industrial Tech',
     presentation: 'secondary',
+    liveUrl: 'https://park-wind-turbine-inspection.vercel.app',
+    githubUrl: 'https://github.com/NAMRIAMINE/park_wind-turbine_inspection',
     image: '/dr-turbine.webp',
   },
   {

@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
 
-const sections = ['home', 'about', 'projects', 'skills', 'contact']
+const sections = ['home', 'projects', 'about', 'skills', 'contact']
 const SCROLL_TOP_THRESHOLD = 400
 
 export function useActiveSection() {

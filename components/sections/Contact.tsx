@@ -1,20 +1,17 @@
-'use client'
-
-import { ArrowUpRight, Github, Linkedin, Phone } from 'lucide-react'
-import { motion } from 'motion/react'
+import { ArrowUpRight, GithubLogo, LinkedinLogo, Phone } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { personalInfo } from '@/data/personal'
 
 const CONTACT_LINKS = [
   {
-    icon: Linkedin,
+    icon: LinkedinLogo,
     label: 'LinkedIn',
     value: '/in/namriamine',
     href: personalInfo.linkedin,
   },
   {
-    icon: Github,
+    icon: GithubLogo,
     label: 'GitHub',
     value: 'github.com/namriamine',
     href: 'https://github.com/namriamine',
@@ -29,99 +26,83 @@ const CONTACT_LINKS = [
 
 export function Contact() {
   return (
-    <section id="contact" className="scroll-mt-24 bg-white px-4 py-24 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-          className="rounded-[2.25rem] bg-sky-100/70 p-2 shadow-[0_28px_80px_rgba(2,132,199,0.12)]"
-        >
-          <div className="grid gap-8 rounded-[1.75rem] bg-white p-6 text-slate-950 ring-1 ring-sky-100 sm:p-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:p-10">
-            <div>
-              <p className="text-sm font-medium text-sky-700">
-                Available for contract and full-time
-              </p>
-              <h2 className="mt-5 max-w-[15ch] text-4xl font-semibold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
-                Let&apos;s build the next platform.
-              </h2>
-              <p className="mt-6 max-w-[54ch] text-base leading-7 text-slate-600 sm:text-lg">
-                I can join as a senior full-stack developer for SaaS, product systems, AI workflows,
-                geospatial interfaces, or client delivery missions.
-              </p>
+    <section id="contact" className="section-space scroll-mt-24 bg-[#e7f3f0]">
+      <div className="page-shell border-y border-teal-800/20 py-12 lg:py-16">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <div className="lg:col-span-7">
+            <h2 className="font-display text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-slate-950">
+              Let&apos;s build the next serious product.
+            </h2>
+            <p className="mt-7 max-w-[56ch] text-lg leading-8 text-slate-600">
+              I work with product teams that need frontend judgment, backend depth, and ownership
+              across the space between them.
+            </p>
+          </div>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button
-                  asChild
-                  size="lg"
-                  className="group rounded-full bg-sky-600 px-5 pr-2 text-white shadow-[0_18px_45px_rgba(2,132,199,0.2)] transition-colors duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-sky-700 active:translate-y-px"
-                >
-                  <Link href={`mailto:${personalInfo.email}`}>
-                    Email me
-                    <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-300 group-hover:translate-x-0.5">
-                      <ArrowUpRight className="h-4 w-4" />
-                    </span>
-                  </Link>
-                </Button>
+          <div className="lg:col-span-5 lg:pt-3">
+            <p className="text-sm font-semibold text-slate-500">Direct email</p>
+            <Link
+              href={`mailto:${personalInfo.email}`}
+              className="mt-3 block break-all text-[clamp(1.55rem,3vw,2.7rem)] font-semibold leading-tight tracking-[-0.025em] text-slate-950 transition-colors duration-300 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600"
+            >
+              {personalInfo.email}
+            </Link>
+            <p className="mt-5 max-w-[42ch] text-base leading-7 text-slate-600">
+              Based in {personalInfo.location}. Remote contract and full-time roles are both in
+              scope.
+            </p>
 
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="rounded-full border-slate-300 bg-white px-5 text-slate-800 transition-colors duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 active:translate-y-px"
-                >
-                  <Link
-                    href="/Namri_Amine_Resume.pdf"
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Resume PDF
-                  </Link>
-                </Button>
-              </div>
-            </div>
-
-            <div className="rounded-[1.5rem] bg-[#f8fbff] p-4 ring-1 ring-slate-200/80">
-              <div className="rounded-[1.1rem] bg-white p-4 text-slate-950 ring-1 ring-slate-200/70">
-                <p className="text-xs font-medium text-slate-400">Direct email</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="rounded-full bg-slate-950 px-5 text-white transition-colors duration-300 hover:bg-teal-700"
+              >
+                <Link href={`mailto:${personalInfo.email}`}>Email me</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="rounded-full border-teal-900/20 bg-transparent px-5 text-slate-900 transition-colors duration-300 hover:border-teal-700 hover:bg-white/60 hover:text-teal-800"
+              >
                 <Link
-                  href={`mailto:${personalInfo.email}`}
-                  className="mt-2 block truncate text-lg font-semibold text-slate-950 hover:text-sky-700"
+                  href="/Namri_Amine_Resume.pdf"
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  {personalInfo.email}
+                  Download Resume
                 </Link>
-                <p className="mt-4 text-sm leading-6 text-slate-500">
-                  Based in {personalInfo.location}. Remote contract and full-time roles are both in
-                  scope.
-                </p>
-              </div>
-
-              <div className="mt-3 space-y-2">
-                {CONTACT_LINKS.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    target={item.href.startsWith('http') ? '_blank' : undefined}
-                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="group flex items-center justify-between gap-3 rounded-2xl bg-white px-4 py-3 text-slate-800 ring-1 ring-slate-200/80 transition-colors duration-300 hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
-                    aria-label={`${item.label}: ${item.value}`}
-                  >
-                    <span className="flex min-w-0 items-center gap-3">
-                      <item.icon className="h-4 w-4 shrink-0 text-sky-600" aria-hidden="true" />
-                      <span className="truncate text-sm font-medium">{item.value}</span>
-                    </span>
-                    <ArrowUpRight
-                      className="h-4 w-4 shrink-0 text-slate-400 transition-transform duration-300 group-hover:translate-x-0.5"
-                      aria-hidden="true"
-                    />
-                  </Link>
-                ))}
-              </div>
+              </Button>
             </div>
           </div>
-        </motion.div>
+        </div>
+
+        <div className="mt-14 grid border-t border-teal-800/20 sm:grid-cols-3">
+          {CONTACT_LINKS.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              target={item.href.startsWith('http') ? '_blank' : undefined}
+              rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="group flex min-h-24 items-center justify-between gap-4 border-b border-teal-800/20 py-5 text-slate-800 transition-colors duration-300 hover:text-teal-800 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0 sm:last:pr-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600"
+              aria-label={`${item.label}: ${item.value}`}
+            >
+              <span className="flex min-w-0 items-center gap-3">
+                <item.icon className="h-5 w-5 shrink-0 text-teal-700" weight="duotone" />
+                <span className="min-w-0">
+                  <span className="block text-sm font-semibold">{item.label}</span>
+                  <span className="mt-1 block truncate text-sm text-slate-500">{item.value}</span>
+                </span>
+              </span>
+              <ArrowUpRight
+                className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                weight="bold"
+              />
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   )

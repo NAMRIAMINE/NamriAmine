@@ -33,10 +33,10 @@ export function ScrollProgress() {
   }, [])
 
   return (
-    <div className="fixed left-0 right-0 top-0 z-50 h-0.5 bg-slate-200/60">
+    <div className="fixed left-0 right-0 top-0 z-50 h-px bg-transparent">
       <div
         ref={barRef}
-        className="h-full origin-left bg-sky-500 will-change-transform"
+        className="h-full origin-left bg-[linear-gradient(90deg,#0f172a_0%,#0d9488_55%,#2dd4bf_100%)] shadow-[0_0_18px_rgba(45,212,191,0.6)] will-change-transform"
         style={{ transform: 'scaleX(0)' }}
       />
     </div>
