@@ -10,15 +10,15 @@ const SOCIAL_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#f4f8fc] px-4 pb-10 pt-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#f4f8fc] pb-10 pt-4">
       <div className="page-shell flex flex-col gap-6 border-t border-slate-200/80 pt-8 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="font-display text-2xl font-semibold tracking-[-0.04em] text-slate-950">
+          <p className="font-display text-2xl font-semibold tracking-[-0.025em] text-slate-950">
             {personalInfo.name}
           </p>
           <p className="mt-2 max-w-[44ch] text-sm leading-6 text-slate-600">
-            Built with Next.js 15, React 19, GSAP, and a custom light-only design system focused on
-            product storytelling.
+            Built with Next.js 15, React 19, Tailwind CSS, and a custom light-only design system
+            focused on product storytelling.
           </p>
         </div>
 

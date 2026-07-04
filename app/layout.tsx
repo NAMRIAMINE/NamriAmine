@@ -1,14 +1,13 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist_Mono, Plus_Jakarta_Sans } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 import '@/app/globals.css'
 import { Analytics } from '@vercel/analytics/next'
 import Link from 'next/link'
 import { ThemeProvider } from '@/components/theme/theme-provider'
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: '--font-plus-jakarta',
+const geistSans = Geist({
+  variable: '--font-geist-sans',
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
 })
 
 const geistMono = Geist_Mono({
@@ -72,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${plusJakartaSans.variable} ${geistMono.variable} overflow-x-hidden bg-[var(--page-bg)] antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} overflow-x-hidden bg-[var(--page-bg)] font-sans antialiased`}
       >
         <Link
           href="#main-content"

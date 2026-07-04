@@ -1,175 +1,101 @@
-'use client'
-
-import { useGSAP } from '@gsap/react'
-import { ArrowUpRight } from '@phosphor-icons/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
-import { useRef } from 'react'
 import { personalInfo } from '@/data/personal'
-import { projects } from '@/data/projects'
 
-gsap.registerPlugin(ScrollTrigger, useGSAP)
-
-const ABOUT_COPY = `Senior JavaScript Full-Stack Developer with ${personalInfo.experience.years} years building production platforms across React interfaces, Node and FastAPI services, data layers, queues, media workflows, and applied AI. I move from product intent to shipped architecture without dropping the hard parts.`
-const ABOUT_WORDS = ABOUT_COPY.split(' ').reduce<Array<{ id: string; word: string }>>(
-  (acc, word) => {
-    const previous = acc[acc.length - 1]
-    const offset = previous ? Number(previous.id.split('-').at(-1)) + previous.word.length + 1 : 0
-
-    acc.push({ id: `${word}-${offset}`, word })
-    return acc
-  },
-  [],
-)
-
-const DETAIL_CARDS = [
+const CREDENTIALS = [
   {
-    label: personalInfo.experience.current ? 'Current role' : 'Recent role',
-    value: `${personalInfo.experience.company} · ${personalInfo.experience.position}`,
-    body: `Shipping product systems since ${personalInfo.experience.startDate}.`,
+    value: personalInfo.experience.years,
+    label: 'Years building production software',
   },
   {
-    label: 'Location and availability',
-    value: `${personalInfo.location}`,
-    body: personalInfo.availability,
+    value: personalInfo.experience.company,
+    label: 'Current product team',
   },
   {
-    label: 'Languages',
-    value: personalInfo.languages.map((language) => language.name).join(' · '),
-    body: 'Working across distributed teams, client communication, and product delivery.',
+    value: 'JS / TS',
+    label: 'Primary delivery stack',
   },
 ] as const
 
 export function About() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const copyRef = useRef<HTMLParagraphElement>(null)
-  const wordRefs = useRef<Array<HTMLSpanElement | null>>([])
-
-  useGSAP(
-    () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-      const words = wordRefs.current.filter(Boolean)
-      if (words.length > 0) {
-        gsap.set(words, { opacity: 0.16 })
-        gsap.to(words, {
-          opacity: 1,
-          stagger: 0.06,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: copyRef.current,
-            start: 'top 76%',
-            end: 'bottom 40%',
-            scrub: true,
-          },
-        })
-      }
-
-      const mediaQuery = gsap.matchMedia()
-      mediaQuery.add('(min-width: 1024px)', () => {
-        if (!sectionRef.current || !headerRef.current) return
-
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: 'top top+=112',
-          end: 'bottom bottom-=112',
-          pin: headerRef.current,
-          pinSpacing: false,
-        })
-      })
-
-      return () => mediaQuery.revert()
-    },
-    { scope: sectionRef },
-  )
-
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="scroll-mt-24 bg-[#f4f8fc] px-4 py-32 sm:px-6 lg:px-8 lg:py-40"
-    >
-      <div className="page-shell grid gap-12 lg:grid-cols-[minmax(320px,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
-        <div ref={headerRef} className="space-y-8 lg:pr-10">
-          <div>
-            <h2 className="font-display max-w-[11ch] text-[clamp(2.8rem,5vw,5rem)] leading-[0.92] tracking-[-0.06em] text-slate-950">
-              End to end, not just the pleasant parts.
+    <section id="about" className="section-space scroll-mt-24 bg-[#edf2f4]">
+      <div className="page-shell grid gap-12 border-t border-slate-300/80 pt-12 lg:grid-cols-12 lg:gap-16 lg:pt-16">
+        <div className="lg:col-span-4">
+          <div className="lg:sticky lg:top-28">
+            <h2 className="font-display max-w-[12ch] text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-slate-950">
+              End to end, including the hard parts.
             </h2>
-          </div>
-
-          <p className="max-w-[26rem] text-base leading-7 text-slate-600">
-            Product thinking, system design, frontend execution, backend delivery, and applied
-            problem solving in one working loop.
-          </p>
-
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href={personalInfo.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 transition-colors duration-300 hover:border-teal-300 hover:text-teal-700"
-            >
-              LinkedIn
-              <ArrowUpRight className="h-4 w-4" weight="bold" />
-            </Link>
-            <Link
-              href="https://github.com/namriamine"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 transition-colors duration-300 hover:border-teal-300 hover:text-teal-700"
-            >
-              GitHub
-              <ArrowUpRight className="h-4 w-4" weight="bold" />
-            </Link>
+            <p className="mt-6 max-w-[34rem] text-base leading-7 text-slate-600">
+              Product thinking, system design, frontend execution, backend delivery, and applied
+              problem solving in one working loop.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-5">
+              <Link
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-slate-800 transition-colors hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600"
+              >
+                LinkedIn
+                <ArrowUpRight
+                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  weight="bold"
+                />
+              </Link>
+              <Link
+                href="https://github.com/namriamine"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-slate-800 transition-colors hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600"
+              >
+                GitHub
+                <ArrowUpRight
+                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  weight="bold"
+                />
+              </Link>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="rounded-[2.4rem] border border-white/80 bg-white/78 p-7 shadow-[0_28px_90px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-9">
-            <p
-              ref={copyRef}
-              className="font-display text-[clamp(1.8rem,3.5vw,3.15rem)] leading-[1.08] tracking-[-0.045em] text-slate-950"
-            >
-              {ABOUT_WORDS.map(({ id, word }, index) => (
-                <span
-                  key={id}
-                  ref={(node) => {
-                    wordRefs.current[index] = node
-                  }}
-                  className="mr-[0.3em] inline-block"
-                >
-                  {word}
-                </span>
-              ))}
-            </p>
-          </div>
+        <div className="lg:col-span-7 lg:col-start-6">
+          <p className="font-display max-w-[27ch] text-[clamp(1.9rem,3.2vw,3.25rem)] font-medium leading-[1.12] tracking-[-0.03em] text-slate-900">
+            I build production platforms across React interfaces, Node and FastAPI services, data
+            layers, queues, media workflows, and applied AI. I move from product intent to shipped
+            architecture without dropping reliability, accessibility, or delivery detail.
+          </p>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            {DETAIL_CARDS.map((card) => (
-              <article
-                key={card.label}
-                className="rounded-[2rem] border border-white/80 bg-white/78 p-5 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl"
+          <dl className="mt-14 grid border-y border-slate-300/80 sm:grid-cols-3">
+            {CREDENTIALS.map((credential) => (
+              <div
+                key={credential.label}
+                className="border-b border-slate-300/80 py-6 last:border-b-0 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0 sm:last:pr-0"
               >
-                <p className="text-xs font-medium uppercase text-slate-400">{card.label}</p>
-                <p className="mt-4 text-lg font-semibold leading-7 text-slate-950">{card.value}</p>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{card.body}</p>
-              </article>
+                <dt className="text-sm leading-6 text-slate-500">{credential.label}</dt>
+                <dd className="font-display mt-2 text-3xl font-semibold tracking-[-0.025em] text-slate-950">
+                  {credential.value}
+                </dd>
+              </div>
             ))}
-          </div>
+          </dl>
 
-          <div className="rounded-[2rem] border border-white/80 bg-[linear-gradient(180deg,rgba(204,251,241,0.5),rgba(255,255,255,0.92))] p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06)]">
-            <p className="text-xs font-medium uppercase text-slate-400">Recent systems</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {projects.map((project) => (
-                <span
-                  key={project.id}
-                  className="rounded-full border border-white/70 bg-white px-3 py-1.5 text-sm font-medium text-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.05)]"
-                >
-                  {project.title}
-                </span>
-              ))}
+          <div className="mt-12 grid gap-8 border-l-2 border-teal-500 pl-6 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:pl-8">
+            <div>
+              <p className="text-sm font-semibold text-slate-500">Current role</p>
+              <p className="mt-2 text-xl font-semibold text-slate-950">
+                {personalInfo.experience.position}
+              </p>
+              <p className="mt-1 text-base text-slate-600">
+                {personalInfo.experience.company}, since {personalInfo.experience.startDate}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-slate-500">Working model</p>
+              <p className="mt-2 text-base leading-7 text-slate-700">
+                Based in {personalInfo.location}. {personalInfo.availability}. Working in Arabic,
+                English, and French across distributed product and client teams.
+              </p>
             </div>
           </div>
         </div>

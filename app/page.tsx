@@ -12,11 +12,7 @@ function SectionFallback({ id, tone = 'tint' }: { id: string; tone?: 'plain' | '
   const blockTone = tone === 'plain' ? 'bg-slate-100/85' : 'bg-white/85'
 
   return (
-    <section
-      id={id}
-      aria-hidden="true"
-      className={`${sectionTone} px-4 py-32 sm:px-6 md:py-40 lg:px-8`}
-    >
+    <section id={id} aria-hidden="true" className={`${sectionTone} section-space`}>
       <div className="page-shell animate-pulse">
         <div className={`h-4 w-36 rounded-full ${blockTone}`} />
         <div className={`mt-6 h-14 max-w-4xl rounded-[2rem] ${blockTone}`} />

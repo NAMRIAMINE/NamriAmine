@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="mx-auto grid w-full max-w-5xl gap-8 rounded-[2.5rem] bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/80 sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(300px,0.9fr)] lg:p-12">
         <div>
           <p className="text-sm font-medium text-teal-700">404</p>
-          <h1 className="mt-5 max-w-[10ch] text-4xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-5xl lg:text-6xl">
+          <h1 className="font-display mt-5 max-w-[10ch] text-4xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-5xl lg:text-6xl">
             This page is not here.
           </h1>
           <p className="mt-6 max-w-[55ch] text-base leading-7 text-slate-600 sm:text-lg">

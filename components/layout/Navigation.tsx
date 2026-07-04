@@ -27,9 +27,9 @@ export function Navigation() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
       aria-label="Primary"
-      className="fixed inset-x-0 top-4 z-50 px-3 sm:px-6"
+      className="fixed inset-x-0 top-4 z-50 px-3"
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 rounded-full border border-white/80 bg-white/74 px-2.5 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur-2xl">
+      <div className="mx-auto flex h-16 max-w-[82rem] items-center justify-between gap-3 rounded-full border border-white/80 bg-white/74 px-2.5 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur-2xl">
         <motion.button
           type="button"
           className="flex min-w-0 items-center gap-3 rounded-full py-1 pl-1 pr-3 text-left transition-colors duration-300 hover:bg-white/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"

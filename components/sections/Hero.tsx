@@ -1,10 +1,10 @@
 'use client'
 
 import { DownloadSimple } from '@phosphor-icons/react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { type ElementType, useEffect, useRef } from 'react'
+import type { ElementType } from 'react'
 import {
   SiFastapi,
   SiGooglegemini,
@@ -48,12 +48,14 @@ function OrbitRing({
   duration,
   reverse = false,
   initialAngle = -Math.PI / 2,
+  reducedMotion = false,
 }: {
   icons: OrbitIconDef[]
   ringSize: number
   duration: number
   reverse?: boolean
   initialAngle?: number
+  reducedMotion?: boolean
 }) {
   const r = ringSize / 2
   const offset = (CONTAINER - ringSize) / 2
@@ -61,10 +63,11 @@ function OrbitRing({
   return (
     <motion.div
       aria-hidden="true"
+      data-orbit-ring
       className="absolute rounded-full border border-slate-200/60"
       style={{ width: ringSize, height: ringSize, top: offset, left: offset }}
-      animate={{ rotate: reverse ? -360 : 360 }}
-      transition={{ repeat: Infinity, duration, ease: 'linear' }}
+      animate={{ rotate: reducedMotion ? 0 : reverse ? -360 : 360 }}
+      transition={reducedMotion ? { duration: 0 } : { repeat: Infinity, duration, ease: 'linear' }}
     >
       {icons.map(({ Icon, label, color }, i) => {
         const angle = (i / icons.length) * 2 * Math.PI + initialAngle
@@ -75,8 +78,10 @@ function OrbitRing({
             key={label}
             className="absolute"
             style={{ left: cx, top: cy }}
-            animate={{ rotate: reverse ? 360 : -360 }}
-            transition={{ repeat: Infinity, duration, ease: 'linear' }}
+            animate={{ rotate: reducedMotion ? 0 : reverse ? 360 : -360 }}
+            transition={
+              reducedMotion ? { duration: 0 } : { repeat: Infinity, duration, ease: 'linear' }
+            }
           >
             <div
               className="flex h-14 w-14 items-center justify-center rounded-[1.1rem] border border-white/80 bg-white/90 shadow-[0_8px_24px_rgba(15,23,42,0.10)] backdrop-blur-md"
@@ -91,64 +96,14 @@ function OrbitRing({
   )
 }
 
-// Inline film-grain noise — lightweight canvas, no new dependency
-function HeroNoise() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d', { alpha: true })
-    if (!ctx) return
-
-    const SIZE = 512
-    canvas.width = SIZE
-    canvas.height = SIZE
-
-    let frame = 0
-    let animId: number
-
-    const draw = () => {
-      const img = ctx.createImageData(SIZE, SIZE)
-      for (let i = 0; i < img.data.length; i += 4) {
-        const v = Math.random() * 255
-        img.data[i] = v
-        img.data[i + 1] = v
-        img.data[i + 2] = v
-        img.data[i + 3] = 14 // ~5.5% opacity
-      }
-      ctx.putImageData(img, 0, 0)
-    }
-
-    const loop = () => {
-      if (frame % 3 === 0) draw()
-      frame++
-      animId = requestAnimationFrame(loop)
-    }
-
-    loop()
-    return () => cancelAnimationFrame(animId)
-  }, [])
-
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
-      <canvas
-        ref={canvasRef}
-        className="h-full w-full"
-        style={{ imageRendering: 'pixelated', mixBlendMode: 'overlay', opacity: 0.6 }}
-      />
-    </div>
-  )
-}
-
 export function Hero() {
+  const reducedMotion = useReducedMotion()
   const profileOffset = (CONTAINER - PROFILE) / 2 // 108 px
 
   return (
     <section
       id="home"
-      className="relative isolate overflow-hidden bg-[#edf1f7] px-4 pb-20 pt-28 scroll-mt-16 sm:px-6 md:pb-28 md:pt-32 lg:px-8 lg:pb-36 lg:pt-40"
+      className="relative isolate overflow-hidden bg-[#edf1f7] pb-20 pt-24 scroll-mt-16 md:pb-24 md:pt-28 lg:pb-28 lg:pt-32"
     >
       {/* Depth gradient — neutral slate left, teal accent right */}
       <div
@@ -156,10 +111,9 @@ export function Hero() {
         className="absolute inset-x-0 top-0 -z-10 h-[36rem] bg-[radial-gradient(ellipse_55%_45%_at_18%_15%,rgba(148,163,184,0.18),transparent),radial-gradient(ellipse_38%_32%_at_78%_22%,rgba(20,184,166,0.16),transparent)]"
       />
 
-      {/* Film-grain texture from React Bits Noise pattern */}
-      <HeroNoise />
+      <div aria-hidden="true" className="hero-noise pointer-events-none absolute inset-0 z-0" />
 
-      <div className="relative z-10 page-shell grid items-center gap-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(460px,0.95fr)] lg:gap-14">
+      <div className="page-shell relative z-10 grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(420px,0.85fr)] lg:gap-12">
         {/* Left: editorial copy */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
@@ -167,7 +121,7 @@ export function Hero() {
           transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
           className="min-w-0"
         >
-          <p className="text-sm font-medium uppercase text-slate-500">{personalInfo.title}</p>
+          <p className="text-sm font-medium text-slate-500">{personalInfo.title}</p>
 
           {/* Mobile-only avatar */}
           <div className="mt-5 flex items-center gap-3 lg:hidden">
@@ -183,16 +137,16 @@ export function Hero() {
             <span className="text-sm font-medium text-slate-600">{personalInfo.location}</span>
           </div>
 
-          <h1 className="font-display mt-6 max-w-6xl text-[clamp(2.5rem,5.5vw,5.5rem)] font-extrabold leading-[0.9] tracking-[-0.08em] text-slate-950">
+          <h1 className="font-display mt-6 max-w-[15ch] text-[clamp(2.5rem,6vw,6rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-slate-950 sm:max-w-6xl">
             {personalInfo.name} builds full-stack systems for SaaS, AI, and field operations.
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">
+          <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600 md:mt-8 md:text-xl md:leading-8">
             Based in {personalInfo.location}, shipping product platforms across interface, APIs,
             data workflows, media pipelines, and applied AI when the product needs real depth.
           </p>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <div className="mt-8 flex flex-row flex-wrap items-center gap-3 md:mt-10">
             <Button
               size="lg"
               onClick={() => scrollToSection('projects')}
@@ -244,7 +198,7 @@ export function Hero() {
           />
 
           {/* Orbit stage */}
-          <div className="relative" style={{ width: CONTAINER, height: CONTAINER }}>
+          <div data-hero-orbit className="relative" style={{ width: CONTAINER, height: CONTAINER }}>
             {/* Outer ring — counter-clockwise, slow */}
             <OrbitRing
               icons={OUTER_ICONS}
@@ -252,6 +206,7 @@ export function Hero() {
               duration={30}
               reverse
               initialAngle={-Math.PI / 2}
+              reducedMotion={Boolean(reducedMotion)}
             />
 
             {/* Inner ring — clockwise, faster, 45° offset */}
@@ -260,6 +215,7 @@ export function Hero() {
               ringSize={INNER_RING}
               duration={18}
               initialAngle={-Math.PI / 4}
+              reducedMotion={Boolean(reducedMotion)}
             />
 
             {/* Profile circle */}
