@@ -30,7 +30,7 @@ export function Contact() {
       <div className="page-shell border-y border-teal-800/20 py-12 lg:py-16">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-16">
           <div className="lg:col-span-7">
-            <h2 className="font-display text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-slate-950">
+            <h2 className="font-display text-[clamp(2.35rem,4vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950">
               Let&apos;s build the next serious product.
             </h2>
             <p className="mt-7 max-w-[56ch] text-lg leading-8 text-slate-600">

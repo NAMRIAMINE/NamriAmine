@@ -1,13 +1,12 @@
 export const personalInfo = {
   name: 'Namri Amine',
   title: 'Senior JavaScript Full-Stack Developer',
-  subtitle:
-    'Next.js · React · TypeScript · Node/FastAPI | SaaS Platforms · APIs · AI/Geospatial Workflows',
+  subtitle: 'Next.js | React | TypeScript | Node/FastAPI | SaaS Platforms | APIs | AI Workflows',
   email: 'aminenamri21@gmail.com',
   phone: '+212-638-918700',
   linkedin: 'https://linkedin.com/in/namriamine',
   location: 'Casablanca, Morocco',
-  availability: 'Open to Remote Contract & Full-Time',
+  availability: 'Open to Global Remote Full-Time & Contract',
   languages: [
     { name: 'Arabic', level: 'Native' },
     { name: 'English', level: 'Professional' },
@@ -16,8 +15,11 @@ export const personalInfo = {
   experience: {
     years: '6+',
     company: 'Talio',
-    position: 'Senior Full Stack Developer',
+    position: 'Senior Full-Stack Developer (Contract)',
     startDate: 'February 2026',
+    endDate: 'August 2026',
+    relationship: 'Contract',
+    period: 'February 2026 - August 2026',
     current: true,
   },
 }

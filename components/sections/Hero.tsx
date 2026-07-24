@@ -36,11 +36,11 @@ const OUTER_ICONS: OrbitIconDef[] = [
 ]
 
 // Layout constants (px) — scaled up so image dominates, icons read clearly
-const CONTAINER = 436
-const OUTER_RING = 380 // r = 190 — icon centers sit at container edges
-const INNER_RING = 280 // r = 140
-const PROFILE = 220 // circle diameter
-const ICON_HALF = 28 // half of 56px pill (h-14 w-14)
+const CONTAINER = 392
+const OUTER_RING = 342
+const INNER_RING = 252
+const PROFILE = 196
+const ICON_HALF = 25
 
 function OrbitRing({
   icons,
@@ -84,10 +84,10 @@ function OrbitRing({
             }
           >
             <div
-              className="flex h-14 w-14 items-center justify-center rounded-[1.1rem] border border-white/80 bg-white/90 shadow-[0_8px_24px_rgba(15,23,42,0.10)] backdrop-blur-md"
+              className="flex h-12 w-12 items-center justify-center rounded-[1rem] border border-white/80 bg-white/90 shadow-[0_8px_24px_rgba(15,23,42,0.10)] backdrop-blur-md"
               title={label}
             >
-              <Icon style={{ color }} className="h-6 w-6" aria-hidden />
+              <Icon style={{ color }} className="h-5 w-5" aria-hidden />
             </div>
           </motion.div>
         )
@@ -103,7 +103,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative isolate overflow-hidden bg-[#edf1f7] pb-20 pt-24 scroll-mt-16 md:pb-24 md:pt-28 lg:pb-28 lg:pt-32"
+      className="relative isolate overflow-hidden bg-[#edf1f7] pb-14 pt-20 scroll-mt-16 md:pb-[4.5rem] md:pt-24 lg:flex lg:min-h-[100dvh] lg:items-center lg:pb-20"
     >
       {/* Depth gradient — neutral slate left, teal accent right */}
       <div
@@ -113,7 +113,7 @@ export function Hero() {
 
       <div aria-hidden="true" className="hero-noise pointer-events-none absolute inset-0 z-0" />
 
-      <div className="page-shell relative z-10 grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(420px,0.85fr)] lg:gap-12">
+      <div className="page-shell relative z-10 grid items-center gap-10 lg:grid-cols-[minmax(0,1.36fr)_minmax(340px,0.64fr)] lg:gap-8">
         {/* Left: editorial copy */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
@@ -137,16 +137,16 @@ export function Hero() {
             <span className="text-sm font-medium text-slate-600">{personalInfo.location}</span>
           </div>
 
-          <h1 className="font-display mt-6 max-w-[15ch] text-[clamp(2.5rem,6vw,6rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-slate-950 sm:max-w-6xl">
-            {personalInfo.name} builds full-stack systems for SaaS, AI, and field operations.
+          <h1 className="font-display mt-4 max-w-[18ch] text-[clamp(2.15rem,3.75vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.024em] text-slate-950 sm:max-w-6xl">
+            {personalInfo.name} builds full-stack systems for SaaS, APIs, and AI workflows.
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600 md:mt-8 md:text-xl md:leading-8">
-            Based in {personalInfo.location}, shipping product platforms across interface, APIs,
-            data workflows, media pipelines, and applied AI when the product needs real depth.
+          <p className="mt-5 max-w-xl text-base leading-7 text-slate-600 md:mt-6">
+            Based in {personalInfo.location}, shipping product platforms across interfaces, APIs,
+            data workflows, media pipelines, background jobs, and applied AI.
           </p>
 
-          <div className="mt-8 flex flex-row flex-wrap items-center gap-3 md:mt-10">
+          <div className="mt-7 flex flex-row flex-wrap items-center gap-3 md:mt-8">
             <Button
               size="lg"
               onClick={() => scrollToSection('projects')}
@@ -176,11 +176,11 @@ export function Hero() {
             </Link>
           </div>
 
-          <div className="mt-10 max-w-2xl border-t border-slate-200/80 pt-6 text-sm leading-7 text-slate-500">
+          <div className="mt-8 max-w-xl border-t border-slate-200/80 pt-5 text-sm leading-7 text-slate-500">
             <span className="font-medium text-slate-700">
-              Currently at {personalInfo.experience.company}.
+              {personalInfo.experience.company} contract: {personalInfo.experience.period}.
             </span>{' '}
-            Available for remote contract and full-time product work.
+            Available for global remote full-time and contract product work.
           </div>
         </motion.div>
 
@@ -228,7 +228,7 @@ export function Hero() {
                 alt="Namri Amine"
                 fill
                 priority
-                sizes="220px"
+                sizes="196px"
                 className="object-cover object-top"
               />
             </div>
