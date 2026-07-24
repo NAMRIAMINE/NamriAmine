@@ -15,6 +15,8 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
+const shouldRenderAnalytics = process.env.VERCEL === '1'
+
 export const viewport: Viewport = {
   themeColor: '#ffffff',
 }
@@ -24,9 +26,9 @@ export const metadata: Metadata = {
   title:
     'Namri Amine - Senior JavaScript Full-Stack Developer | Next.js, React, TypeScript, Node.js, FastAPI',
   description:
-    'Senior JavaScript Full-Stack Developer with 6+ years building production SaaS platforms end to end. Next.js, React, TypeScript, Node.js, FastAPI, PostgreSQL, Redis, AI/geospatial workflows. Based in Casablanca, Morocco.',
+    'Senior JavaScript Full-Stack Developer with 6+ years building production SaaS platforms, APIs, data workflows, and AI-enabled product systems. Next.js, React, TypeScript, Node.js, FastAPI, PostgreSQL, Redis. Based in Casablanca, Morocco.',
   keywords:
-    'Senior Full Stack Developer, JavaScript Developer, Next.js, React, TypeScript, Node.js, FastAPI, SaaS Platforms, REST APIs, AI Workflows, Geospatial, Casablanca, Morocco, Remote Developer',
+    'Senior Full Stack Developer, JavaScript Developer, Next.js, React, TypeScript, Node.js, FastAPI, SaaS Platforms, REST APIs, AI Workflows, GenAI Integration, Casablanca, Morocco, Remote Developer',
   authors: [{ name: 'Namri Amine', url: 'https://linkedin.com/in/namriamine' }],
   alternates: {
     canonical: '/',
@@ -37,9 +39,9 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: 'Namri Amine - Senior Full-Stack Developer',
+    title: 'Namri Amine - Senior JavaScript Full-Stack Developer',
     description:
-      'Building production SaaS platforms end to end with Next.js, React, TypeScript, Node.js, FastAPI, and AI/geospatial workflows.',
+      'Building production SaaS platforms, APIs, data workflows, and AI-enabled product systems with Next.js, React, TypeScript, Node.js, and FastAPI.',
     url: '/',
     siteName: 'Namri Amine Portfolio',
     images: ['/opengraph-image'],
@@ -50,7 +52,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Namri Amine - Senior JavaScript Full-Stack Developer',
     description:
-      'Building production SaaS platforms end to end with Next.js, React, TypeScript, Node.js, FastAPI, and AI/geospatial workflows.',
+      'Building production SaaS platforms, APIs, data workflows, and AI-enabled product systems with Next.js, React, TypeScript, Node.js, and FastAPI.',
     images: ['/opengraph-image'],
   },
   robots: {
@@ -82,7 +84,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="min-h-dvh w-full bg-transparent">{children}</div>
         </ThemeProvider>
-        <Analytics />
+        {shouldRenderAnalytics && <Analytics />}
       </body>
     </html>
   )

@@ -157,7 +157,7 @@
   }
 
   .section-space {
-    padding-block: clamp(6rem, 9vw, 9rem);
+    padding-block: clamp(5rem, 7vw, 7.5rem);
   }
 
   .hero-noise {

@@ -139,7 +139,7 @@ function FlagshipCase({ project, reverse }: { project: Project; reverse: boolean
 
         <div className={reverse ? 'lg:order-1 lg:col-span-5' : 'lg:col-span-5'}>
           <ProjectMeta project={project} />
-          <h3 className="font-display mt-7 text-[clamp(2.5rem,5vw,4.6rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-slate-950">
+          <h3 className="font-display mt-7 text-[clamp(2.25rem,4.2vw,3.95rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950">
             {project.title}
           </h3>
           <p className="mt-5 text-lg leading-8 text-slate-600">{project.description}</p>
@@ -191,7 +191,7 @@ function SupportingCase({ project }: { project: Project }) {
       <ProjectImage project={project} eager sizes="(max-width: 1024px) 100vw, 44vw" />
       <div className="flex flex-1 flex-col pt-7">
         <ProjectMeta project={project} />
-        <h3 className="font-display mt-6 text-[clamp(2.25rem,4vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950">
+        <h3 className="font-display mt-6 text-[clamp(2rem,3vw,2.85rem)] font-semibold leading-[1] tracking-[-0.03em] text-slate-950">
           {project.title}
         </h3>
         <p className="mt-4 text-base leading-7 text-slate-600">{project.description}</p>
@@ -219,7 +219,7 @@ export function Projects() {
     <section id="projects" className="section-space scroll-mt-24 overflow-x-hidden bg-white">
       <div className="page-shell">
         <div className="grid gap-6 border-b border-slate-200 pb-12 lg:grid-cols-12 lg:items-end">
-          <h2 className="font-display text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-slate-950 lg:col-span-8">
+          <h2 className="font-display text-[clamp(2.35rem,4vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950 lg:col-span-8">
             Work built for real operating conditions.
           </h2>
           <p className="max-w-[48ch] text-lg leading-8 text-slate-600 lg:col-span-4">

@@ -1,3 +1,6 @@
+/.gitattributes text eol=lf
+/.gitignore text eol=lf
+
 *.ts text eol=lf
 *.tsx text eol=lf
 *.css text eol=lf
@@ -6,3 +9,11 @@
 *.yml text eol=lf
 *.md text eol=lf
 *.mjs text eol=lf
+
+*.pdf binary
+*.docx binary
+*.webp binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary

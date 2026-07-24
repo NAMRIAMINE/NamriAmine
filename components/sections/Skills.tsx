@@ -145,12 +145,12 @@ export function Skills() {
     <section id="skills" className="section-space scroll-mt-24 bg-white">
       <div className="page-shell">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <h2 className="font-display text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-slate-950 lg:col-span-8">
+          <h2 className="font-display text-[clamp(2.35rem,4vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950 lg:col-span-8">
             Broad enough to own the product, deep where it matters.
           </h2>
           <p className="max-w-[48ch] text-lg leading-8 text-slate-600 lg:col-span-4">
-            JavaScript product engineering first, with backend, infrastructure, AI, geospatial,
-            mobile, and desktop capabilities available when the problem requires them.
+            JavaScript product engineering first, with backend, infrastructure, AI integrations,
+            mobile, and desktop capabilities available when the product requires them.
           </p>
         </div>
 

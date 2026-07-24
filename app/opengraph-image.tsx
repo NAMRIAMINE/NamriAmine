@@ -20,7 +20,6 @@ export default function OgImage() {
         justifyContent: 'center',
       }}
     >
-      {/* Top accent bar */}
       <div
         style={{
           position: 'absolute',
@@ -32,7 +31,6 @@ export default function OgImage() {
         }}
       />
 
-      {/* Name */}
       <div
         style={{
           fontSize: 72,
@@ -45,7 +43,6 @@ export default function OgImage() {
         Namri Amine
       </div>
 
-      {/* Title */}
       <div
         style={{
           fontSize: 36,
@@ -57,7 +54,6 @@ export default function OgImage() {
         Senior JavaScript Full-Stack Developer
       </div>
 
-      {/* Domain line */}
       <div
         style={{
           fontSize: 24,
@@ -66,10 +62,9 @@ export default function OgImage() {
           fontWeight: 400,
         }}
       >
-        SaaS Platforms · Next.js · Node.js · FastAPI · AI/Geospatial
+        SaaS Platforms | APIs | Next.js | Node.js | FastAPI | AI Workflows
       </div>
 
-      {/* Tech chips */}
       <div
         style={{
           display: 'flex',
@@ -96,7 +91,6 @@ export default function OgImage() {
         ))}
       </div>
 
-      {/* Bottom border */}
       <div
         style={{
           position: 'absolute',

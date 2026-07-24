@@ -16,6 +16,22 @@ async function noHorizontalOverflow(page: import('@playwright/test').Page) {
 test('homepage loads with correct title', async ({ page }) => {
   await page.goto('/')
   await expect(page).toHaveTitle(/Namri Amine/)
+  await expect(page).toHaveTitle(/Senior JavaScript Full-Stack Developer/)
+})
+
+test('metadata and structured data use the canonical professional title', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+    'content',
+    'Namri Amine - Senior JavaScript Full-Stack Developer',
+  )
+  await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
+    'content',
+    'Namri Amine - Senior JavaScript Full-Stack Developer',
+  )
+
+  const personJson = await page.locator('script#ld-json-person').textContent()
+  expect(JSON.parse(personJson ?? '{}').jobTitle).toBe('Senior JavaScript Full-Stack Developer')
 })
 
 // ─── No horizontal overflow at all target widths ────────────────────────────
@@ -36,7 +52,7 @@ test('hero contains the new positioning headline', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Namri Amine')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('full-stack systems')
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'SaaS, AI, and field operations',
+    'SaaS, APIs, and AI workflows',
   )
 })
 
@@ -112,12 +128,23 @@ test('resume link points to correct PDF', async ({ page }) => {
   await expect(resumeLink).toHaveAttribute('href', '/Namri_Amine_Resume.pdf')
 })
 
+test('hero and about use bounded Talio contract wording', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('#home')).toContainText('Talio contract: February 2026 - August 2026')
+  await expect(page.locator('#about')).toContainText('Talio contract: February 2026 - August 2026')
+  await expect(page.locator('#home')).not.toContainText('Currently at Talio')
+  await expect(page.locator('#about')).not.toContainText('since February 2026')
+})
+
 // ─── Project order ───────────────────────────────────────────────────────────
 
 test('first project is Indus Inspection', async ({ page }) => {
   await page.goto('/')
   const firstProject = page.locator('#projects article').first()
   await expect(firstProject).toContainText('Indus Inspection')
+  await expect(firstProject).toContainText('October 2025 - Present')
+  await expect(firstProject).toContainText('Early Product Team / Full-Stack Developer')
+  await expect(firstProject).toContainText('Next.js 16')
 })
 
 test('second project is Creaboost', async ({ page }) => {
@@ -137,6 +164,9 @@ test('Dr Turbine is rendered as a secondary project case study', async ({ page }
   const secondaryProject = page.locator('[data-project-presentation="secondary"]')
   await expect(secondaryProject).toContainText('Dr Turbine')
   await expect(secondaryProject.locator('img')).toBeVisible()
+  await expect(
+    secondaryProject.locator('a[href="https://park-wind-turbine-inspection.vercel.app"]'),
+  ).toHaveCount(0)
 })
 
 test('Filahi is rendered as an archive project', async ({ page }) => {
@@ -149,10 +179,16 @@ test('Filahi is rendered as an archive project', async ({ page }) => {
 test('supporting projects share equal visual geometry at desktop', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/')
+  await page.locator('[data-supporting-projects]').scrollIntoViewIfNeeded()
+
   const supporting = page.locator('[data-supporting-projects] [data-project-tier="supporting"]')
   await expect(supporting).toHaveCount(2)
 
   const frames = supporting.locator('[data-project-image]')
+  await expect(frames).toHaveCount(2)
+  await expect(frames.nth(0)).toBeVisible()
+  await expect(frames.nth(1)).toBeVisible()
+
   const first = await frames.nth(0).boundingBox()
   const second = await frames.nth(1).boundingBox()
 
@@ -169,6 +205,7 @@ test('skills section keeps brand and niche technologies visible', async ({ page 
   await expect(skills).toContainText('FastAPI')
   await expect(skills).toContainText('Better Auth')
   await expect(skills).toContainText('MapLibreGL')
+  await expect(page.locator('body')).not.toContainText('GraphQL')
 })
 
 // ─── Mobile menu ─────────────────────────────────────────────────────────────
@@ -222,6 +259,21 @@ test('resume PDF returns 200 with pdf content-type', async ({ request }) => {
   expect(response.status()).toBe(200)
   const contentType = response.headers()['content-type'] ?? ''
   expect(contentType).toContain('pdf')
+})
+
+test('external links are safely configured', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('a[href="https://github.com/NAMRIAMINE/indusNov"]')).toHaveCount(0)
+
+  const externalLinks = page.locator('a[href^="http"]')
+  const count = await externalLinks.count()
+  expect(count).toBeGreaterThan(0)
+
+  for (let index = 0; index < count; index += 1) {
+    const link = externalLinks.nth(index)
+    await expect(link).toHaveAttribute('target', '_blank')
+    await expect(link).toHaveAttribute('rel', /noopener/)
+  }
 })
 
 for (const image of [
