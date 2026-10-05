@@ -165,7 +165,7 @@ export function Hero() {
             </Button>
 
             <Link
-              href="/Namri_Amine_Resume.pdf"
+              href="/Namri_Amine_English.pdf"
               download
               target="_blank"
               rel="noopener noreferrer"

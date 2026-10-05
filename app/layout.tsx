@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   title:
     'Namri Amine - Senior JavaScript Full-Stack Developer | Next.js, React, TypeScript, Node.js, FastAPI',
   description:
-    'Senior JavaScript Full-Stack Developer with 6+ years building production SaaS platforms, APIs, data workflows, and AI-enabled product systems. Next.js, React, TypeScript, Node.js, FastAPI, PostgreSQL, Redis. Based in Casablanca, Morocco.',
+    'Senior JavaScript Full-Stack Developer with 5+ years building production SaaS platforms, APIs, data workflows, and AI-enabled product systems. Next.js, React, TypeScript, Node.js, FastAPI, PostgreSQL, Redis. Based in Casablanca, Morocco.',
   keywords:
     'Senior Full Stack Developer, JavaScript Developer, Next.js, React, TypeScript, Node.js, FastAPI, SaaS Platforms, REST APIs, AI Workflows, GenAI Integration, Casablanca, Morocco, Remote Developer',
   authors: [{ name: 'Namri Amine', url: 'https://linkedin.com/in/namriamine' }],

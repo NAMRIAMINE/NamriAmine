@@ -13,13 +13,13 @@ export const personalInfo = {
     { name: 'French', level: 'Intermediate' },
   ],
   experience: {
-    years: '6+',
+    years: '5+',
     company: 'Talio',
     position: 'Senior Full-Stack Developer (Contract)',
     startDate: 'February 2026',
     endDate: 'August 2026',
     relationship: 'Contract',
     period: 'February 2026 - August 2026',
-    current: true,
+    current: false,
   },
 }

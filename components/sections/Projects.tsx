@@ -16,7 +16,7 @@ const SCOPE_LIMIT = 4
 
 function Status({ project }: { project: Project }) {
   const Icon =
-    project.status === 'In Development'
+    project.status === 'In Development' || project.status === 'Pre-production'
       ? Clock
       : project.status === 'Production' || project.status === 'Production Ready'
         ? CheckCircle
