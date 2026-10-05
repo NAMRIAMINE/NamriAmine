@@ -67,7 +67,7 @@ export function Contact() {
                 className="rounded-full border-teal-900/20 bg-transparent px-5 text-slate-900 transition-colors duration-300 hover:border-teal-700 hover:bg-white/60 hover:text-teal-800"
               >
                 <Link
-                  href="/Namri_Amine_Resume.pdf"
+                  href="/Namri_Amine_English.pdf"
                   download
                   target="_blank"
                   rel="noopener noreferrer"

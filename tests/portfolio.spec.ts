@@ -125,7 +125,7 @@ test('primary CTA scrolls to projects section', async ({ page }) => {
 test('resume link points to correct PDF', async ({ page }) => {
   await page.goto('/')
   const resumeLink = page.locator('#home').getByRole('link', { name: /Download Resume/i })
-  await expect(resumeLink).toHaveAttribute('href', '/Namri_Amine_Resume.pdf')
+  await expect(resumeLink).toHaveAttribute('href', '/Namri_Amine_English.pdf')
   await expect(
     page.locator('#contact').getByRole('link', { name: 'CV en français' }),
   ).toHaveAttribute('href', '/Namri_Amine_CV_FR.pdf')
@@ -258,7 +258,7 @@ test('unknown route renders the branded 404 page', async ({ page }) => {
 })
 
 test('resume PDF returns 200 with pdf content-type', async ({ request }) => {
-  const response = await request.get('/Namri_Amine_Resume.pdf')
+  const response = await request.get('/Namri_Amine_English.pdf')
   expect(response.status()).toBe(200)
   const contentType = response.headers()['content-type'] ?? ''
   expect(contentType).toContain('pdf')
