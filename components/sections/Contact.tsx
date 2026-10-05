@@ -75,6 +75,21 @@ export function Contact() {
                   Download Resume
                 </Link>
               </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="rounded-full border-teal-900/20 bg-transparent px-5 text-slate-900 transition-colors duration-300 hover:border-teal-700 hover:bg-white/60 hover:text-teal-800"
+              >
+                <Link
+                  href="/Namri_Amine_CV_FR.pdf"
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  CV en français
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

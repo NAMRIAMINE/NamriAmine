@@ -5,7 +5,7 @@ export const skillCategories: Record<string, SkillCategory> = {
     title: 'Core Web',
     accent: 'sky',
     skills: [
-      { name: 'React.js', years: '6+' },
+      { name: 'React.js', years: '5+' },
       { name: 'Next.js', years: '4+' },
       { name: 'TypeScript', years: '4+' },
       { name: 'TailwindCSS', years: '3+' },

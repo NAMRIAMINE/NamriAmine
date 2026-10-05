@@ -9,7 +9,7 @@ export interface Project {
   description: string
   tech: string[]
   features: string[]
-  status: 'Production' | 'Production Ready' | 'In Development' | 'Live'
+  status: 'Production' | 'Production Ready' | 'Pre-production' | 'In Development' | 'Live'
   category: string
   presentation: ProjectPresentation
   liveUrl?: string

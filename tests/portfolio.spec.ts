@@ -126,6 +126,9 @@ test('resume link points to correct PDF', async ({ page }) => {
   await page.goto('/')
   const resumeLink = page.locator('#home').getByRole('link', { name: /Download Resume/i })
   await expect(resumeLink).toHaveAttribute('href', '/Namri_Amine_Resume.pdf')
+  await expect(
+    page.locator('#contact').getByRole('link', { name: 'CV en français' }),
+  ).toHaveAttribute('href', '/Namri_Amine_CV_FR.pdf')
 })
 
 test('hero and about use bounded Talio contract wording', async ({ page }) => {
@@ -142,7 +145,7 @@ test('first project is Indus Inspection', async ({ page }) => {
   await page.goto('/')
   const firstProject = page.locator('#projects article').first()
   await expect(firstProject).toContainText('Indus Inspection')
-  await expect(firstProject).toContainText('October 2025 - Present')
+  await expect(firstProject).toContainText('October 2025 - August 2026')
   await expect(firstProject).toContainText('Early Product Team / Full-Stack Developer')
   await expect(firstProject).toContainText('Next.js 16')
 })
