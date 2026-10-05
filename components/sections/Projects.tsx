@@ -11,8 +11,8 @@ import { personalInfo } from '@/data/personal'
 import { projects } from '@/data/projects'
 import type { Project } from '@/types'
 
-const TECH_LIMIT = 6
-const SCOPE_LIMIT = 4
+const TECH_LIMIT = 5
+const FEATURE_LIMIT = 2
 
 function Status({ project }: { project: Project }) {
   const Icon =
@@ -23,8 +23,8 @@ function Status({ project }: { project: Project }) {
         : Lightning
 
   return (
-    <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-600">
-      <Icon className="h-4 w-4 text-teal-600" weight="fill" aria-hidden="true" />
+    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+      <Icon className="h-3.5 w-3.5 text-teal-700" weight="fill" aria-hidden="true" />
       {project.status}
     </span>
   )
@@ -36,17 +36,17 @@ function ProjectActions({ project }: { project: Project }) {
   )}`
 
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
       {project.liveUrl && (
         <Link
           href={project.liveUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex h-11 items-center gap-2 rounded-full bg-slate-950 px-5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          className="group inline-flex items-center gap-1.5 text-sm font-semibold text-slate-950 transition-colors hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600"
         >
           Live product
           <ArrowUpRight
-            className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             weight="bold"
           />
         </Link>
@@ -56,7 +56,7 @@ function ProjectActions({ project }: { project: Project }) {
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-11 items-center gap-2 rounded-full border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-800 transition-colors duration-300 hover:border-teal-400 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-950 transition-colors hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600"
         >
           <GithubLogo className="h-4 w-4" weight="bold" />
           Repository
@@ -64,146 +64,103 @@ function ProjectActions({ project }: { project: Project }) {
       )}
       <Link
         href={walkthroughHref}
-        className="inline-flex h-11 items-center gap-2 px-1 text-sm font-semibold text-slate-600 transition-colors duration-300 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+        className="group inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 transition-colors hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600"
       >
         Request walkthrough
-        <ArrowUpRight className="h-4 w-4" weight="bold" />
+        <ArrowUpRight
+          className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          weight="bold"
+        />
       </Link>
     </div>
   )
 }
 
-function ProjectImage({
-  project,
-  priority = false,
-  eager = false,
-  sizes,
-}: {
-  project: Project
-  priority?: boolean
-  eager?: boolean
-  sizes: string
-}) {
-  return (
-    <div
-      data-project-image
-      className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-[#e9f0f3] ring-1 ring-slate-200/80"
-    >
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 z-10 flex h-10 items-center gap-1.5 border-b border-white/70 bg-white/62 px-4"
-      >
-        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
-        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
-        <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
-      </div>
-      {project.image && (
-        <Image
-          src={project.image}
-          alt={`${project.title} product interface`}
-          fill
-          priority={priority}
-          loading={priority ? undefined : eager ? 'eager' : 'lazy'}
-          sizes={sizes}
-          className="object-contain px-4 pb-4 pt-12 sm:px-7 sm:pb-7 sm:pt-14"
-        />
-      )}
-    </div>
-  )
-}
-
-function ProjectMeta({ project }: { project: Project }) {
-  return (
-    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-slate-200 pb-5">
-      <Status project={project} />
-      <span className="text-sm text-slate-500">{project.year}</span>
-      <span className="text-sm text-slate-500">{project.category}</span>
-    </div>
-  )
-}
-
-function FlagshipCase({ project, reverse }: { project: Project; reverse: boolean }) {
-  return (
-    <article
-      data-project-presentation="flagship"
-      className="border-t border-slate-200 py-14 first:border-t-0 first:pt-0 lg:py-20"
-    >
-      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
-        <div className={reverse ? 'lg:order-2 lg:col-span-7' : 'lg:col-span-7'}>
-          <ProjectImage
-            project={project}
-            priority={project.id === 'indus-inspection'}
-            sizes="(max-width: 1024px) 100vw, 58vw"
-          />
-        </div>
-
-        <div className={reverse ? 'lg:order-1 lg:col-span-5' : 'lg:col-span-5'}>
-          <ProjectMeta project={project} />
-          <h3 className="font-display mt-7 text-[clamp(2.25rem,4.2vw,3.95rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950">
-            {project.title}
-          </h3>
-          <p className="mt-5 text-lg leading-8 text-slate-600">{project.description}</p>
-
-          {project.role && (
-            <div className="mt-7 border-l-2 border-teal-500 pl-4">
-              <p className="text-xs font-semibold text-slate-500">Role</p>
-              <p className="mt-1 text-sm leading-6 text-slate-800">{project.role}</p>
-            </div>
-          )}
-
-          <div className="mt-8 grid gap-7 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-            <div>
-              <p className="text-xs font-semibold text-slate-500">Selected scope</p>
-              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
-                {(project.scope ?? project.features).slice(0, SCOPE_LIMIT).map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-500" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-slate-500">Outcome</p>
-              <p className="mt-3 text-sm leading-6 text-slate-700">{project.outcome}</p>
-            </div>
-          </div>
-
-          <p className="mt-7 text-sm leading-7 text-slate-500">
-            {project.tech.slice(0, TECH_LIMIT).join(' · ')}
-          </p>
-          <div className="mt-8">
-            <ProjectActions project={project} />
-          </div>
-        </div>
-      </div>
-    </article>
-  )
-}
-
-function SupportingCase({ project }: { project: Project }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <article
       data-project-presentation={project.presentation}
-      data-project-tier="supporting"
-      className="flex h-full flex-col border-t border-slate-200 pt-8"
+      data-project-tier={project.presentation === 'flagship' ? 'featured' : 'supporting'}
+      className="group flex min-w-0 flex-col overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_8px_30px_-20px_rgba(15,23,42,0.28)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_24px_50px_-28px_rgba(15,23,42,0.3)]"
     >
-      <ProjectImage project={project} eager sizes="(max-width: 1024px) 100vw, 44vw" />
-      <div className="flex flex-1 flex-col pt-7">
-        <ProjectMeta project={project} />
-        <h3 className="font-display mt-6 text-[clamp(2rem,3vw,2.85rem)] font-semibold leading-[1] tracking-[-0.03em] text-slate-950">
-          {project.title}
-        </h3>
-        <p className="mt-4 text-base leading-7 text-slate-600">{project.description}</p>
+      <div
+        data-project-image
+        className="relative aspect-[16/9] overflow-hidden border-b border-slate-200 bg-[#e8f0f1]"
+      >
+        {project.image && (
+          <Image
+            src={project.image}
+            alt={`${project.title} product interface`}
+            fill
+            priority={index === 0}
+            sizes="(max-width: 1024px) 100vw, 44vw"
+            className="object-contain transition-transform duration-500 group-hover:scale-[1.025]"
+          />
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-teal-700">
+            {project.category}
+          </span>
+          <Status project={project} />
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <h3 className="font-display text-[clamp(1.75rem,2.4vw,2.25rem)] font-semibold leading-tight tracking-[-0.035em] text-slate-950">
+            {project.title}
+          </h3>
+          <span className="text-xs font-medium text-slate-500">{project.year}</span>
+        </div>
+        <p className="mt-3 text-[0.95rem] leading-7 text-slate-600">{project.description}</p>
+
         {project.role && (
-          <p className="mt-5 border-l-2 border-teal-500 pl-4 text-sm leading-6 text-slate-700">
+          <p className="mt-5 border-l-2 border-teal-500 pl-3 text-sm font-medium leading-6 text-slate-800">
             {project.role}
           </p>
         )}
-        <p className="mt-6 text-sm leading-7 text-slate-500">
-          {project.tech.slice(0, TECH_LIMIT).join(' · ')}
-        </p>
-        <div className="mt-auto pt-7">
+
+        <div className="mt-6 border-t border-slate-100 pt-5">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-slate-500">
+            Selected contributions
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
+            {project.features.slice(0, FEATURE_LIMIT).map((feature) => (
+              <li key={feature} className="flex gap-2.5">
+                <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-500" />
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {project.outcome && (
+          <div className="mt-6 rounded-xl border border-teal-100 bg-[#f1f8f6] px-4 py-3.5">
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-teal-800">
+              Outcome
+            </p>
+            <p className="mt-1.5 text-sm leading-6 text-slate-700">{project.outcome}</p>
+          </div>
+        )}
+
+        <ul className="mt-6 flex flex-wrap gap-1.5" aria-label={`${project.title} technologies`}>
+          {project.tech.slice(0, TECH_LIMIT).map((tech) => (
+            <li
+              key={tech}
+              className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700"
+            >
+              {tech}
+            </li>
+          ))}
+          {project.tech.length > TECH_LIMIT && (
+            <li className="px-1 py-1 text-xs font-medium text-slate-500">
+              +{project.tech.length - TECH_LIMIT} more
+            </li>
+          )}
+        </ul>
+
+        <div className="mt-auto border-t border-slate-100 pt-6">
           <ProjectActions project={project} />
         </div>
       </div>
@@ -212,42 +169,56 @@ function SupportingCase({ project }: { project: Project }) {
 }
 
 export function Projects() {
-  const flagshipProjects = projects.filter((project) => project.presentation === 'flagship')
+  const featuredProjects = projects.filter((project) => project.presentation === 'flagship')
   const supportingProjects = projects.filter((project) => project.presentation !== 'flagship')
 
   return (
-    <section id="projects" className="section-space scroll-mt-24 overflow-x-hidden bg-white">
+    <section id="projects" className="scroll-mt-24 overflow-x-hidden bg-white py-20 lg:py-24">
       <div className="page-shell">
-        <div className="grid gap-6 border-b border-slate-200 pb-12 lg:grid-cols-12 lg:items-end">
-          <h2 className="font-display text-[clamp(2.35rem,4vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950 lg:col-span-8">
-            Work built for real operating conditions.
-          </h2>
-          <p className="max-w-[48ch] text-lg leading-8 text-slate-600 lg:col-span-4">
-            Product ownership from interface and APIs through background jobs, data, deployment, and
-            the specialist workflows each system required.
+        <div className="grid gap-5 border-b border-slate-200 pb-9 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-8">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">
+              Selected work
+            </p>
+            <h2 className="font-display max-w-[16ch] text-[clamp(2.35rem,4vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-950">
+              Work built for real operating conditions.
+            </h2>
+          </div>
+          <p className="max-w-[48ch] text-base leading-7 text-slate-600 lg:col-span-4">
+            Production products and focused systems across industrial inspection, creative
+            automation, and agriculture.
           </p>
         </div>
 
-        <div className="pt-14 lg:pt-20">
-          {flagshipProjects.map((project, index) => (
-            <FlagshipCase key={project.id} project={project} reverse={index % 2 === 1} />
+        <div className="mb-6 mt-10 flex items-center gap-4">
+          <h3 className="font-display text-xl font-semibold tracking-[-0.025em] text-slate-950">
+            Featured projects
+          </h3>
+          <span className="h-px flex-1 bg-slate-200" aria-hidden="true" />
+          <span className="text-xs font-medium text-slate-500">01 / 02</span>
+        </div>
+        <div data-featured-projects className="grid gap-6 lg:grid-cols-2 lg:gap-7">
+          {featuredProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
 
         {supportingProjects.length > 0 && (
-          <div className="mt-16 border-t border-slate-200 pt-10 lg:mt-20 lg:pt-12">
-            <div className="grid gap-4 lg:grid-cols-12 lg:items-end">
-              <h3 className="font-display text-3xl font-semibold tracking-[-0.03em] text-slate-950 lg:col-span-7 lg:text-4xl">
+          <div className="mt-14">
+            <div className="mb-6 flex items-center gap-4">
+              <h3 className="font-display text-xl font-semibold tracking-[-0.025em] text-slate-950">
                 Additional systems
               </h3>
-              <p className="max-w-[48ch] text-base leading-7 text-slate-600 lg:col-span-5">
-                Earlier and adjacent product work showing the same full-stack delivery range across
-                industrial and agriculture domains.
-              </p>
+              <span className="h-px flex-1 bg-slate-200" aria-hidden="true" />
+              <span className="text-xs font-medium text-slate-500">03 / 04</span>
             </div>
-            <div data-supporting-projects className="mt-8 grid gap-12 lg:grid-cols-2 lg:gap-10">
-              {supportingProjects.map((project) => (
-                <SupportingCase key={project.id} project={project} />
+            <div data-supporting-projects className="grid gap-6 lg:grid-cols-2 lg:gap-7">
+              {supportingProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index + featuredProjects.length}
+                />
               ))}
             </div>
           </div>
